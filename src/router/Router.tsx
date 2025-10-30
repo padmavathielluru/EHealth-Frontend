@@ -1,0 +1,61 @@
+// src/router/Router.tsx
+import React, { Suspense, lazy } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+
+// ✅ Lazy-loaded pages
+const CalendarM = lazy(() => import('../components/CalendarM'));
+const Login = lazy(() => import('../components/Login'));
+const Appointment = lazy(() => import('../Pages/Appointment'));
+const NotFound = lazy(() => import('../components/NotFound'));
+
+// ✅ Example Protected Route Wrapper
+interface ProtectedRouteProps {
+  children: React.ReactNode;
+  isAuthenticated: boolean;
+}
+
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, isAuthenticated }) => {
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+  return <>{children}</>;
+};
+
+// ✅ Router Component
+const AppRouter: React.FC = () => {
+  // Replace this with your real authentication state
+  const isAuthenticated = true; // e.g., from Redux, Zustand, or Context
+
+  return (
+    <Suspense fallback={<div>Loading page...</div>}>
+      <Routes>
+        <Route path="/" element={<CalendarM />} />
+        {/* <Route path="/login" element={<Login />} /> */}
+
+        {/* Protected Routes */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <CalendarM />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/Appointment"
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <Appointment />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* 404 Page */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Suspense>
+  );
+};
+
+export default AppRouter;
