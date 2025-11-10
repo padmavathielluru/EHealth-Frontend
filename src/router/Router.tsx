@@ -1,12 +1,14 @@
 // src/router/Router.tsx
 import React, { Suspense, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import Layout from '../Pages/Layout';
 
 // ✅ Lazy-loaded pages
-const CalendarM = lazy(() => import('../components/CalendarM'));
+const CalendarM = lazy(() => import('../components/cards'));
 const Login = lazy(() => import('../components/Login'));
 const Appointment = lazy(() => import('../Pages/Appointment'));
 const NotFound = lazy(() => import('../components/NotFound'));
+const dashboard = lazy(()=>import('../Pages/Layout'));
 
 // ✅ Example Protected Route Wrapper
 interface ProtectedRouteProps {
@@ -29,7 +31,7 @@ const AppRouter: React.FC = () => {
   return (
     <Suspense fallback={<div>Loading page...</div>}>
       <Routes>
-        <Route path="/" element={<CalendarM />} />
+        <Route path="/" element={<Layout />} />
         {/* <Route path="/login" element={<Login />} /> */}
 
         {/* Protected Routes */}

@@ -9,3 +9,13 @@ export interface cardsState {
     loading: boolean;
     error: string | null;
   }
+
+  export interface CardProps {
+    title: string;
+    value: string | number;
+    percentage: string;
+    isPositive?: boolean;
+    bgColor: string;
+    icon: string;
+  }
+  

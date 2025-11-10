@@ -1,25 +1,33 @@
-import React, { useState } from "react";
-import { FaRegCalendarAlt } from "react-icons/fa";
 
-const Calendar: React.FC = () => {
-  const [selectedDate, setSelectedDate] = useState<string>("");
+import React from "react";
 
+interface CalendarProps {
+  selectedDate: string;
+  onDateChange: (date: string) => void;
+}
+
+const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateChange }) => {
   return (
-    <div className="flex items-center gap-2 mb-5">
-      {/* Calendar Icon */}
-      <label className="cursor-pointer flex items-center gap-2 text-gray-800 hover:bg-[rgb(152,215,216)] p-2 rounded">
-        <FaRegCalendarAlt size={20} />
-        {/* Hidden Date Picker (click icon to open) */}
+    <div className="flex items-center border border-gray-300 px-2 py-1 rounded-md w-full max-w-[120px] bg-white shadow-sm focus-within:ring-1 focus-within:ring-blue-400 transition">
+      <label className="relative flex items-center gap-1 text-gray-500">
+        
+        <img
+          src="/images/fi_calendar (2).svg"
+          alt="Calendar Icon"
+          className="w-3.5 h-3.5"
+        />
+
+        
         <input
           type="date"
           value={selectedDate}
-          onChange={(e) => setSelectedDate(e.target.value)}
-          className="absolute opacity-0 cursor-pointer w-6"
+          onChange={(e) => onDateChange(e.target.value)}
+          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
         />
       </label>
 
       {selectedDate && (
-        <span className="ml-2 font-medium text-sm text-gray-600">
+        <span className="ml-1 text-xs text-gray-700 truncate">
           {new Date(selectedDate).toLocaleDateString()}
         </span>
       )}
