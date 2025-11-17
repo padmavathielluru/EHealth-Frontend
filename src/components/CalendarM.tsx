@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Popup from "./Popup";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../store/store";
-import { Event, addEvent } from "../store/calendarSlice";
+import { Event as CalendarEvent, addEvent } from "../store/calendarSlice";
 import AppointmentModal from "../modals/AppointmentModal";
 
 const CalendarM: React.FC = () => {
@@ -120,7 +120,6 @@ const CalendarM: React.FC = () => {
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
 
     if (existingEvents.length === 0) {
-      // Empty → open AppointmentModal
       setPopupPosition(null);
       setSelectedEvent(null);
       setSelectedDate(date);
@@ -158,7 +157,7 @@ const CalendarM: React.FC = () => {
     }
   };
 
-  const handleEventClick = (e: React.MouseEvent, event: Event) => {
+  const handleEventClick = (e: React.MouseEvent, event: CalendarEvent) => {
     e.stopPropagation();
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
 
@@ -302,7 +301,7 @@ const CalendarM: React.FC = () => {
 
     return (
       <div className="mt-2 border border-gray-200 rounded-lg bg-white shadow-sm">
-        <div className="grid grid-cols-[4rem_repeat(7,1fr)] border-b border-gray-200 bg-white sticky top-0 z-10" style={{ width: "calc(100% - 8px)" }}>
+        <div className="grid grid-cols-[4rem_repeat(7,1fr)] border-b border-gray-200 bg-white sticky top-0 z-10" style={{ width: "calc(100% - 8px)"}}>
           <div className="h-16 flex items-center justify-center border-r border-gray-200 bg-white">
             <img src="/images/Icon.svg" alt="Clock Icon" className="w-6 h-6" />
           </div>
@@ -404,6 +403,7 @@ const CalendarM: React.FC = () => {
       </div>
     );
   };
+
 
 
   const renderMonthView = () => {
@@ -683,6 +683,10 @@ const CalendarM: React.FC = () => {
                   onClose={handleCloseModal}
                   selectedDate={isFromCellClick ? selectedDate : null}
                   selectedTime={isFromCellClick ? selectedTime : null}
+                  onSave={(newEvent) =>  {
+                    dispatch(addEvent(newEvent));
+                    handleCloseModal();
+                  }}
                 />
               </div>
             </div>
@@ -701,6 +705,10 @@ const CalendarM: React.FC = () => {
                 onClose={handleCloseModal}
                 selectedDate={selectedDate}
                 selectedTime={selectedTime}
+                onSave={(newEvent) => {
+                  dispatch(addEvent(newEvent));
+                  handleCloseModal();
+                }}
               />
             </div>
           )}

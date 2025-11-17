@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef,useState } from "react";
 
 interface PopupProps {
   event: any;
@@ -8,7 +8,44 @@ interface PopupProps {
 
 const Popup: React.FC<PopupProps> = ({ event, position, onClose }) => {
   const popupRef = useRef<HTMLDivElement>(null);
+  const [popupStyle, setPopupStyle] = useState<React.CSSProperties>({});
 
+  
+  useEffect(() => {
+    if (popupRef.current) {
+      const popupRect = popupRef.current.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+
+      let top = position.top;
+      let left = position.left;
+      let transform = "translate(-50%, 0)";
+      
+
+      // Adjust if popup would overflow right
+      if (left + popupRect.width / 2 > viewportWidth) {
+        left = viewportWidth - popupRect.width / 2 - 16;
+      }
+      // Adjust if popup would overflow left
+      if (left - popupRect.width / 2 < 0) {
+        left = popupRect.width / 2 + 16;
+      }
+      // Adjust if popup would overflow bottom
+      if (top + popupRect.height > viewportHeight) {
+        top = viewportHeight - popupRect.height - 16;
+      }
+
+      setPopupStyle({
+        position: "fixed",
+        top,
+        left,
+        transform,
+        zIndex: 9999,
+      });
+    }
+  }, [position]);
+
+  // close on outside click
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (popupRef.current && !popupRef.current.contains(e.target as Node)) {
@@ -18,17 +55,13 @@ const Popup: React.FC<PopupProps> = ({ event, position, onClose }) => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [onClose]);
-
+  
   return (
     <div
       ref={popupRef}
+      style={popupStyle}
       className="fixed z-[9999] bg-white rounded-2xl shadow-2xl border border-gray-100  p-6 transition-all"
-      style={{
-        top: position.top,
-        left: position.left,
-        transform: "translate(-50%, 0)",
-      }}
-    >
+     >
       {/* Gray Info Section */}
       <div className="bg-gray-100 rounded-xl p-4 mb-6">
         <div className="flex items-start justify-between">
@@ -115,3 +148,4 @@ const Popup: React.FC<PopupProps> = ({ event, position, onClose }) => {
 };
 
 export default Popup;
+

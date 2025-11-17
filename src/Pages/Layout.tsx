@@ -8,13 +8,15 @@ const Layout: React.FC = () => {
     const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
     return (
         <div className="flex flex-col min-h-screen">
-            <Header toggleSidebar={toggleSidebar} />
+            <Header 
+            sidebarExpanded={isSidebarOpen}
+            toggleSidebar={toggleSidebar} />
 
             <div className="flex flex-grow">
                 <Sidebar isOpen={isSidebarOpen} />
 
                 <div className="flex-1 p-4">
-                    <Outlet></Outlet>
+                    <Outlet/>
                 </div></div></div>
     )
 }

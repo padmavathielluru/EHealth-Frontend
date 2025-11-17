@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Searchbar from "../components/Searchbar";
 import { useDispatch } from "react-redux";
-import { addEvent } from "../store/calendarSlice";
+import { addEvent, Event as CalendarEvent } from "../store/calendarSlice";
 import { v4 as uuidv4 } from "uuid";
 
 
@@ -19,6 +19,7 @@ interface AppointmentModalProps {
   onClose: () => void;
   selectedDate: Date | null;
   selectedTime: string | null;
+  onSave: (newEvent: CalendarEvent) => void;
 }
 
 const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTime, selectedDate }) => {
@@ -57,7 +58,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
     return "";
   });
   const [date, setDate] = useState<Date | null>(selectedDate ? selectedDate : null);
-
+  const [localDate, setLocalDate] = useState<Date | null>(selectedDate);
 
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
   const [searchPatient, setSearchPatient] = useState("");
@@ -132,6 +133,11 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
     }
   }, [selectedDate]);
 
+  useEffect(() => {
+    if (selectedDate) {
+      setLocalDate(selectedDate);
+    }
+  }, [selectedDate]);
 
   const visitTypes = [
     { label: "Follow-up Appointment", color: "bg-purple-500" },
@@ -212,7 +218,9 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
     const computedFromTime = formatTime(fromHours, fromMinutes, fromAmpm);
     const computedToTime = formatTime(toHours, toMinutes, toAmpm);
 
-    if (!appointmentDate || !selectedPatient || !selectedVisit || !computedFromTime || !computedToTime) {
+    const finalDate = localDate ? localDate.toISOString() : "";
+
+    if (!localDate || !selectedPatient || !selectedVisit || !computedFromTime || !computedToTime) {
       alert("Please fill all fields");
       return;
     }
@@ -220,12 +228,12 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
     const selectedColors =
       visitTypeColors[selectedVisit] || { border: "#6B7280", bg: "#c4cddeff" };
 
-    const newEvent = {
+    const newEvent: CalendarEvent = {
       id: uuidv4(),
       patientName: selectedPatient.name,
       visitType: selectedVisit,
       visitMode,
-      date: appointmentDate.toISOString(),
+      date: finalDate,
       fromTime: computedFromTime,
       toTime: computedToTime,
       reason,
@@ -234,7 +242,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
       colorBg: selectedColors.bg,
       initials: getInitials(selectedPatient.name),
     };
-
+    // onSave(newEvent);
     dispatch(addEvent(newEvent));
     onClose();
   };
@@ -417,7 +425,6 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
                   onChange={() => setVisitMode("Offline")}
                   className="text-blue-500 w-3.5 h-3.5 focus:ring-blue-400"
                 />
-                {/* <img src="/images/fi_video.svg" alt="Online" className="w-5 h-5" /> */}
                 <span>Offline</span>
               </label>
               <label className="flex items-center gap-2 cursor-pointer">
@@ -428,7 +435,6 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
                   onChange={() => setVisitMode("Online")}
                   className="text-blue-500 w-3.5 h-3.5 focus:ring-blue-400"
                 />
-                {/* /<img src="/images/Frame (1).svg" alt="Offline" className="w-5 h-5" /> */}
                 <span>Online</span>
               </label>
             </div>
@@ -442,7 +448,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
             <div className="relative">
               <input
                 type="text"
-                value={date ? date.toLocaleDateString("en-GB") : ""}
+                value={localDate ? localDate.toLocaleDateString("en-GB") : ""}
                 onClick={() => setIsOpen(!isOpen)}
                 readOnly
                 placeholder="DD/MM/YY"
@@ -454,24 +460,22 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
                 onClick={() => setIsOpen(!isOpen)}
                 className="absolute right-3 top-3 w-4 h-4 text-gray-400 cursor-pointer"
               />
+             
               {isOpen && (
-                <div
-                  className="absolute z-50 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg"
-                  onClick={(e) => e.stopPropagation()}
-                >
+                <div className="absolute z-50 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg">
                   <DatePicker
-                    selected={date}
+                    selected={localDate}
                     onChange={(d) => {
-                      setDate(d);
+                      setLocalDate(d);
                       setIsOpen(false);
                     }}
                     inline
                     dateFormat="dd/MM/yy"
                     onClickOutside={() => setIsOpen(false)}
                   />
-
                 </div>
               )}
+
             </div>
           </div>
         </div>
@@ -617,4 +621,3 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
 };
 
 export default AppointmentModal;
-

@@ -21,8 +21,11 @@ const App: React.FC = () => {
     <BrowserRouter>
       <div className="flex flex-col bg-gray-100 min-h-screen transition-all duration-300">
         {/* Header */}
-        <Header sidebarExpanded={sidebarExpanded} />
-
+        {/* <Header sidebarExpanded={sidebarExpanded} /> */}
+        <Header
+          sidebarExpanded={sidebarExpanded}
+          toggleSidebar={toggleSidebar}
+        />
 
         <div className="flex flex-grow transition-all duration-300">
           {/* Sidebar */}
