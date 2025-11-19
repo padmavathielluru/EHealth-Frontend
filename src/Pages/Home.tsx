@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Bargraph from "../components/Bargraph";
 import Cards from "../components/cards";
 import DashboardCards from "../components/DashboardCards";
-import Table from "../components/Table";
+import PatientTable from "../components/PatientTable";
 import Piegraph from "../components/Piegraph";
 import MultilevelDropdown from "../components/MultilevelDropdown";
 import Searchbar from "../components/Searchbar";
@@ -90,7 +90,7 @@ const Home: React.FC = () => {
 
       
       <div className="mt-8">
-        <Table />
+        <PatientTable />
       </div>
 
       

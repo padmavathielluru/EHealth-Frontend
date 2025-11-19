@@ -8,7 +8,8 @@ import Sidebar from "./components/Sidebar";
 import Dashboard from "./Pages/Dashboard";
 import Appointment from "./Pages/Appointment";
 import Home from "./Pages/Home";
-
+import Referrals from "./Pages/Referrals";
+import Patients from "./Pages/Patients";
 
 
 const App: React.FC = () => {
@@ -47,7 +48,10 @@ const App: React.FC = () => {
 
               <Route path="/appointment" element={<Appointment />} />
 
+              <Route path="/patients" element={<Patients />} />
 
+              <Route path="/referrals" element={<Referrals />} />
+              
               <Route path="/home" element={<Home />} />
             </Routes>
           </div>

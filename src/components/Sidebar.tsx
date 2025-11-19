@@ -18,7 +18,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onExpandChange }) => {
     { name: "Dashboard", icon: "/images/fi_grid.svg", path: "/dashboard" },
     { name: "Appointments", icon: "/images/fi_calendar.svg", path: "/appointment" },
     { name: "Patients", icon: "/images/fi_user.svg", path: "/patients" },
-    { name: "Doctors", icon: "/images/Frame.svg", path: "/doctors" },
+    { name: "Referrals", icon: "/images/Frame.svg", path: "/referrals" },
     { name: "Inbox", icon: "/images/fi_inbox.svg", path: "/inbox" },
   ];
 

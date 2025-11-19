@@ -12,6 +12,11 @@ import {
 } from "@mui/material";
 import Searchbar from "./Searchbar";
 import Calendar from "./Calendar";
+import Pagination from "../components/Pagination";
+import { HIGHLIGHT_NAMES, PATIENTS } from "../utils/PatientTableConstants";
+import { Button, IconButton } from "@mui/material";
+
+
 
 interface Patient {
   id: string;
@@ -54,20 +59,12 @@ const PatientTable: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [selectedPatients, setSelectedPatients] = useState<string[]>([]);
 
-  const patients: Patient[] = [
-    { id: "PID158057", patient: "Sarah Johnson", status: "NEW", condition: "Heart Disease", lastVisit: "2025-08-15", phone: "+1 (155) 123-456", email: "sarah.johnson@email.com" },
-  { id: "PID158058", patient: "Michael Chen", status: "NEW", condition: "Hypertension", lastVisit: "2025-07-10", phone: "+1 (155) 123-234", email: "michael.chen@email.com" },
-  { id: "PID158059", patient: "Emily Davis", status: "INACTIVE", condition: "Diabetes Type 2", lastVisit: "2025-08-20", phone: "+1 (155) 123-432", email: "emily.davis@email.com" },
-  { id: "PID158060", patient: "James Wilson", status: "ACTIVE", condition: "Migraine", lastVisit: "2025-06-10", phone: "+1 (155) 123-456", email: "james.wilson@email.com" },
-  { id: "PID158061", patient: "Lisa Anderson", status: "ACTIVE", condition: "Heart Disease", lastVisit: "2025-08-25", phone: "+1 (155) 123-789", email: "lisa.anderson@email.com" },
-  { id: "PID158062", patient: "Michael Jhonson", status: "ACTIVE", condition: "Heart Disease", lastVisit: "2025-07-15", phone: "+1 (155) 123-890", email: "michael.jhonson@email.com" },
-  { id: "PID158063", patient: "Chen Michael", status: "ACTIVE", condition: "Heart Disease", lastVisit: "2025-06-15", phone: "+1 (155) 123-567", email: "chen.michael@email.com" },
-  { id: "PID158064", patient: "Jhonson", status: "INACTIVE", condition: "Migraine", lastVisit: "2025-05-15", phone: "+1 (155) 123-456", email: "jhonson.anderson@email.com" },
-  { id: "PID158065", patient: "Sarah Anderson", status: "ACTIVE", condition: "Heart Disease", lastVisit: "2025-05-25", phone: "+1 (155) 123-765", email: "sarah.anderson@email.com" },
-  { id: "PID158066", patient: "Lisa Jhonson", status: "ACTIVE", condition: "Diabetes Type 2", lastVisit: "2025-05-10", phone: "+1 (155) 123-678", email: "lisa.jhonson@email.com" },
-  ];
+  const [currentPage, setCurrentPage] = useState(1);
+  const rowsPerPage = 10;
 
-  const filteredPatients = patients.filter((p) => {
+  const [openUpload, setOpenUpload] = useState(false);
+
+  const filteredPatients = PATIENTS.filter((p) => {
     const matchesId = p.id.toLowerCase().includes(searchId.toLowerCase());
     const matchesName = p.patient.toLowerCase().includes(searchName.toLowerCase());
     const matchesStatus = p.status.toLowerCase().includes(searchStatus.toLowerCase());
@@ -78,6 +75,19 @@ const PatientTable: React.FC = () => {
 
     return matchesId && matchesName && matchesStatus && matchesCondition && matchesPhone && matchesEmail && matchesDate;
   });
+
+  if ((currentPage - 1) * rowsPerPage >= filteredPatients.length) {
+    setCurrentPage(1);
+  }
+
+
+  const totalPages = Math.ceil(filteredPatients.length / rowsPerPage);
+
+
+  const paginatedData = filteredPatients.slice(
+    (currentPage - 1) * rowsPerPage,
+    currentPage * rowsPerPage
+  );
 
   const handleSelect = (id: string) => {
     setSelectedPatients((prev) =>
@@ -92,14 +102,124 @@ const PatientTable: React.FC = () => {
 
   const allSelected = filteredPatients.length > 0 && filteredPatients.every((p) => selectedPatients.includes(p.id));
 
-  const highlightNames = ["Sarah Johnson", "Michael Chen", "Emily Davis", "James Wilson", "Lisa Anderson"];
+  const [active, setActive] = useState("all");
+
+  const tabs = [
+    { id: "all", label: "All", count: 24 },
+    { id: "active", label: "Active", count: 12 },
+    { id: "inactive", label: "Inactive", count: 8 },
+    { id: "new", label: "New", count: 4 },
+  ];
 
   return (
-    <div className="bg-white p-2 rounded-2xl shadow-md mx-auto overflow-hidden">
-      <TableContainer component={Paper} className="rounded-lg border border-gray-200">
+    <div className="-mt-3">
+      <div className="flex items-center justify-between w-full mb-2 ">
+        
+        <div className="flex items-center gap-2 bg-gray-200 px-2 py-1 rounded-full">
+          {tabs.map((t) => (
+            <Button
+              key={t.id}
+              onClick={() => setActive(t.id)}
+              disableElevation
+              sx={{
+                textTransform: "none",
+                borderRadius: "999px",
+                padding: "6px 16px",
+                fontWeight: 600,
+                backgroundColor: active === t.id ? "white" : "transparent",
+                color: active === t.id ? "#111" : "#4b5563",
+                boxShadow:
+                  active === t.id ? "0 2px 6px rgba(0,0,0,0.1)" : "none",
+              }}
+            >
+              <span>{t.label}</span>
+              <span
+                className={`ml-2 px-2 py-0.5 text-xs rounded-full 
+              ${active === t.id
+                    ? "bg-gray-100 text-black"
+                    : "bg-white text-gray-700"
+                  }`}
+              >
+                {t.count}
+              </span>
+            </Button>
+          ))}
+        </div>
+
+        <div className="flex items-center gap-3">
+
+          <Button
+            variant="outlined"
+            onClick={() => setOpenUpload(true)}
+            sx={{
+              borderRadius: "12px",
+              borderColor: "#1A73E8",
+              color: "#1A73E8",
+              textTransform: "none",
+              fontWeight: 500,
+              padding: "6px 18px",
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              backgroundColor: "white",
+              fontSize: "15px",
+            }}
+          >
+            <img
+              src="/images/fi_upload.svg"
+              alt="upload"
+              style={{ width: 20, height: 20 }}
+            />
+            Upload
+          </Button>
+
+
+          {/* VERTICAL DIVIDER */}
+          <div className="w-px h-8 bg-gray-300"></div>
+
+          {/* DOWNLOAD ICON */}
+          <IconButton
+            sx={{
+              width: 42,
+              height: 42,
+              borderRadius: "12px",
+              backgroundColor: "white",
+              border: "1px solid #E5E7EB",
+              boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
+            }}
+          >
+            <img
+              src="/images/download-02.svg"
+              alt="download"
+              style={{ width: 22, height: 22, opacity: 0.8 }}
+            />
+          </IconButton>
+
+          {/* TRASH ICON */}
+          <IconButton
+            sx={{
+              width: 42,
+              height: 42,
+              borderRadius: "12px",
+              backgroundColor: "white",
+              border: "1px solid #E5E7EB",
+              boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
+            }}
+          >
+            <img
+              src="/images/fi_trash-2.svg"
+              alt="trash"
+              style={{ width: 22, height: 22, opacity: 0.8 }}
+            />
+          </IconButton>
+
+        </div>
+
+      </div>
+      <TableContainer component={Paper} className="rounded-full  border-gray-200 ">
         <Table className="[&_th]:border [&_td]:border [&_th]:border-gray-200 [&_td]:border-gray-200">
           <TableHead className="bg-gray-50">
-            <TableRow>
+            <TableRow className="h-[67.91px]">
               <TableCell padding="checkbox">
                 <Checkbox checked={allSelected} onChange={handleSelectAll} color="primary" />
               </TableCell>
@@ -128,7 +248,7 @@ const PatientTable: React.FC = () => {
           </TableHead>
 
           <TableBody>
-            {filteredPatients.map((row, index) => (
+            {paginatedData.map((row, index) => (
               <TableRow key={row.id} className="hover:bg-gray-50">
                 <TableCell padding="checkbox">
                   <Checkbox checked={selectedPatients.includes(row.id)} onChange={() => handleSelect(row.id)} color="primary" />
@@ -139,7 +259,7 @@ const PatientTable: React.FC = () => {
                     <div className={`w-9 h-9 flex items-center justify-center rounded-full font-semibold text-sm ${getAvatarColor(index)}`}>
                       {getInitials(row.patient)}
                     </div>
-                    <span className={`font-medium ${highlightNames.includes(row.patient) ? "text-[#168BD9]" : "text-gray-800"}`}>
+                    <span className={`font-medium ${HIGHLIGHT_NAMES.includes(row.patient) ? "text-[#168BD9]" : "text-gray-800"}`}>
                       {row.patient}
                     </span>
                   </div>
@@ -172,6 +292,62 @@ const PatientTable: React.FC = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        setCurrentPage={setCurrentPage}
+      />
+
+      {/* UPLOAD MODAL */}
+      {openUpload && (
+        <div className="fixed inset-0 bg-black bg-opacity-30  flex items-center  justify-center z-50">
+          <div className="bg-white h-[444px] w-[704px] rounded-2xl p-6 shadow-lg relative">
+
+            {/* HEADER */}
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-semibold">Upload</h2>
+
+
+              <button
+                onClick={() => setOpenUpload(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <img
+                  src="/images/x-01.svg"
+                  alt="Add"
+                  className="w-5 h-5 mr-1"
+                />
+              </button>
+            </div>
+
+            {/* DROPPABLE AREA */}
+            <div className="border border-dashed border-gray-300 rounded-xl py-14 flex flex-col items-center gap-3 bg-gray-50">
+
+              <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
+                <img src="/images/excel-svgrepo-com 1.svg" className="w-8 h-8" />
+              </div>
+
+
+              <p className="text-gray-600">
+                Drag your files here or{" "}
+                <span className="text-blue-600 font-medium cursor-pointer">Browse</span>
+              </p>
+
+              <p className="text-xs text-gray-400">File should be .xls & .xlsx</p>
+            </div>
+
+            {/* SAMPLE DOWNLOAD */}
+            <div className="mt-6 text-center">
+              <button className="text-gray-600 text-sm flex items-center justify-center mx-auto gap-2 hover:text-black">
+                <img src="/images/download-02.svg" className="w-4" />
+                Download Sample file
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
