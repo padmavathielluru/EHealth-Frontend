@@ -1,4 +1,4 @@
-
+import { patientInterface } from "../interfaces/patientInterface";
 
 export const AVATAR_COLORS = [
   "bg-[#CFE8FC] text-[#1463B2]",
@@ -31,7 +31,7 @@ export const HIGHLIGHT_NAMES = [
   "Lisa Jhonson",
 ];
 
-export const PATIENTS = [
+export const PATIENTS: patientInterface[] = [
   { id: "PID158057", patient: "Sarah Johnson", status: "NEW", condition: "Heart Disease", lastVisit: "2025-08-15", phone: "+1 (155) 123-456", email: "sarah.johnson@email.com" },
   { id: "PID158058", patient: "Michael Chen", status: "NEW", condition: "Hypertension", lastVisit: "2025-07-10", phone: "+1 (155) 123-234", email: "michael.chen@email.com" },
   { id: "PID158059", patient: "Emily Davis", status: "INACTIVE", condition: "Diabetes Type 2", lastVisit: "2025-08-20", phone: "+1 (155) 123-432", email: "emily.davis@email.com" },
@@ -114,6 +114,11 @@ export const PATIENTS = [
   { id: "PID158129", patient: "Emily Davis", status: "INACTIVE", condition: "Diabetes Type 2", lastVisit: "2025-08-20", phone: "+1 (155) 123-432", email: "emily.davis@email.com" },
   { id: "PID158130", patient: "James Wilson", status: "ACTIVE", condition: "Migraine", lastVisit: "2025-06-10", phone: "+1 (155) 123-456", email: "james.wilson@email.com" },
   { id: "PID158131", patient: "Lisa Anderson", status: "ACTIVE", condition: "Heart Disease", lastVisit: "2025-08-25", phone: "+1 (155) 123-789", email: "lisa.anderson@email.com" },
+  { id: "PID158132", patient: "Michael Jhonson", status: "ACTIVE", condition: "Heart Disease", lastVisit: "2025-07-15", phone: "+1 (155) 123-890", email: "michael.jhonson@email.com" },
+  { id: "PID158133", patient: "Chen Michael", status: "ACTIVE", condition: "Heart Disease", lastVisit: "2025-06-15", phone: "+1 (155) 123-567", email: "chen.michael@email.com" },
+  { id: "PID158134", patient: "Jhonson", status: "INACTIVE", condition: "Migraine", lastVisit: "2025-05-15", phone: "+1 (155) 123-456", email: "jhonson.anderson@email.com" },
+  { id: "PID158135", patient: "Sarah Anderson", status: "ACTIVE", condition: "Heart Disease", lastVisit: "2025-05-25", phone: "+1 (155) 123-765", email: "sarah.anderson@email.com" },
+  { id: "PID158136", patient: "Lisa Jhonson", status: "ACTIVE", condition: "Diabetes Type 2", lastVisit: "2025-05-10", phone: "+1 (155) 123-678", email: "lisa.jhonson@email.com" },
 
 ];
 

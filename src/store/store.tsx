@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "./counterSlice"; 
-import dateReducer from "./dateSlice"; 
+import patientReducer from "./patientSlice"; // ← important
+import counterReducer from "./counterSlice";
+import dateReducer from "./dateSlice";
 import calendarReducer from "./calendarSlice";
 
 export const store = configureStore({
@@ -8,6 +9,7 @@ export const store = configureStore({
     counter: counterReducer,
     date: dateReducer,
     calendar: calendarReducer,
+    patients: patientReducer, 
   },
 });
 
