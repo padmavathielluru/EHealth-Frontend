@@ -10,7 +10,7 @@ import Appointment from "./Pages/Appointment";
 import Home from "./Pages/Home";
 import Referrals from "./Pages/Referrals";
 import Patients from "./Pages/Patients";
-
+import PatientDetails from "./Pages/PatientDetails";
 
 const App: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -49,6 +49,7 @@ const App: React.FC = () => {
               <Route path="/appointment" element={<Appointment />} />
 
               <Route path="/patients" element={<Patients />} />
+              <Route path="/patients/:name" element={<PatientDetails />} />
 
               <Route path="/referrals" element={<Referrals />} />
               

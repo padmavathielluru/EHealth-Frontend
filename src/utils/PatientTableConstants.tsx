@@ -19,7 +19,7 @@ export const STATUS_COLORS = {
 };
 
 export const HIGHLIGHT_NAMES = [
-  "Sarah Johnson",
+  "Sarah Jhonson",
   "Michael Chen",
   "Emily Davis",
   "James Wilson",
@@ -32,7 +32,7 @@ export const HIGHLIGHT_NAMES = [
 ];
 
 export const PATIENTS: patientInterface[] = [
-  { id: "PID158057", patient: "Sarah Johnson", status: "NEW", condition: "Heart Disease", lastVisit: "2025-08-15", phone: "+1 (155) 123-456", email: "sarah.johnson@email.com" },
+  { id: "PID158057", patient: "Sarah Jhonson", status: "NEW", condition: "Heart Disease", lastVisit: "2025-08-15", phone: "+1 (155) 123-456", email: "sarah.johnson@email.com" },
   { id: "PID158058", patient: "Michael Chen", status: "NEW", condition: "Hypertension", lastVisit: "2025-07-10", phone: "+1 (155) 123-234", email: "michael.chen@email.com" },
   { id: "PID158059", patient: "Emily Davis", status: "INACTIVE", condition: "Diabetes Type 2", lastVisit: "2025-08-20", phone: "+1 (155) 123-432", email: "emily.davis@email.com" },
   { id: "PID158060", patient: "James Wilson", status: "ACTIVE", condition: "Migraine", lastVisit: "2025-06-10", phone: "+1 (155) 123-456", email: "james.wilson@email.com" },
@@ -43,7 +43,7 @@ export const PATIENTS: patientInterface[] = [
   { id: "PID158065", patient: "Sarah Anderson", status: "ACTIVE", condition: "Heart Disease", lastVisit: "2025-05-25", phone: "+1 (155) 123-765", email: "sarah.anderson@email.com" },
   { id: "PID158066", patient: "Lisa Jhonson", status: "ACTIVE", condition: "Diabetes Type 2", lastVisit: "2025-05-10", phone: "+1 (155) 123-678", email: "lisa.jhonson@email.com" },
 
-  { id: "PID158067", patient: "Sarah Johnson", status: "NEW", condition: "Heart Disease", lastVisit: "2025-08-15", phone: "+1 (155) 123-456", email: "sarah.johnson@email.com" },
+  { id: "PID158067", patient: "Sarah Jhonson", status: "NEW", condition: "Heart Disease", lastVisit: "2025-08-15", phone: "+1 (155) 123-456", email: "sarah.johnson@email.com" },
   { id: "PID158068", patient: "Michael Chen", status: "NEW", condition: "Hypertension", lastVisit: "2025-07-10", phone: "+1 (155) 123-234", email: "michael.chen@email.com" },
   { id: "PID158069", patient: "Emily Davis", status: "INACTIVE", condition: "Diabetes Type 2", lastVisit: "2025-08-20", phone: "+1 (155) 123-432", email: "emily.davis@email.com" },
   { id: "PID158070", patient: "James Wilson", status: "ACTIVE", condition: "Migraine", lastVisit: "2025-06-10", phone: "+1 (155) 123-456", email: "james.wilson@email.com" },
@@ -54,7 +54,7 @@ export const PATIENTS: patientInterface[] = [
   { id: "PID158075", patient: "Sarah Anderson", status: "ACTIVE", condition: "Heart Disease", lastVisit: "2025-05-25", phone: "+1 (155) 123-765", email: "sarah.anderson@email.com" },
   { id: "PID158076", patient: "Lisa Jhonson", status: "ACTIVE", condition: "Diabetes Type 2", lastVisit: "2025-05-10", phone: "+1 (155) 123-678", email: "lisa.jhonson@email.com" },
 
-  { id: "PID158077", patient: "Sarah Johnson", status: "NEW", condition: "Heart Disease", lastVisit: "2025-08-15", phone: "+1 (155) 123-456", email: "sarah.johnson@email.com" },
+  { id: "PID158077", patient: "Sarah Jhonson", status: "NEW", condition: "Heart Disease", lastVisit: "2025-08-15", phone: "+1 (155) 123-456", email: "sarah.johnson@email.com" },
   { id: "PID158078", patient: "Michael Chen", status: "NEW", condition: "Hypertension", lastVisit: "2025-07-10", phone: "+1 (155) 123-234", email: "michael.chen@email.com" },
   { id: "PID158079", patient: "Emily Davis", status: "INACTIVE", condition: "Diabetes Type 2", lastVisit: "2025-08-20", phone: "+1 (155) 123-432", email: "emily.davis@email.com" },
   { id: "PID158080", patient: "James Wilson", status: "ACTIVE", condition: "Migraine", lastVisit: "2025-06-10", phone: "+1 (155) 123-456", email: "james.wilson@email.com" },
@@ -65,7 +65,7 @@ export const PATIENTS: patientInterface[] = [
   { id: "PID158085", patient: "Sarah Anderson", status: "ACTIVE", condition: "Heart Disease", lastVisit: "2025-05-25", phone: "+1 (155) 123-765", email: "sarah.anderson@email.com" },
   { id: "PID158086", patient: "Lisa Jhonson", status: "ACTIVE", condition: "Diabetes Type 2", lastVisit: "2025-05-10", phone: "+1 (155) 123-678", email: "lisa.jhonson@email.com" },
 
-  { id: "PID158087", patient: "Sarah Johnson", status: "NEW", condition: "Heart Disease", lastVisit: "2025-08-15", phone: "+1 (155) 123-456", email: "sarah.johnson@email.com" },
+  { id: "PID158087", patient: "Sarah Jhonson", status: "NEW", condition: "Heart Disease", lastVisit: "2025-08-15", phone: "+1 (155) 123-456", email: "sarah.johnson@email.com" },
   { id: "PID158088", patient: "Michael Chen", status: "NEW", condition: "Hypertension", lastVisit: "2025-07-10", phone: "+1 (155) 123-234", email: "michael.chen@email.com" },
   { id: "PID158089", patient: "Emily Davis", status: "INACTIVE", condition: "Diabetes Type 2", lastVisit: "2025-08-20", phone: "+1 (155) 123-432", email: "emily.davis@email.com" },
   { id: "PID158090", patient: "James Wilson", status: "ACTIVE", condition: "Migraine", lastVisit: "2025-06-10", phone: "+1 (155) 123-456", email: "james.wilson@email.com" },
@@ -76,7 +76,7 @@ export const PATIENTS: patientInterface[] = [
   { id: "PID158095", patient: "Sarah Anderson", status: "ACTIVE", condition: "Heart Disease", lastVisit: "2025-05-25", phone: "+1 (155) 123-765", email: "sarah.anderson@email.com" },
   { id: "PID158096", patient: "Lisa Jhonson", status: "ACTIVE", condition: "Diabetes Type 2", lastVisit: "2025-05-10", phone: "+1 (155) 123-678", email: "lisa.jhonson@email.com" },
 
-  { id: "PID158097", patient: "Sarah Johnson", status: "NEW", condition: "Heart Disease", lastVisit: "2025-08-15", phone: "+1 (155) 123-456", email: "sarah.johnson@email.com" },
+  { id: "PID158097", patient: "Sarah Jhonson", status: "NEW", condition: "Heart Disease", lastVisit: "2025-08-15", phone: "+1 (155) 123-456", email: "sarah.johnson@email.com" },
   { id: "PID158098", patient: "Michael Chen", status: "NEW", condition: "Hypertension", lastVisit: "2025-07-10", phone: "+1 (155) 123-234", email: "michael.chen@email.com" },
   { id: "PID158099", patient: "Emily Davis", status: "INACTIVE", condition: "Diabetes Type 2", lastVisit: "2025-08-20", phone: "+1 (155) 123-432", email: "emily.davis@email.com" },
   { id: "PID158100", patient: "James Wilson", status: "ACTIVE", condition: "Migraine", lastVisit: "2025-06-10", phone: "+1 (155) 123-456", email: "james.wilson@email.com" },
@@ -87,7 +87,7 @@ export const PATIENTS: patientInterface[] = [
   { id: "PID158105", patient: "Sarah Anderson", status: "ACTIVE", condition: "Heart Disease", lastVisit: "2025-05-25", phone: "+1 (155) 123-765", email: "sarah.anderson@email.com" },
   { id: "PID158106", patient: "Lisa Jhonson", status: "ACTIVE", condition: "Diabetes Type 2", lastVisit: "2025-05-10", phone: "+1 (155) 123-678", email: "lisa.jhonson@email.com" },
 
-  { id: "PID158107", patient: "Sarah Johnson", status: "NEW", condition: "Heart Disease", lastVisit: "2025-08-15", phone: "+1 (155) 123-456", email: "sarah.johnson@email.com" },
+  { id: "PID158107", patient: "Sarah Jhonson", status: "NEW", condition: "Heart Disease", lastVisit: "2025-08-15", phone: "+1 (155) 123-456", email: "sarah.johnson@email.com" },
   { id: "PID158108", patient: "Michael Chen", status: "NEW", condition: "Hypertension", lastVisit: "2025-07-10", phone: "+1 (155) 123-234", email: "michael.chen@email.com" },
   { id: "PID158109", patient: "Emily Davis", status: "INACTIVE", condition: "Diabetes Type 2", lastVisit: "2025-08-20", phone: "+1 (155) 123-432", email: "emily.davis@email.com" },
   { id: "PID158110", patient: "James Wilson", status: "ACTIVE", condition: "Migraine", lastVisit: "2025-06-10", phone: "+1 (155) 123-456", email: "james.wilson@email.com" },
@@ -98,7 +98,7 @@ export const PATIENTS: patientInterface[] = [
   { id: "PID158115", patient: "Sarah Anderson", status: "ACTIVE", condition: "Heart Disease", lastVisit: "2025-05-25", phone: "+1 (155) 123-765", email: "sarah.anderson@email.com" },
   { id: "PID158116", patient: "Lisa Jhonson", status: "ACTIVE", condition: "Diabetes Type 2", lastVisit: "2025-05-10", phone: "+1 (155) 123-678", email: "lisa.jhonson@email.com" },
 
-  { id: "PID158117", patient: "Sarah Johnson", status: "NEW", condition: "Heart Disease", lastVisit: "2025-08-15", phone: "+1 (155) 123-456", email: "sarah.johnson@email.com" },
+  { id: "PID158117", patient: "Sarah Jhonson", status: "NEW", condition: "Heart Disease", lastVisit: "2025-08-15", phone: "+1 (155) 123-456", email: "sarah.johnson@email.com" },
   { id: "PID158118", patient: "Michael Chen", status: "NEW", condition: "Hypertension", lastVisit: "2025-07-10", phone: "+1 (155) 123-234", email: "michael.chen@email.com" },
   { id: "PID158119", patient: "Emily Davis", status: "INACTIVE", condition: "Diabetes Type 2", lastVisit: "2025-08-20", phone: "+1 (155) 123-432", email: "emily.davis@email.com" },
   { id: "PID158120", patient: "James Wilson", status: "ACTIVE", condition: "Migraine", lastVisit: "2025-06-10", phone: "+1 (155) 123-456", email: "james.wilson@email.com" },
@@ -109,7 +109,7 @@ export const PATIENTS: patientInterface[] = [
   { id: "PID158125", patient: "Sarah Anderson", status: "ACTIVE", condition: "Heart Disease", lastVisit: "2025-05-25", phone: "+1 (155) 123-765", email: "sarah.anderson@email.com" },
   { id: "PID158126", patient: "Lisa Jhonson", status: "ACTIVE", condition: "Diabetes Type 2", lastVisit: "2025-05-10", phone: "+1 (155) 123-678", email: "lisa.jhonson@email.com" },
 
-   { id: "PID158127", patient: "Sarah Johnson", status: "NEW", condition: "Heart Disease", lastVisit: "2025-08-15", phone: "+1 (155) 123-456", email: "sarah.johnson@email.com" },
+   { id: "PID158127", patient: "Sarah Jhonson", status: "NEW", condition: "Heart Disease", lastVisit: "2025-08-15", phone: "+1 (155) 123-456", email: "sarah.johnson@email.com" },
   { id: "PID158128", patient: "Michael Chen", status: "NEW", condition: "Hypertension", lastVisit: "2025-07-10", phone: "+1 (155) 123-234", email: "michael.chen@email.com" },
   { id: "PID158129", patient: "Emily Davis", status: "INACTIVE", condition: "Diabetes Type 2", lastVisit: "2025-08-20", phone: "+1 (155) 123-432", email: "emily.davis@email.com" },
   { id: "PID158130", patient: "James Wilson", status: "ACTIVE", condition: "Migraine", lastVisit: "2025-06-10", phone: "+1 (155) 123-456", email: "james.wilson@email.com" },

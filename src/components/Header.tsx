@@ -21,7 +21,18 @@ const Header: React.FC<HeaderProps> = ({ sidebarExpanded, toggleSidebar }) => {
     "/settings": "Settings",
   };
 
-  const currentTitle = routeTitles[location.pathname] || "Dashboard";
+  // const currentTitle = routeTitles[location.pathname] || "Dashboard";
+      const currentPath = location.pathname;
+
+      let currentTitle = routeTitles[currentPath];
+
+      if (!currentTitle) {
+        if (currentPath.startsWith("/patients/")) {
+          currentTitle = "Patient Details";
+        } else {
+          currentTitle = "Dashboard";
+        }
+      }
 
   return (
     <header
@@ -42,8 +53,8 @@ const Header: React.FC<HeaderProps> = ({ sidebarExpanded, toggleSidebar }) => {
         <h1 className="text-lg font-semibold text-gray-800 truncate">
           {currentTitle}
         </h1>
-
-        <Breadcrumbs />
+          <Breadcrumbs />
+        
       </div>
 
       <div className="flex items-center space-x-3">

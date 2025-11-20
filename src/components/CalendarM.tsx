@@ -343,7 +343,7 @@ const CalendarM: React.FC = () => {
           </div>
 
           {hours.map((hour) => (
-            <div key={hour} className="grid grid-cols-[4rem_repeat(7,1fr)] h-16 border-b border-gray-200">
+            <div key={hour} className="grid grid-cols-[4rem_repeat(7,1fr)] h-16 border-b border-gray-200 ">
               <div className="flex items-center justify-center text-[11px] sm:text-sm text-gray-600 border-r border-gray-200 bg-white">
                 {formatHour(hour)}
               </div>

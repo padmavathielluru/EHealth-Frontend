@@ -83,8 +83,9 @@ const paginatedData = filtered.slice(
 
   return (
     <div className="">
-      <TableContainer component={Paper} className="rounded-xl border-gray-200">
-        <Table className="border-collapse">
+      <TableContainer component={Paper} className="rounded-full border-gray-200 min-w-[900px] md:min-w-full 
+      overflow-auto max-h[78vh] lg:max-h-[74vh] scrollbar-thin scrollbar-thumb-gray-400  ">
+        <Table className="border-collapse w-full ">
           {/* HEADERS */}
           <TableHead>
             <TableRow className="bg-gray-50 h-[67.91px]">
@@ -94,10 +95,10 @@ const paginatedData = filtered.slice(
 
               <TableCell className="border-r border-gray-300 font-semibold">REFERRAL ID</TableCell>
               <TableCell className="border-r border-gray-300 font-semibold">NAME / FACILITY</TableCell>
-              <TableCell className="border-r border-gray-300 font-semibold">TYPE</TableCell>
-              <TableCell className="border-r border-gray-300 font-semibold">SPECIALIZATION</TableCell>
-              <TableCell className="border-r border-gray-300 font-semibold">PHONE</TableCell>
-              <TableCell className="border-r border-gray-300 font-semibold">EMAIL</TableCell>
+              <TableCell className="border-r border-gray-300 font-semibold hidden md:table-cell">TYPE</TableCell>
+              <TableCell className="border-r border-gray-300 font-semibold md:table-cell">SPECIALIZATION</TableCell>
+              <TableCell className="border-r border-gray-300 font-semibold lg:table-cell">PHONE</TableCell>
+              <TableCell className="border-r border-gray-300 font-semibold lg:table-cell">EMAIL</TableCell>
               <TableCell className="font-semibold">ACTIONS</TableCell>
             </TableRow>
 
@@ -195,6 +196,7 @@ const paginatedData = filtered.slice(
             ))}
           </TableBody>
         </Table>
+      
       </TableContainer>
 
       {/* PAGINATION */}

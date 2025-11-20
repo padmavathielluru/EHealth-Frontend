@@ -1,8 +1,10 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 
 const Breadcrumbs: React.FC = () => {
   const location = useLocation();
+
+  
   const pathnames = location.pathname.split("/").filter((x) => x);
 
   if (pathnames.length === 0) return null;
@@ -39,6 +41,7 @@ const Breadcrumbs: React.FC = () => {
               <Link to={routeTo} className="hover:text-[#016BFF] font-medium">
                 {label}
               </Link>
+              
             )}
           </span>
         );
@@ -48,3 +51,5 @@ const Breadcrumbs: React.FC = () => {
 };
 
 export default Breadcrumbs;
+
+

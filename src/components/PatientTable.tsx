@@ -19,6 +19,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setTab } from "../store/patientSlice";
 import { RootState } from "../store/store";
 import UploadModal from "../modals/UploadModal";
+import { Link } from "react-router-dom";
 
 interface Patient {
   id: string;
@@ -119,6 +120,11 @@ const PatientTable: React.FC = () => {
 
   const [active, setActive] = useState("all");
 
+  const handleTabclick = (id: string) => {
+    setActive(id);
+    dispatch(setTab(id));
+  }
+
   const tabs = [
     { id: "all", label: "All", count: counts.all },
     { id: "active", label: "Active", count: counts.active },
@@ -134,7 +140,7 @@ const PatientTable: React.FC = () => {
           {tabs.map((t) => (
             <Button
               key={t.id}
-              onClick={() => dispatch(setTab(t.id))}
+              onClick={() => handleTabclick(t.id)}
               disableElevation
               sx={{
                 textTransform: "none",
@@ -192,7 +198,7 @@ const PatientTable: React.FC = () => {
           {/* VERTICAL DIVIDER */}
           <div className="w-px h-8 bg-gray-300"></div>
 
-          {/* DOWNLOAD ICON */}
+          
           <IconButton
             sx={{
               width: 42,
@@ -210,7 +216,7 @@ const PatientTable: React.FC = () => {
             />
           </IconButton>
 
-          {/* TRASH ICON */}
+          
           <IconButton
             sx={{
               width: 42,
@@ -231,7 +237,8 @@ const PatientTable: React.FC = () => {
         </div>
 
       </div>
-      <TableContainer component={Paper} className="rounded-full  border-gray-200 ">
+      <TableContainer component={Paper} className="rounded-full  border-gray-200 min-w-[900px] md:min-w-full 
+      overflow-auto max-h[78vh] lg:max-h-[69vh] scrollbar-thin scrollbar-thumb-gray-400">
         <Table className="[&_th]:border [&_td]:border [&_th]:border-gray-200 [&_td]:border-gray-200">
           <TableHead className="bg-gray-50">
             <TableRow className="h-[67.91px]">
@@ -270,14 +277,30 @@ const PatientTable: React.FC = () => {
                 </TableCell>
                 <TableCell>{row.id}</TableCell>
                 <TableCell>
-                  <div className="flex items-center gap-3">
+                  {/* <div className="flex items-center gap-3">
                     <div className={`w-9 h-9 flex items-center justify-center rounded-full font-semibold text-sm ${getAvatarColor(index)}`}>
                       {getInitials(row.patient)}
                     </div>
                     <span className={`font-medium ${HIGHLIGHT_NAMES.includes(row.patient) ? "text-[#168BD9]" : "text-gray-800"}`}>
                       {row.patient}
                     </span>
+                  </div> */}
+                  <Link to={`/patient/${encodeURIComponent(row.patient)}`} >
+                  <div className="flex items-center gap-3 curcor-pointer">
+                    <div className={`w-9 h-9 flex items-center justify-center rounded-full font-semibold
+                      text-sm ${getAvatarColor(index)}`}>
+                        {getInitials(row.patient)}
+                    </div>
+                    <span
+                    className={`font-medium ${
+                      HIGHLIGHT_NAMES.includes(row.patient)
+                      ?"text-[#168BD9]"
+                      : "text-gray-800"
+                    }`}>
+                      {row.patient}
+                    </span>
                   </div>
+                  </Link>
                 </TableCell>
 
                 <TableCell>
