@@ -277,15 +277,8 @@ const PatientTable: React.FC = () => {
                 </TableCell>
                 <TableCell>{row.id}</TableCell>
                 <TableCell>
-                  {/* <div className="flex items-center gap-3">
-                    <div className={`w-9 h-9 flex items-center justify-center rounded-full font-semibold text-sm ${getAvatarColor(index)}`}>
-                      {getInitials(row.patient)}
-                    </div>
-                    <span className={`font-medium ${HIGHLIGHT_NAMES.includes(row.patient) ? "text-[#168BD9]" : "text-gray-800"}`}>
-                      {row.patient}
-                    </span>
-                  </div> */}
-                  <Link to={`/patient/${encodeURIComponent(row.patient)}`} >
+                 
+                  <Link to={`/patients/${encodeURIComponent(row.patient)}`} >
                   <div className="flex items-center gap-3 curcor-pointer">
                     <div className={`w-9 h-9 flex items-center justify-center rounded-full font-semibold
                       text-sm ${getAvatarColor(index)}`}>

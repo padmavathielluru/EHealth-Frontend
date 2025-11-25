@@ -4,7 +4,7 @@ import Breadcrumbs from "./Breadcrumbs";
 
 interface HeaderProps {
   sidebarExpanded: boolean;
-  toggleSidebar: () => void; 
+  toggleSidebar: () => void;
 }
 
 const Header: React.FC<HeaderProps> = ({ sidebarExpanded, toggleSidebar }) => {
@@ -21,31 +21,30 @@ const Header: React.FC<HeaderProps> = ({ sidebarExpanded, toggleSidebar }) => {
     "/settings": "Settings",
   };
 
-  // const currentTitle = routeTitles[location.pathname] || "Dashboard";
-      const currentPath = location.pathname;
+  const currentPath = location.pathname;
 
-      let currentTitle = routeTitles[currentPath];
+  let currentTitle = routeTitles[currentPath];
+  if (!currentTitle) {
+    if (currentPath.startsWith("/patients/")) {
+      const name = decodeURIComponent(currentPath.split("/")[2]);
+      currentTitle = name;
+    } else {
+      currentTitle = "Dashboard";
+    }
+  }
 
-      if (!currentTitle) {
-        if (currentPath.startsWith("/patients/")) {
-          currentTitle = "Patient Details";
-        } else {
-          currentTitle = "Dashboard";
-        }
-      }
 
   return (
     <header
-      className={`bg-gray-100 h-[64px] flex items-center justify-between px-[24px] py-[12px] gap-[10px] transition-all duration-300 ${
-        sidebarExpanded ? "ml-[256px]" : "ml-[80px]"
-      }`}
+      className={`bg-gray-100 h-[64px] flex items-center justify-between px-[24px] py-[12px] gap-[10px] transition-all duration-300 ${sidebarExpanded ? "ml-[256px]" : "ml-[80px]"
+        }`}
     >
       <div className="flex items-center space-x-3">
-        
+
         <img
           src="/images/fi_sidebar.svg"
           alt="Sidebar Icon"
-          onClick={toggleSidebar}   // FIXED
+          onClick={toggleSidebar}   
           className="cursor-pointer object-contain"
           style={{ width: "25px", height: "25px" }}
         />
@@ -53,8 +52,8 @@ const Header: React.FC<HeaderProps> = ({ sidebarExpanded, toggleSidebar }) => {
         <h1 className="text-lg font-semibold text-gray-800 truncate">
           {currentTitle}
         </h1>
-          <Breadcrumbs />
-        
+        <Breadcrumbs />
+
       </div>
 
       <div className="flex items-center space-x-3">

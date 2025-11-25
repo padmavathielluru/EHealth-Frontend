@@ -1,5 +1,4 @@
 
-
 import { createSlice } from "@reduxjs/toolkit";
 import { PATIENTS } from "../utils/PatientTableConstants";
 import { patientInterface } from "../interfaces/patientInterface";

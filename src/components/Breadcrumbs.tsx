@@ -25,8 +25,8 @@ const Breadcrumbs: React.FC = () => {
       {pathnames.map((name, index) => {
         const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
         const isLast = index === pathnames.length - 1;
-        const label =
-          name.charAt(0).toUpperCase() + name.slice(1).replace(/-/g, " ");
+       const decode = decodeURIComponent(name);
+       const label = decode.charAt(0).toUpperCase() + decode.slice(1);
 
         return (
           <span key={index} className="flex items-center space-x-2">
