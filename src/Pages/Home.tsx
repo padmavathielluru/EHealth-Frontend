@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Bargraph from "../components/Bargraph";
 import Cards from "../components/cards";
 import DashboardCards from "../components/DashboardCards";
@@ -10,6 +10,11 @@ import Tooltip from "../components/Tooltip";
 import Login from "../components/Login";
 
 const Home: React.FC = () => {
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const [searchValue, setSearchValue] = useState("");
 
   

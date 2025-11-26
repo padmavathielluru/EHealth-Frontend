@@ -14,7 +14,7 @@ const Breadcrumbs: React.FC = () => {
       className="text-sm text-gray-600 flex items-center space-x-2 mt-1"
       aria-label="Breadcrumb"
     >
-      <Link to="/home" className="hover:text-[#016BFF] font-medium">
+      <Link to="/dashboard" className="hover:text-[#016BFF] font-medium">
         <img
           src="/images/fi_home.svg"
           alt="Home Icon"

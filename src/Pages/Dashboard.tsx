@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Linegraph from  "../components/Linegraph";
 import Cards from "../components/cards";
 import DashboardCards from "../components/DashboardCards";
 
 const Dashboard: React.FC = () => {
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     return (
         <div className="p-4">
             <h1 className="text-2xl font-bold mb-4">Dashboard</h1>

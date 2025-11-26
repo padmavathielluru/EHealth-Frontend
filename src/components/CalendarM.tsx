@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../store/store";
 import { Event as CalendarEvent, addEvent } from "../store/calendarSlice";
 import AppointmentModal from "../modals/AppointmentModal";
+import AlertPopup from "./AlertPopup";
+import { checkPastTime, checkPastDate} from "../services/dateTimeService";
 
 const CalendarM: React.FC = () => {
   const [view, setView] = useState<"Day" | "Week" | "Month">("Day");
@@ -24,6 +26,12 @@ const CalendarM: React.FC = () => {
   const [isScrolling, setIsScrolling] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [forceUpdate, setForceUpdate] = useState(false);
+ const [alertData, setAlertData] = useState({
+  open: false,
+  message: "",
+  type: "info" as "success" | "info" | "warning" | "error",
+});
+
 
   const handleOpenModal = (fromCell = false) => {
     setIsModalOpen(true);
@@ -129,33 +137,50 @@ const CalendarM: React.FC = () => {
     }
   };
 
+  const handleHourCellClick = (date: Date, hour: number, e: React.MouseEvent) => {
+  e.stopPropagation();
 
+  const dateCheck = checkPastDate(date);
+  if (!dateCheck.valid) {
+    setAlertData({
+      open: true,
+      message: dateCheck.message,
+      type: dateCheck.type,
+    });
+    return;
+  }
 
-  const handleHourCellClick = (date: Date,  hour: number, e: React.MouseEvent) => {
-    e.stopPropagation();
+  const timeCheck = checkPastTime(date, hour, 0);
+  if (!timeCheck.valid) {
+    setAlertData({
+      open: true,
+      message: timeCheck.message,
+      type: timeCheck.type,
+    });
+    return;
+  }
 
-    const existingEvents = getEventsForDateAndHour(date,hour);
-    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+  const existingEvents = getEventsForDateAndHour(date, hour);
+  const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
 
-    if (existingEvents.length > 0) {
+  if (existingEvents.length > 0) {
+    const event = existingEvents[0];
+    setPopupPosition({
+      top: rect.top + window.scrollY + 30,
+      left: rect.left + rect.width + 10,
+    });
+    setSelectedEvent(event);
+    setIsModalOpen(false);
+  } else {
+    setSelectedDate(date);
+    setSelectedTime(`${hour}:00`);
+    setSelectedEvent(null);
+    setPopupPosition(null);
+    setIsModalOpen(true);
+    setIsFromCellClick(true);
+  }
+};
 
-      const event = existingEvents[0];
-      setPopupPosition({
-        top: rect.top + window.scrollY + 30,
-        left: rect.left + rect.width + 10,
-      });
-      setSelectedEvent(event);
-      setIsModalOpen(false);
-    } else {
-
-      setSelectedDate(date);
-      setSelectedTime(`${hour}:00`);
-      setSelectedEvent(null);
-      setPopupPosition(null);
-      setIsModalOpen(true);
-      setIsFromCellClick(true);
-    }
-  };
 
   const handleEventClick = (e: React.MouseEvent, event: CalendarEvent) => {
     e.stopPropagation();
@@ -301,7 +326,7 @@ const CalendarM: React.FC = () => {
 
     return (
       <div className="mt-2 border border-gray-200 rounded-lg bg-white shadow-sm">
-        <div className="grid grid-cols-[4rem_repeat(7,1fr)] border-b border-gray-200 bg-white sticky top-0 z-10" style={{ width: "calc(100% - 8px)"}}>
+        <div className="grid grid-cols-[4rem_repeat(7,1fr)] border-b border-gray-200 bg-white sticky top-0 z-10" style={{ width: "calc(100% - 8px)" }}>
           <div className="h-16 flex items-center justify-center border-r border-gray-200 bg-white">
             <img src="/images/Icon.svg" alt="Clock Icon" className="w-6 h-6" />
           </div>
@@ -683,7 +708,7 @@ const CalendarM: React.FC = () => {
                   onClose={handleCloseModal}
                   selectedDate={isFromCellClick ? selectedDate : null}
                   selectedTime={isFromCellClick ? selectedTime : null}
-                  onSave={(newEvent) =>  {
+                  onSave={(newEvent) => {
                     dispatch(addEvent(newEvent));
                     handleCloseModal();
                   }}
@@ -712,11 +737,21 @@ const CalendarM: React.FC = () => {
               />
             </div>
           )}
-
-
         </>
       )}
 
+      <AlertPopup
+        open={alertData.open}
+        message={alertData.message}
+        type={alertData.type}
+        onClose={() =>
+          setAlertData({
+            open: false,
+            message: "",
+            type: "warning",
+          })
+        }
+        />
     </div>
   );
 };
