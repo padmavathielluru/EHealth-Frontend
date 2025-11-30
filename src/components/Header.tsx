@@ -36,7 +36,7 @@ const Header: React.FC<HeaderProps> = ({ sidebarExpanded, toggleSidebar }) => {
 
   return (
     <header
-      className={`bg-gray-100 h-[64px] flex items-center justify-between px-[24px] py-[12px] gap-[10px] transition-all duration-300 ${sidebarExpanded ? "ml-[256px]" : "ml-[80px]"
+      className={`bg-gray-100 h-[64px] flex items-center justify-between pl-2 px-[24px] py-[12px] gap-[10px] transition-all duration-300 ${sidebarExpanded ? "ml-[256px]" : "ml-[80px]"
         }`}
     >
       <div className="flex items-center space-x-3">
