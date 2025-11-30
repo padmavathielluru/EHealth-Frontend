@@ -1,6 +1,9 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import Breadcrumbs from "./Breadcrumbs";
+import { Button, Popover } from "@mui/material";
+import AddItemComponent from "./AddItemComponent";
+import NotificationsComponent from "./NotificationsComponent";
 
 interface HeaderProps {
   sidebarExpanded: boolean;
@@ -32,7 +35,27 @@ const Header: React.FC<HeaderProps> = ({ sidebarExpanded, toggleSidebar }) => {
       currentTitle = "Dashboard";
     }
   }
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
+   const [notifEl, setNotifEl] = React.useState<HTMLButtonElement | null>(null);
 
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleNotificationClick =   (event: React.MouseEvent<HTMLButtonElement>) => {
+    setNotifEl(event.currentTarget);
+  };
+  const handleNotifClose = () => {
+    setNotifEl(null)
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const notifOpen = Boolean(notifEl)
+  const id = open ? 'simple-popover' : undefined;
+  const notifId = notifOpen?'notif-popover':undefined;
 
   return (
     <header
@@ -44,7 +67,7 @@ const Header: React.FC<HeaderProps> = ({ sidebarExpanded, toggleSidebar }) => {
         <img
           src="/images/fi_sidebar.svg"
           alt="Sidebar Icon"
-          onClick={toggleSidebar}   
+          onClick={toggleSidebar}
           className="cursor-pointer object-contain"
           style={{ width: "25px", height: "25px" }}
         />
@@ -58,11 +81,47 @@ const Header: React.FC<HeaderProps> = ({ sidebarExpanded, toggleSidebar }) => {
 
       <div className="flex items-center space-x-3">
         <div className="p-2 bg-white rounded-full cursor-pointer hover:bg-gray-200 flex items-center justify-center">
-          <img src="/images/u_plus.svg" alt="Add Icon" className="w-5 h-5" />
+          <span aria-describedby={id} onClick={handleClick}>
+            <img src="/images/u_plus.svg" alt="Add Icon" className="w-5 h-5" />
+          </span>
+          <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+          >
+            <AddItemComponent />
+          </Popover>
         </div>
 
         <div className="p-2 bg-white rounded-full cursor-pointer hover:bg-gray-200 flex items-center justify-center">
-          <img src="/images/fi_bell.svg" alt="Notification" className="w-5 h-5" />
+          <span aria-describedby={id} onClick={handleNotificationClick}>
+            <img src="/images/fi_bell.svg" alt="Notification" className="w-5 h-5" />
+          </span>
+          <Popover
+            id={notifId}
+            open={notifOpen}
+            anchorEl={notifEl}
+            onClose={handleNotifClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+          >
+            <NotificationsComponent />
+          </Popover>
         </div>
 
         <img
