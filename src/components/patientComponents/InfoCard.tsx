@@ -28,7 +28,7 @@ const InfoCard: React.FC<InfoCardProps> = ({
         if (l < "G") return "bg-purple-200 text-purple-500";
         if (l < "M") return "bg-blue-200 text-blue-500";
         if (l < "S") return "bg-green-200 text-green-500";
-        return "bg-orange-200 text-orange-500";
+        return "bg-pink-200 text-pink-500";
     }
     return (
         <div className="bg-white p-5 rounded-xl shadow-sm flex items-center gap-5 ">

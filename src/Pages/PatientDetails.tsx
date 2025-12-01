@@ -4,12 +4,14 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import InfoCard from "../components/patientComponents/InfoCard";
 import InfoSection from "../components/patientComponents/InfoSection";
+import PatientTabs from "../components/patientComponents/PatientTabs";
+// import { historyData } from "../utils/PatientsHistoryConstants";
 
 const PatientDetails: React.FC = () => {
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  // useEffect(() => {
+  //   window.scrollTo(0, 0);
+  // }, []);
 
   const { id } = useParams();
 
@@ -63,8 +65,12 @@ const PatientDetails: React.FC = () => {
           planType="EPO"
           status={patient.status}
         />
-
       </div>
+
+       <div className="mt-4 min-w-max">
+        <PatientTabs />
+        </div>
+        
     </div>
   );
 };
