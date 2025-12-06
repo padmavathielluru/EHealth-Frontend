@@ -1,4 +1,3 @@
-import { FaCalendarAlt, FaStethoscope, FaUserPlus, FaChartLine } from "react-icons/fa";
 
 export const cardStats = [
   {

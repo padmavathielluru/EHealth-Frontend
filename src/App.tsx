@@ -4,13 +4,13 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Sidebar from "./components/Sidebar";
 // import Breadcrumbs from "./components/Breadcrumbs";
-
 import Dashboard from "./Pages/Dashboard";
 import Appointment from "./Pages/Appointment";
 import Home from "./Pages/Home";
 import Referrals from "./Pages/Referrals";
 import Patients from "./Pages/Patients";
 import PatientDetails from "./Pages/PatientDetails";
+import MyProfile from "./Pages/MyProfile";
 
 const App: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -54,11 +54,11 @@ const App: React.FC = () => {
               <Route path="/referrals" element={<Referrals />} />
               
               <Route path="/home" element={<Home />} />
+
+              <Route path="my-profile" element={<MyProfile />} />
             </Routes>
           </div>
         </div>
-
-
         <Footer />
       </div>
     </BrowserRouter>

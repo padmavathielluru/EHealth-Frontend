@@ -32,7 +32,7 @@ const Pagination = ({ currentPage, totalPages, setCurrentPage }: PaginationProps
     <div className="flex items-center justify-center gap-1 py-4 select-none">
       <button
         onClick={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
-        className="w-10 h-10 flex items-center justify-center rounded-full  bg-white hover:bg-gray-100"
+        className="w-10 h-10 flex items-center justify-center rounded-full  bg-gray-300 hover:bg-gray-200"
         aria-label="previous page"
       >
         <FaChevronLeft size={12} />
@@ -40,7 +40,7 @@ const Pagination = ({ currentPage, totalPages, setCurrentPage }: PaginationProps
 
      {pages.map((p, idx) =>
         p === "..." ? (
-          <span key={idx} className="px-2 text-gray-600">...</span>
+          <span key={idx} className="w-10 h-10 pb-2 flex text-gray-600 items-center justify-center rounded-full bg-gray-300 hover:bg-gray-200">...</span>
         ) : (
           <button
             key={idx}
@@ -49,7 +49,7 @@ const Pagination = ({ currentPage, totalPages, setCurrentPage }: PaginationProps
               ${
                 currentPage === p
                   ? "bg-black text-white border-black"
-                  : "bg-white text-gray-800 border-gray-300 hover:bg-gray-200"
+                  : "bg-gray-300 text-gray-800 border-gray-400 hover:bg-gray-200"
               }
             `}
           >
@@ -59,7 +59,7 @@ const Pagination = ({ currentPage, totalPages, setCurrentPage }: PaginationProps
 
       <button
         onClick={() => currentPage < totalPages && setCurrentPage(currentPage + 1)}
-        className="w-10 h-10 flex items-center justify-center rounded-full  bg-white hover:bg-gray-100"
+        className="w-10 h-10 flex items-center justify-center rounded-full  bg-gray-300 hover:bg-gray-200"
         aria-label="next page"
       >
         <FaChevronRight size={12} />

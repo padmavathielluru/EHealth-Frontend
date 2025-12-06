@@ -96,9 +96,7 @@ const PatientTable: React.FC = () => {
     setCurrentPage(1);
   }
 
-
   const totalPages = Math.ceil(finalFilteredList.length / rowsPerPage);
-
 
   const paginatedData = finalFilteredList.slice(
     (currentPage - 1) * rowsPerPage,

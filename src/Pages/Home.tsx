@@ -8,6 +8,8 @@ import MultilevelDropdown from "../components/MultilevelDropdown";
 import Searchbar from "../components/Searchbar";
 import Tooltip from "../components/Tooltip";
 import Login from "../components/Login";
+import InputField from "../components/InputField";
+import FormComponent from "../components/commonComponents/FormComponent";
 
 const Home: React.FC = () => {
 
@@ -16,12 +18,12 @@ const Home: React.FC = () => {
   }, []);
 
   const [searchValue, setSearchValue] = useState("");
+  const [name, setName] = useState("");
 
-  
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [credentials, setCredentials] = useState({ email: "", password: "" });
 
-  
+
   const [isSecondLoginOpen, setIsSecondLoginOpen] = useState(false);
   const [adminCredentials, setAdminCredentials] = useState({
     username: "",
@@ -30,18 +32,31 @@ const Home: React.FC = () => {
 
   return (
     <div className="p-4">
-      
+
       <h1 className="text-2xl font-bold mb-4">Analytics</h1>
 
-     
+
       <Bargraph />
 
-      
+
       <div className="mt-8">
         <MultilevelDropdown />
       </div>
 
-    
+      <div className="mt-8">
+        <InputField
+          label="Full Name"
+          value={name}
+          placeholder="Enter your name"
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+     </div>
+
+     <div className="mt-8 w-1/3">
+        <FormComponent />
+     </div>
+
       <div className="mt-8 w-1/5 max-w-xs">
         <Searchbar
           placeholder="Search anything..."
@@ -50,7 +65,7 @@ const Home: React.FC = () => {
         />
       </div>
 
-      
+
       <div className="mt-8">
         <Login
           credentials={credentials}
@@ -65,7 +80,7 @@ const Home: React.FC = () => {
       </div>
 
       {/* Admin Login */}
-      <div className="mt-8">
+       <div className="mt-8">
         <Login
           credentials={adminCredentials}
           setCredentials={(k, v) =>
@@ -76,29 +91,29 @@ const Home: React.FC = () => {
           onLogin={() => setIsSecondLoginOpen(false)}
           type="admin"
         />
-      </div>
+      </div>  
 
-      
+
       <div className="justify-center mt-12 mb-25">
         <Tooltip />
       </div>
 
-      
+
       <div className="mt-8">
         <Cards />
       </div>
 
-      
+
       <div className="mt-8">
         <DashboardCards />
       </div>
 
-      
-      <div className="mt-8">
-        <PatientTable />
-      </div>
 
-      
+      {/* <div className="mt-8">
+        <PatientTable />
+      </div> */}
+
+
       <div className="mt-8">
         <Piegraph />
       </div>

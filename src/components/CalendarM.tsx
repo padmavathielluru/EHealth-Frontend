@@ -319,25 +319,38 @@ const CalendarM: React.FC = () => {
     );
   };
 
-  // ---- WEEK VIEW ----
-  const renderWeekView = () => {
-    const todayKey = new Date().toDateString();
-    const linePosition = currentTime.getHours() * 64 + (currentTime.getMinutes() / 60) * 64;
+const renderWeekView = () => {
+  const todayKey = new Date().toDateString();
 
-    return (
-      <div className="mt-2 border border-gray-200 rounded-lg bg-white shadow-sm">
-        <div className="grid grid-cols-[4rem_repeat(7,1fr)] border-b border-gray-200 bg-white sticky top-0 z-10" style={{ width: "calc(100% - 8px)" }}>
+  const headerHeight = 64; 
+  const linePosition =
+    currentTime.getHours() * 64 + (currentTime.getMinutes() / 60) * 64;
+
+  const lineTop = headerHeight + linePosition; 
+
+  return (
+    <div className="mt-2 border border-gray-200 rounded-lg bg-white shadow-sm">
+
+      <div
+        ref={scrollRef}
+        className="relative overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-400
+        scrollbar-track-transparent hover:scrollbar-thumb-gray-500
+        h-[calc(100vh-340px)] sm:h-[calc(100vh-320px)] lg:h-[calc(100vh-182px)]"
+      >
+       
+        <div className="grid grid-cols-[4rem_repeat(7,1fr)] border-b border-gray-200 bg-white sticky top-0 z-20">
           <div className="h-16 flex items-center justify-center border-r border-gray-200 bg-white">
             <img src="/images/Icon.svg" alt="Clock Icon" className="w-6 h-6" />
           </div>
 
-          {workWeekDays.map((day, idx) => {
+          {workWeekDays.map((day) => {
             const isToday = day.toDateString() === todayKey;
             return (
               <div
                 key={day.toDateString()}
-                className={`flex items-center justify-center h-16 font-semibold tracking-wide text-sm sm:text-base border-r border-gray-200 ${idx === workWeekDays.length - 1 ? "last:border-r-0" : ""
-                  } ${isToday ? "bg-black text-white" : "bg-white text-gray-600"}`}
+                className={`flex items-center justify-center h-16 font-semibold tracking-wide 
+                text-sm sm:text-base border-r border-gray-200 
+                ${isToday ? "bg-black text-white" : "bg-white text-gray-600"}`}
               >
                 {day.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase()} -{" "}
                 {String(day.getDate()).padStart(2, "0")}
@@ -347,89 +360,94 @@ const CalendarM: React.FC = () => {
         </div>
 
         <div
-          ref={scrollRef}
-          className="relative overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent hover:scrollbar-thumb-gray-500
-          h-[calc(100vh-340px)] sm:h-[calc(100vh-320px)] lg:h-[calc(100vh-247px)]"
+          className="absolute left-[4rem] right-0 h-0.5 bg-red-500 z-20 pointer-events-none"
+          style={{ top: `${lineTop}px` }}
         >
           <div
-            className="absolute left-[4rem] right-0 h-0.5 bg-red-500 z-20 pointer-events-none"
-            style={{ top: `${linePosition}px` }}
+            className="absolute -left-2 top-1/2 -translate-y-1/2"
+            style={{
+              width: 0,
+              height: 0,
+              borderTop: "6px solid transparent",
+              borderBottom: "6px solid transparent",
+              borderRight: "8px solid #ef4444",
+            }}
+          />
+        </div>
+
+        {hours.map((hour) => (
+          <div
+            key={hour}
+            className="grid grid-cols-[4rem_repeat(7,1fr)] h-16 border-b border-gray-200"
           >
-            <div
-              className="absolute -left-2 top-1/2 -translate-y-1/2"
-              style={{
-                width: 0,
-                height: 0,
-                borderTop: "6px solid transparent",
-                borderBottom: "6px solid transparent",
-                borderRight: "8px solid #ef4444",
-              }}
-            />
-          </div>
+            <div className="flex items-center justify-center text-[11px] sm:text-sm text-gray-600 border-r border-gray-200 bg-white">
+              {formatHour(hour)}
+            </div>
 
-          {hours.map((hour) => (
-            <div key={hour} className="grid grid-cols-[4rem_repeat(7,1fr)] h-16 border-b border-gray-200 ">
-              <div className="flex items-center justify-center text-[11px] sm:text-sm text-gray-600 border-r border-gray-200 bg-white">
-                {formatHour(hour)}
-              </div>
-              {workWeekDays.map((day, colIdx) => (
-                <div
-                  key={`${day.toDateString()}-${hour}`}
-                  onClick={(e) => handleHourCellClick(day, hour, e)} // 👉 for empty cell
-                  className={`relative w-full h-full border-r border-gray-200 hover:bg-gray-100 ${colIdx === workWeekDays.length - 1 ? "last:border-r-0" : ""}`}
-                >
-                  {getEventsForDateAndHour(day, hour).map((event) => (
-                    <div
-                      key={event.id}
-                      onClick={(e) => handleHourCellClick(day, hour, e)} // 👉 for filled cell
-                      className="absolute inset-x-0 h-full top-0 rounded-lg px-3 py-2 text-sm flex flex-col border-4 shadow-sm cursor-pointer"
-                      style={{
-                        borderColor: event.colorBorder,
-                        backgroundColor: event.colorBg,
-                      }}
-                    >
-                      <div className="flex items-center justify-start gap-0 text-xs font-semibold text-gray-700 mb-1">
-                        <span>{event.fromTime}</span>
-                        <img src="/images/fi_arrow-right.svg" alt="arrow" className="w-3 h-3 mx-1" />
-                        <span>{event.toTime}</span>
+            {workWeekDays.map((day, colIdx) => (
+              <div
+                key={`${day.toDateString()}-${hour}`}
+                onClick={(e) => handleHourCellClick(day, hour, e)}
+                className="relative w-full h-full border-r border-gray-200 hover:bg-gray-100"
+              >
+                {getEventsForDateAndHour(day, hour).map((event) => (
+                  <div
+                    key={event.id}
+                    onClick={(e) => handleHourCellClick(day, hour, e)}
+                    className="absolute inset-x-0 h-full top-0 rounded-lg px-3 py-2 text-sm flex flex-col border-4 shadow-sm cursor-pointer"
+                    style={{
+                      borderColor: event.colorBorder,
+                      backgroundColor: event.colorBg,
+                    }}
+                  >
+                    <div className="flex items-center justify-start gap-0 text-xs font-semibold text-gray-700 mb-1">
+                      <span>{event.fromTime}</span>
+                      <img src="/images/fi_arrow-right.svg" alt="arrow" className="w-3 h-3 mx-1" />
+                      <span>{event.toTime}</span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <div
+                        className="flex items-center justify-center rounded-full text-[11px] text-white font-semibold w-6 h-6"
+                        style={{ backgroundColor: event.colorBorder }}
+                      >
+                        {event.patientName
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")
+                          .toUpperCase()}
                       </div>
 
-                      <div className="flex items-center justify-between relative">
-                        <div className="flex items-center gap-2">
-                          <div
-                            className="flex items-center justify-center rounded-full text-[11px] text-white font-semibold w-6 h-6"
-                            style={{ backgroundColor: event.colorBorder }}
-                          >
-                            {event.patientName.split(" ").map((n) => n[0]).join("").toUpperCase()}
-                          </div>
-
-                          <div className="flex items-center gap-1.5">
-                            <span className="w-1.5 h-1.5 rounded-full bg-gray-400 inline-block"></span>
-                            <span className="text-[6px] font-semibold text-gray-900">{event.visitType}</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center bg-white shadow-sm">
-                        <img
-                          src={event.visitMode === "Online" ? "/images/fi_video.svg" : "/images/Frame (1).svg"}
-                          alt="mode"
-                          className="w-3.5 h-3.5"
-                        />
+                      <div className="flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
+                        <span className="text-[6px] font-semibold text-gray-900">
+                          {event.visitType}
+                        </span>
                       </div>
                     </div>
-                  ))}
-                </div>
-              ))}
 
-            </div>
-          ))}
-        </div>
+                    <div className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center bg-white shadow-sm">
+                      <img
+                        src={
+                          event.visitMode === "Online"
+                            ? "/images/fi_video.svg"
+                            : "/images/Frame (1).svg"
+                        }
+                        alt="mode"
+                        className="w-3.5 h-3.5"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        ))}
+
       </div>
-    );
-  };
-
-
+    </div>
+  );
+};
 
   const renderMonthView = () => {
     const year = startDate.getFullYear();

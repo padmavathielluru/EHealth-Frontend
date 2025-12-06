@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "./Breadcrumbs";
 
 interface HeaderProps {
@@ -9,6 +9,11 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ sidebarExpanded, toggleSidebar }) => {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const goToProfile = () => {
+    navigate("/my-profile");
+  };
 
   const routeTitles: Record<string, string> = {
     "/home": "Home",
@@ -19,6 +24,7 @@ const Header: React.FC<HeaderProps> = ({ sidebarExpanded, toggleSidebar }) => {
     "/inbox": "Inbox",
     "/help": "Help",
     "/settings": "Settings",
+    "/my-profile": "My Profile",
   };
 
   const currentPath = location.pathname;
@@ -57,11 +63,11 @@ const Header: React.FC<HeaderProps> = ({ sidebarExpanded, toggleSidebar }) => {
       </div>
 
       <div className="flex items-center space-x-3">
-        <div className="p-2 bg-white rounded-full cursor-pointer hover:bg-gray-200 flex items-center justify-center">
+        <div className="p-3 bg-white rounded-full cursor-pointer hover:bg-gray-200 flex items-center justify-center">
           <img src="/images/u_plus.svg" alt="Add Icon" className="w-5 h-5" />
         </div>
 
-        <div className="p-2 bg-white rounded-full cursor-pointer hover:bg-gray-200 flex items-center justify-center">
+        <div className="p-3 bg-white rounded-full cursor-pointer hover:bg-gray-200 flex items-center justify-center">
           <img src="/images/fi_bell.svg" alt="Notification" className="w-5 h-5" />
         </div>
 
@@ -69,6 +75,7 @@ const Header: React.FC<HeaderProps> = ({ sidebarExpanded, toggleSidebar }) => {
           src="/images/Ellipse 1.svg"
           alt="Profile"
           className="w-10 h-10 rounded-full object-cover cursor-pointer"
+          onClick={goToProfile}
         />
       </div>
     </header>
