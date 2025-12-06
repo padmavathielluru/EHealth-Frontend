@@ -23,7 +23,7 @@ interface AppointmentModalProps {
   onSave: (newEvent: CalendarEvent) => void;
 }
 
-const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTime, selectedDate }) => {
+const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTime, selectedDate, onSave }) => {
   const dispatch = useDispatch();
 
   const [patientsList, setPatientsList] = useState<Patient[]>([
@@ -81,8 +81,9 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
   const [toMinutes, setToMinutes] = useState("");
   const [toAmpm, setToAmpm] = useState("AM");
 
-  const [alertData, setAlertData] = useState<{ open: boolean; message: string; type: AlertColor;}>({
-    open: false, message: "", type: "warning",});
+  const [alertData, setAlertData] = useState<{ open: boolean; message: string; type: AlertColor; }>({
+    open: false, message: "", type: "warning",
+  });
 
   useEffect(() => {
     if (selectedTime) {
@@ -211,29 +212,42 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
   );
 
   const handleAddAppointment = () => {
-  const formatTime = (hours: string, minutes: string, ampm: string) => {
-    if (!hours || !minutes) return "";
-    let h = parseInt(hours);
-    if (ampm === "PM" && h < 12) h += 12;
-    if (ampm === "AM" && h === 12) h = 0;
-    return `${h.toString().padStart(2, "0")}:${minutes.padStart(2, "0")}`;
-  };
+    const formatTime = (hours: string, minutes: string, ampm: string) => {
+      if (!hours || !minutes) return "";
+      let h = parseInt(hours);
+      if (ampm === "PM" && h < 12) h += 12;
+      if (ampm === "AM" && h === 12) h = 0;
+      return `${h.toString().padStart(2, "0")}:${minutes.padStart(2, "0")}`;
+    };
 
-  const computedFromTime = formatTime(fromHours, fromMinutes, fromAmpm);
-  const computedToTime = formatTime(toHours, toMinutes, toAmpm);
-
-    // const finalDate = localDate ? localDate.toISOString() : "";
+    const computedFromTime = formatTime(fromHours, fromMinutes, fromAmpm);
+    const computedToTime = formatTime(toHours, toMinutes, toAmpm);
 
     if (!localDate || !selectedPatient || !selectedVisit || !computedFromTime || !computedToTime) {
+      setAlertData({
+        open: true,
+        message: "Please fill all fields",
+        type: "warning",
+      });
+      return;
+    }
+
+    const [fromH, fromM] = computedFromTime.split(":").map(Number);
+  const [toH, toM] = computedToTime.split(":").map(Number);
+
+  const fromMinutesTotal = fromH * 60 + fromM;
+  const toMinutesTotal = toH * 60 + toM;
+
+  if (toMinutesTotal <= fromMinutesTotal) {
     setAlertData({
       open: true,
-      message: "Please fill all fields",
+      message: "To Time must be greater than From Time",
       type: "warning",
     });
     return;
   }
 
-  const dateCheck = checkPastDate(localDate);
+    const dateCheck = checkPastDate(localDate);
   if (!dateCheck.valid) {
     setAlertData({
       open: true,
@@ -243,10 +257,10 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
     return;
   }
 
-  const hours = parseInt(fromHours);
-  const mins = parseInt(fromMinutes);
+    const hours = parseInt(fromHours);
+    const mins = parseInt(fromMinutes);
 
-  const timeCheck = checkPastTime(localDate, hours, mins);
+    const timeCheck = checkPastTime(localDate, fromH, fromM);
   if (!timeCheck.valid) {
     setAlertData({
       open: true,
@@ -256,29 +270,29 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
     return;
   }
 
-  const now = new Date();
+    const now = new Date();
 
-  const selectedColors =
-    visitTypeColors[selectedVisit] || { border: "#6B7280", bg: "#c4cddeff" };
+    const selectedColors =
+      visitTypeColors[selectedVisit] || { border: "#6B7280", bg: "#c4cddeff" };
 
-  const newEvent: CalendarEvent = {
-    id: uuidv4(),
-    patientName: selectedPatient.name,
-    visitType: selectedVisit,
-    visitMode,
-    date: localDate?.toISOString() || "",
-    fromTime: computedFromTime,
-    toTime: computedToTime,
-    reason,
-    color: selectedColors.border,
-    colorBorder: selectedColors.border,
-    colorBg: selectedColors.bg,
-    initials: getInitials(selectedPatient.name),
+    const newEvent: CalendarEvent = {
+      id: uuidv4(),
+      patientName: selectedPatient.name,
+      visitType: selectedVisit,
+      visitMode,
+      date: localDate?.toISOString() || "",
+      fromTime: computedFromTime,
+      toTime: computedToTime,
+      reason,
+      color: selectedColors.border,
+      colorBorder: selectedColors.border,
+      colorBg: selectedColors.bg,
+      initials: getInitials(selectedPatient.name),
+    };
+
+    dispatch(addEvent(newEvent));
+    onClose();
   };
-
-  dispatch(addEvent(newEvent));
-  onClose();
-};
 
   return (
     <div className="fixed inset-0 bg-opacity-00 flex items-center justify-center z-50">
@@ -627,9 +641,9 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
             placeholder="Reason"
             value={reason}
             onChange={(e) => setReason(e.target.value)}
-            className="w-full border border-gray-300 text-black  placeholder-black rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none resize-none"
+            className="w-full border border-gray-300 text-black placeholder-black rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none resize-none"
             rows={3}
-          ></textarea>
+          />
         </div>
 
         {/* Buttons */}
@@ -647,19 +661,19 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
             Add Appointment
           </button>
         </div>
-      </div>
       
+
       <AlertPopup
-  open={alertData.open}
-  message={alertData.message}
-  type={alertData.type}
-  onClose={() =>
-    setAlertData({ open: false, message: "", type: "warning" })
-  }
-/>
+        open={alertData.open}
+        message={alertData.message}
+        type={alertData.type}
+        onClose={() =>
+          setAlertData({ open: false, message: "", type: "warning" })
+        }
+      />
 
-
-    </div>
+      </div>
+  </div>
   );
 };
 

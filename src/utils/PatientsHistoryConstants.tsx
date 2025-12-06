@@ -789,7 +789,7 @@ export const historyData: HistoryItem[] = [
     ]
   },
    {
-    id: "9",
+    id: "8",
     date: "15/08/2025 03:42 PM",
     appointments: [
       {
@@ -901,7 +901,7 @@ export const historyData: HistoryItem[] = [
     ]
   },
    {
-    id: "2",
+    id: "9",
     date: "15/08/2025 03:42 PM",
     appointments: [
       {
@@ -1123,7 +1123,119 @@ export const historyData: HistoryItem[] = [
         ]
       }
     ]
-  }
+  },
 
+   {
+    id: "11",
+    date: "15/08/2025 03:44 PM",
+    appointments: [
+      {
+        userId: "U1002",
+        hostId: "H2002",
+        symptoms: [
+          { symptomId: "S1", appointmentId: "A2001", symptomName: "Cough", severity: "SEVERE", 
+             description: `Lorem ipsum, dolor sit amet
+                         consectetur adipisicing elit.
+                          Tempore officia suscipit doloremque 
+                           cum recusandae ipsam aspernatur
+                          iusto, nisi animi aliquam, commodi
+                         iure molestias sed dignissimos 
+                          facilis aut id culpa accusantium.`,
+            note: "Dry cough since 1 week.", createdTime: "2025-08-15T15:00:00" },
+          { symptomId: "S2", appointmentId: "A2001", symptomName: "Throat Pain", severity: "MILD", 
+            description: `Lorem ipsum, dolor sit amet
+                         consectetur adipisicing elit.
+                          Tempore officia suscipit doloremque 
+                           cum recusandae ipsam aspernatur
+                          iusto, nisi animi aliquam, commodi
+                         iure molestias sed dignissimos 
+                          facilis aut id culpa accusantium.`,
+            note: "Pain increasing during swallowing.", createdTime: "2025-08-15T15:03:00" }
+        ],
+        diagnosis: [
+          { diagnosisId: "D1", appointmentId: "A2001", diagnosisName: "Acute Pharyngitis",
+             description: `Lorem ipsum, dolor sit amet
+                         consectetur adipisicing elit.
+                          Tempore officia suscipit doloremque 
+                           cum recusandae ipsam aspernatur
+                          iusto, nisi animi aliquam, commodi
+                         iure molestias sed dignissimos 
+                          facilis aut id culpa accusantium.`,
+            note: "Likely due to viral/bacterial infection.", createdTime: "2025-08-15T15:10:00" },
+          { diagnosisId: "D2", appointmentId: "A2001", diagnosisName: "Upper Respiratory Tract Infection",
+            description: `Lorem ipsum, dolor sit amet
+                         consectetur adipisicing elit.
+                          Tempore officia suscipit doloremque 
+                           cum recusandae ipsam aspernatur
+                          iusto, nisi animi aliquam, commodi
+                         iure molestias sed dignissimos 
+                          facilis aut id culpa accusantium.`,
+            note: "Needs medication and hydration.", createdTime: "2025-08-15T15:13:00" }
+        ],
+        prescriptions: [
+          {
+            prescriptionId: "P1",
+            diagnosisId: "D2",
+            appointmentId: "A2001",
+            medicineName: "Azithromycin 250mg",
+            dosage: "250 mg",
+            frequency: "Once Daily",
+            route: "Oral",
+            startDate: "15/08/2025",
+            duration: "3 Days",
+            dosageTime: ["M"],
+             description: `Lorem ipsum, dolor sit amet
+                         consectetur adipisicing elit.
+                          Tempore officia suscipit doloremque 
+                           cum recusandae ipsam aspernatur
+                          iusto, nisi animi aliquam, commodi
+                         iure molestias sed dignissimos 
+                          facilis aut id culpa accusantium.`,
+            note: "Complete full course."
+          },
+          {
+            prescriptionId: "P1",
+            diagnosisId: "D2",
+            appointmentId: "A2001",
+            medicineName: "Azithromycin 250mg",
+            dosage: "250 mg",
+            frequency: "Once Daily",
+            route: "Oral",
+            startDate: "15/08/2025",
+            duration: "3 Days",
+            dosageTime: ["M"],
+             description: `Lorem ipsum, dolor sit amet
+                         consectetur adipisicing elit.
+                          Tempore officia suscipit doloremque 
+                           cum recusandae ipsam aspernatur
+                          iusto, nisi animi aliquam, commodi
+                         iure molestias sed dignissimos 
+                          facilis aut id culpa accusantium.`,
+            note: "Complete full course."
+          }
+        ],
+        referrals: [
+          { appointReferralId: "R1", appointmentId: "A2001", diagnosisId: "D2", referralId: "RF3001", referralName: "ENT Specialist", 
+            referralType:"Doctor",
+            category:"ENT",
+            date:"15/08/2025",
+            status:"Pending",
+            note: "If symptoms persist." },
+            { appointReferralId: "R1", appointmentId: "A2001", diagnosisId: "D2", referralId: "RF3001", referralName: "ENT Specialist", 
+            referralType:"Doctor",
+            category:"ENT",
+            date:"15/08/2025",
+            status:"Pending",
+            note: "If symptoms persist." }
+        ],
+        labTests: [
+          { labTestId: "L1", appointmentId: "A2001", referralId: "RF4001", referralName: "Throat Swab Culture", note: "Check bacterial infection." }
+        ],
+        notes: [
+          { noteId: "N1", appointmentId: "A2001", comment: "Patient advised warm saline gargling." }
+        ]
+      }
+    ]
+  }
   
 ];

@@ -38,7 +38,9 @@ const AlertPopup: React.FC<AlertPopupProps> = ({
             <h2 className="text-lg font-bold mb-1 tracking-wide">
                 {alertTitles[type]}
             </h2>
-          <p className="text-sm font-semibold">{message}</p>
+          <p className="text-sm font-semibold">
+            {message}
+            </p>
         </div>
 
         <div className="flex justify-center mt-6">

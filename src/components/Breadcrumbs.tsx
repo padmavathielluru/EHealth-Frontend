@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Breadcrumbs: React.FC = () => {
   const location = useLocation();
@@ -25,8 +25,8 @@ const Breadcrumbs: React.FC = () => {
       {pathnames.map((name, index) => {
         const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
         const isLast = index === pathnames.length - 1;
-       const decode = decodeURIComponent(name);
-       const label = decode.charAt(0).toUpperCase() + decode.slice(1);
+       const decoded = decodeURIComponent(name).replace(/-/g, " ");
+       const label = decoded.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
 
         return (
           <span key={index} className="flex items-center space-x-2">

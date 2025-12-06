@@ -32,19 +32,31 @@ const NotesTab = () => {
   const getInitials = (name: string) => {
     if (!name) return "DR";
     return name
-    .split(" ")
-    .map((w) => w[0])
-    .join("")
-    .toUpperCase();
+      .split(" ")
+      .map((w) => w[0])
+      .join("")
+      .toUpperCase();
   };
 
   const getColorIndex = (name: string) => {
     let sum = 0;
-    for (let i =0; i < name.length; i++) {
+    for (let i = 0; i < name.length; i++) {
       sum += name.charCodeAt(i);
     }
     return sum % avatarColors.length;
   };
+
+  const itemsPerPage = 10;
+
+  const filteredData = historyData.filter((item) =>
+    item.date.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const paginatedData = filteredData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
 
   return (
     <div className="">
@@ -59,7 +71,7 @@ const NotesTab = () => {
             >
               <img
                 src="/images/u_plus-2.svg"
-                alt="edit"
+                alt="Plus"
                 className="w-6 h-6"
               />
             </button>
@@ -108,23 +120,26 @@ const NotesTab = () => {
               </div>
 
               <div className="flex-1 border-r overflow-y-auto divide-y border-t bg-gray-50">
-                {historyData
-                  .filter((item) =>
-                    item.date.toLowerCase().includes(search.toLowerCase())
-                  )
-                  .map((item) => (
+                {paginatedData.length > 0 ? (
+                  paginatedData.map((item) => (
                     <div
                       key={item.id}
                       onClick={() => setSelectedHistory(item)}
                       className={`cursor-pointer px-3 py-2 transition ${selectedHistory.id === item.id
-                        ? "bg-blue-100 text-blue-700 font-semibold"
-                        : "hover:bg-gray-100"
+                          ? "bg-blue-100 text-blue-700 font-semibold"
+                          : "hover:bg-gray-100"
                         }`}
                     >
                       {item.date}
                     </div>
-                  ))}
+                  ))
+                ) : (
+                  <div className="px-3 py-2 text-gray-400 text-sm text-center">
+                    No history found
+                  </div>
+                )}
               </div>
+
 
               <div className="border-t px-3  border-r">
                 <Pagination
@@ -135,24 +150,24 @@ const NotesTab = () => {
               </div>
             </div>
 
-
-
             <div className="p-4">
-               <div className="max-h-[500px] overflow-y-auto scroll-smooth ">
-              <div className="border rounded-lg overflow-hidden ">
-                <div className="grid grid-cols-4 h-16 text-gray-700 font-semibold text-sm border-b text-center">
-                  <div className="flex items-center justify-center px-4 py-2 border-r">SYMPTOM</div>
-                  <div className="flex items-center justify-center px-4 py-2 border-r">DIAGNOSIS</div>
-                  <div className="flex items-center justify-center px-4 py-2 border-r">MEDICATION</div>
-                  <div className="flex items-center justify-center px-4 py-2">REFERRALS </div>
-                </div>
+              <div className="max-h-[500px] overflow-y-auto scroll-smooth ">
+                <div className="border rounded-lg overflow-hidden ">
+                  <div className="grid grid-cols-4 h-16 text-gray-700 font-semibold text-sm border-b text-center">
+                    <div className="flex items-center justify-center px-4 py-2 border-r">SYMPTOM</div>
+                    <div className="flex items-center justify-center px-4 py-2 border-r">DIAGNOSIS</div>
+                    <div className="flex items-center justify-center px-4 py-2 border-r">MEDICATION</div>
+                    <div className="flex items-center justify-center px-4 py-2">REFERRALS </div>
+                  </div>
 
-               
+
                   {Array.from({ length: maxRows }).map((_, idx) => {
                     const sym = appointment.symptoms[idx];
                     const diag = appointment.diagnosis[idx];
                     const med = appointment.prescriptions[idx];
                     const ref = appointment.referrals[idx];
+
+                    const severity = sym.severity?.toUpperCase() || "";
 
                     return (
                       <div
@@ -166,14 +181,14 @@ const NotesTab = () => {
                               <p className="font-semibold text-base text-gray-800">{sym.symptomName}</p>
                               <span
                                 className={`text-xs px-2 py-1 rounded-full mt-1 inline-block 
-                                ${sym.severity === "SEVERE"
+                                ${severity === "SEVERE"
                                     ? "bg-red-100 text-red-600"
                                     : sym.severity === "MODERATE"
                                       ? "bg-orange-100 text-orange-600"
                                       : "bg-yellow-100 text-yellow-600"
                                   }`}
                               >
-                                {sym.severity}
+                                {severity}
                               </span>
                               {sym.description && (
                                 <p className="mt-3 text-gray-600 text-sm leading-relaxed whitespace-pre-line">
@@ -236,7 +251,7 @@ const NotesTab = () => {
                             <>
                               <p className="font-semibold text-base">{ref.referralType || "Doctor"}</p>
                               <div className="flex items-center gap-3 mt-3">
-                                
+
                                 <div className={`w-10 h-10 rounded-full  flex items-center justify-center text-gray-700 text-base font-semibold ${avatarColors[getColorIndex(ref.referralName || "DR")]}`}
                                 >
                                   {getInitials(ref.referralName)}
