@@ -76,10 +76,4 @@ export interface HistoryItem {
   date: string;
   appointments: AppointmentBlock[];
 
-  // symptoms: Symptom[];
-  // diagnosis: Diagnosis[];
-  // prescriptions: Prescription[];
-  // referrals: Referral[];
-  // labTests: LabTest[];
-  // notes: NoteItem[];
 }

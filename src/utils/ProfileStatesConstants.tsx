@@ -26,7 +26,7 @@ export const profileStatesData: ProfileStateItem[] = [
         text: "Show all 8 Awards",
     },
     {
-        id: 3,
+        id: 4,
         title: "Publications",
         count: 6,
         bgColor:"bg-purple-100",

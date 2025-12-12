@@ -1,0 +1,75 @@
+import React, { useState } from "react";
+import Title from "../components/Title";
+import YearCalendar from "../components/YearCalendar";
+
+interface AddNewAwardModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+}
+
+const AddNewAwardModal: React.FC<AddNewAwardModalProps> = ({ isOpen, onClose }) => {
+    const [selectedDate, setSelectedDate] = useState<string>("");
+
+    if (!isOpen) return null;
+
+    return (
+        <div className="fixed inset-0 bg-black/50  flex items-center justify-center z-50">
+            <div className="bg-white w-[700px] h-[487px] rounded-2xl shadow-xl p-8 relative">
+                <button onClick={onClose}
+                    className="absolute top-5 right-5 w-8 h-8 flex items-center justify-center">
+                    <img src="/images/x-01.svg" alt="close" className="w-5 h-5" />
+                </button>
+                <div className="text-xl font-semibold mb-6">
+                    <Title text="Awards" />
+                </div>
+
+                <div className="mb-4">
+                    <label className="text-sm text-gray-600">Award Title</label>
+                    <input
+                        type="text"
+                        placeholder="Award Title"
+                        className="w-full mt-1 p-3 border rounded-xl h-[40px] focus:outline-none"
+                    />
+                </div>
+
+                <div className="flex gap-5 mb-4">
+                    <div className="w-[30%]">
+                        <YearCalendar
+                            label="Year"
+                            value={selectedDate}
+                            onChange={setSelectedDate}
+                        />
+
+                    </div>
+
+                    <div className="w-[70%]">
+                        <label className="text-sm text-gray-600">Issusing Organization</label>
+                        <input type="text"
+                            placeholder="Organization"
+                            className="w-full mt-1 p-3 border rounded-xl h-[40px] focus:outline-none" />
+                    </div>
+                </div>
+
+                <div className="mb-6">
+                    <label className="text-sm text-gray-600">Description</label>
+                    <textarea placeholder="Description"
+                        className="w-full mt-1 p-3 border rounded-xl h-28 focus:outline-none">
+                    </textarea>
+                </div>
+
+                <div className="flex justify-end gap-4">
+                    <button onClick={onClose}
+                        className="px-6 py-2 rounded-xl border bg-gray-100 text-gray-600 hover:bg-gray-300">
+                        Cancle
+                    </button>
+
+                    <button className="px-6 py-2 rounded-xl bg-blue-500 text-white hover:bg-blue-600">
+                        Add
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default AddNewAwardModal;
