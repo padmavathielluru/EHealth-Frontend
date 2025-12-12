@@ -3,10 +3,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formSchema, FormSchemaType } from "./schema";
 import PlainInputField from "./PlainInputField";
-import NumberInputField from "./NumberInputField";
+import PhoneNumInputField from "./PhoneNumInputField";
 import EmailInputField from "./EmailInputField";
 import PasswordInputField from "./PasswordInputField";
 import TimeInputField from "./TimeInputField";
+import { COUNTRY_CODES, GENDER_OPTIONS } from "../../utils/BasicDetailsConstants";
+import GenderInputField from "./GenderInputField";
 
 const FormComponent = () => {
     const {
@@ -30,17 +32,34 @@ const FormComponent = () => {
         >
             <PlainInputField
                 label="Full Name"
-                name="plain"
+                name="firstName"
+                placeholder="Enter first Name"
                 register={register}
-                error={errors.plain}
+                error={errors.firstName}
+                onlyAlphabets={true}
+                />
+
+
+            <PhoneNumInputField
+                label="Phone*"
+                codeName="countryCode"
+                numberName="phone"
+                register={register}
+                errors={{
+                    code: errors.countryCode,
+                    number: errors.phone,
+                }}
+                countryCodes={COUNTRY_CODES}
             />
 
-            <NumberInputField
-                label="Phone Number"
-                name="number"
+            <GenderInputField
+                label="Gender"
+                name="gender"
                 register={register}
-                error={errors.number}
+                error={errors.gender as any}
+                options={GENDER_OPTIONS}
             />
+
 
             <EmailInputField
                 label="Email"
@@ -59,33 +78,33 @@ const FormComponent = () => {
             <h2 className="text-gray-600 text-sm font-semibold mt-4">Working hours</h2>
             <div className="flex items-center gap-5">
                 <TimeInputField
-                label="From"
-                name="fromTime"
-                meridiemName="fromMeridiem"
-                register={register}
-                setValue={setValue}
-                value={watch("fromTime") || ""}
-                meridiem={watch("fromMeridiem") || "AM"}
-                error={errors.fromTime}
+                    label="From"
+                    name="fromTime"
+                    meridiemName="fromMeridiem"
+                    register={register}
+                    setValue={setValue}
+                    value={watch("fromTime") || ""}
+                    meridiem={watch("fromMeridiem") || "AM"}
+                    error={errors.fromTime}
                 />
-                
+
                 <img src="/images/Vector.svg" alt="arrow" className="w-10 h-10 text-gray-900 pt-5 opacity-60" />
 
                 <TimeInputField
-                label="To"
-                name="toTime"
-                meridiemName="toMeridiem"
-                register={register}
-                setValue={setValue}
-                value={watch("toTime") || ""}
-                meridiem={watch("toMeridiem") || "PM"}
-                error={errors.toTime}
+                    label="To"
+                    name="toTime"
+                    meridiemName="toMeridiem"
+                    register={register}
+                    setValue={setValue}
+                    value={watch("toTime") || ""}
+                    meridiem={watch("toMeridiem") || "PM"}
+                    error={errors.toTime}
                 />
             </div>
-            
+
             <button
-                // type="submit"
-                // className="bg-blue-600 text-white p-2 rounded"
+            // type="submit"
+            // className="bg-blue-600 text-white p-2 rounded"
             >
                 {/* Submit */}
             </button>

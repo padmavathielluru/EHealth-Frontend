@@ -10,20 +10,24 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateChange }) => {
   return (
     <div className="flex items-center border border-gray-300 px-2 py-1 rounded-md w-full max-w-[120px] bg-white shadow-sm focus-within:ring-1 focus-within:ring-blue-400 transition">
       <label className="relative flex items-center gap-1 text-gray-500">
-        
+
         <img
           src="/images/fi_calendar (2).svg"
           alt="Calendar Icon"
           className="w-3.5 h-3.5"
         />
 
-        
         <input
-          type="date"
-          value={selectedDate}
-          onChange={(e) => onDateChange(e.target.value)}
-          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-        />
+  type="date"
+  value={selectedDate}
+  onChange={(e) => {
+    const raw = e.target.value; 
+    const formatted = new Date(raw).toLocaleDateString("en-US"); 
+    onDateChange(formatted);
+  }}
+  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+/>
+
       </label>
 
       {selectedDate && (
@@ -36,3 +40,6 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateChange }) => {
 };
 
 export default Calendar;
+
+
+

@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BasicDetailsTab from "./tabs/BasicDetailsTab";
 import StudiesTab from "./tabs/StudiesTab";
 import ResponsibilitiesTab from "./tabs/ResponsibilitiesTab";
 import AchievementsTab from "./tabs/AchievementsTab";
 import MembershipsTab from "./tabs/MembershipsTab";
 import ResearchProjectsTab from "./tabs/ResearchProjectsTab";
+
+interface Props {
+    activeTab: string;
+    externalContent?: React.ReactNode;
+    onTabChange: (tab: string) => void;
+}
 
 const tabs = [
     "Basic Details",
@@ -15,8 +21,12 @@ const tabs = [
     "Research Projects",
 ];
 
-const ProfileTabs = () => {
-    const [ active, setActive] = useState("Basic Details");
+const ProfileTabs = ({ activeTab, externalContent, onTabChange }: Props) => {
+    const [ active, setActive] = useState(activeTab);
+   
+    useEffect(() => {
+        setActive(activeTab);
+    }, [activeTab]);
 
     const renderTabContent = () => {
     switch (active) {
@@ -39,11 +49,11 @@ const ProfileTabs = () => {
 
 return (
     <div className="">
-        <div className="flex gap-2 bg-gray-200  w-[765px] p-1 rounded-full">
+        <div className="flex gap-2 bg-gray-200  w-[749px] p-1 rounded-full">
             {tabs.map((tab) => (
                 <button
                     key={tab}
-                    onClick={() => setActive(tab)}
+                    onClick={() => onTabChange(tab)}
                     className={`px-4 py-2 rounded-full text-sm font-medium transition
                     ${ active === tab
                         ? "bg-white shadow text-gray-900"
@@ -55,7 +65,7 @@ return (
         </div>
 
         <div className="mt-5 bg-white p-6 rounded-xl shadow-sm">
-            {renderTabContent()}
+            {externalContent ? externalContent : renderTabContent()}
         </div>
     </div>
     );
