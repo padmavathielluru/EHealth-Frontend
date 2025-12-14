@@ -9,7 +9,7 @@ const initialState: cardsState = {
 };
 
 // ✅ Async Thunk
-export const fetchUsers = createAsyncThunk("users/fetchAll", async () => {
+export const fetchUsers = createAsyncThunk("users", async () => {
   return await cardsService.getAll();
 });
 
