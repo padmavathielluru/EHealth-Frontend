@@ -2,6 +2,8 @@
 import React, { Suspense, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Layout from '../Pages/Layout';
+import { Inbox } from '@mui/icons-material';
+import InboxComponent from '../Pages/Inbox';
 
 // ✅ Lazy-loaded pages
 const CalendarM = lazy(() => import('../components/cards'));
@@ -52,6 +54,16 @@ const AppRouter: React.FC = () => {
             </ProtectedRoute>
           }
         />
+
+         <Route
+          path="/inbox"
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <InboxComponent />
+            </ProtectedRoute>
+          }
+        />
+
 
         {/* 404 Page */}
         <Route path="*" element={<NotFound />} />

@@ -10,12 +10,18 @@ import Tooltip from "../components/Tooltip";
 import Login from "../components/Login";
 import InputField from "../components/InputField";
 import FormComponent from "../components/commonComponents/FormComponent";
-
+import {cardsService} from "../services/cardsService";
 const Home: React.FC = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    getUserData();
   }, []);
+
+  const getUserData=async()=>{
+    console.log("atleast I am loading");
+    console.log(cardsService.getAll());
+  }
 
   const [searchValue, setSearchValue] = useState("");
   const [name, setName] = useState("");

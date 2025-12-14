@@ -14,7 +14,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onExpandChange }) => {
   const expanded = isOpen || isHovered;
 
   const menuItems = [
-    { name: "Home", icon: "/images/fi_sidebar.svg", path: "/home" },
+    // { name: "Home", icon: "/images/fi_sidebar.svg", path: "/home" },
     { name: "Dashboard", icon: "/images/fi_grid.svg", path: "/dashboard" },
     { name: "Appointments", icon: "/images/fi_calendar.svg", path: "/appointment" },
     { name: "Patients", icon: "/images/fi_user.svg", path: "/patients" },
