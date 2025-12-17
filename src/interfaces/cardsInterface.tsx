@@ -5,7 +5,7 @@ export interface cardsInterface {
 }
 
 export interface cardsState {
-    list: cardsInterface[];
+    list: cardsInterface[]|null;
     loading: boolean;
     error: string | null;
   }

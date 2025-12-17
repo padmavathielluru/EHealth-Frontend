@@ -19,9 +19,19 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
+   if(error.response){
     if (error.response?.status === 401) {
       console.error("Unauthorized! Logging out...");
     }
+     if (error.response?.status === 404) {
+      console.error("Unauthorized! Logging out...");
+    }
+     if (error.response?.status === 500) {
+      console.error("Unauthorized! Logging out...");
+    }
+  }else{
+    console.error("Network Error:",error.message);
+  }
     return Promise.reject(error);
   }
 );

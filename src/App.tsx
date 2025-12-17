@@ -8,9 +8,11 @@ import Dashboard from "./Pages/Dashboard";
 import Appointment from "./Pages/Appointment";
 import Home from "./Pages/Home";
 import Referrals from "./Pages/Referrals";
+import InboxComponent from "./Pages/Inbox";
 import Patients from "./Pages/Patients";
 import PatientDetails from "./Pages/PatientDetails";
 import MyProfile from "./Pages/MyProfile";
+import { Inbox } from "@mui/icons-material";
 
 const App: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -42,7 +44,7 @@ const App: React.FC = () => {
           >
             <Routes>
 
-              {/* <Route path="/" element={<Dashboard />} /> */}
+              <Route path="/" element={<Dashboard />} />
               <Route path="/dashboard" element={<Dashboard />} />
 
 
@@ -52,7 +54,7 @@ const App: React.FC = () => {
               <Route path="/patients/:id" element={<PatientDetails />} />
 
               <Route path="/referrals" element={<Referrals />} />
-              
+              <Route path="/inbox" element={<InboxComponent />} />
               <Route path="/home" element={<Home />} />
 
               <Route path="my-profile" element={<MyProfile />} />
