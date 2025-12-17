@@ -9,6 +9,7 @@ import PasswordInputField from "./PasswordInputField";
 import TimeInputField from "./TimeInputField";
 import { COUNTRY_CODES, GENDER_OPTIONS } from "../../utils/BasicDetailsConstants";
 import GenderInputField from "./GenderInputField";
+import YearCalendar from "./YearCalendar";
 
 const FormComponent = () => {
     const {
@@ -16,10 +17,14 @@ const FormComponent = () => {
         handleSubmit,
         setValue,
         watch,
-        formState: { errors },
+        formState: { errors }
     } = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
+        defaultValues: {
+            year: "",
+        }
     });
+    const yearValue = watch("year")
 
     const onSubmit = (data: FormSchemaType) => {
         console.log("Form Submitted:", data);
@@ -99,6 +104,15 @@ const FormComponent = () => {
                     value={watch("toTime") || ""}
                     meridiem={watch("toMeridiem") || "PM"}
                     error={errors.toTime}
+                />
+            </div>
+
+            <div className="mt-8">
+                <YearCalendar
+                label="YearCalender"
+                value={yearValue}
+                onChange={(val: string) => setValue("year", val, {shouldValidate: true})}
+                errorMessage={errors.year?.message}
                 />
             </div>
 

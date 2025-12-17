@@ -5,6 +5,47 @@ const MeridiemEnum = {
   PM: "PM",
 } as const;
 
+const currentYear = new Date().getFullYear();
+const futureYears=5;
+
+ export const yearSchema=z.string()
+    .min(4, "Enter a valid 4-digit year")
+    .regex(/^\d+$/, "Only numbers allowed")
+    .refine((val) => Number(val) >= 1900,{
+      message: "Year cannot be less than 1900",
+    })
+    .refine((val) => Number(val) <= currentYear+futureYears, {
+      message: "Year is too far in the future",
+    });
+
+    export const singleYearSchema = z.object({
+      year: yearSchema,
+    });
+
+    export type SingleYearFormType=
+      z.infer<typeof singleYearSchema>;
+
+      export const responsibilitySchema =z.object({
+        startYear: yearSchema,
+        endYear: yearSchema,
+      })
+      .refine(
+        (data) => Number(data.endYear) >= Number(data.startYear),
+        {
+          path:["endYear"],
+          message: "End year cannot be before start year",
+        }
+      )
+      .refine(
+        (data) => Number(data.startYear) <= Number(data.endYear),
+        {
+          path: ["startYear"],
+          message:"Start year cannot be after end year",   
+         }
+      );
+
+      export type ResponsibilityFormType = z.infer<typeof responsibilitySchema>;  
+
 export const formSchema = z.object({
   firstName: z
     .string()
@@ -33,11 +74,19 @@ export const formSchema = z.object({
   qualifications: z.string().min(1, "Select qualification"),
   specialization: z.string().min(1,"Select specialization"),
 
+  languages:z.string()
+  .min(2, "*Languages field is required")
+  .regex(/^[A-Za-z ,\s]+$/,"*Only alphabets and commas allowed"),
+
   fromTime: z.string().min(4, "Select From Time"),
   fromMeridiem: z.nativeEnum(MeridiemEnum),
 
   toTime: z.string().min(4, "Select To Time"),
   toMeridiem: z.nativeEnum(MeridiemEnum),
+
+  year: yearSchema,
+
+ 
 });
 
 export type FormSchemaType = z.infer<typeof formSchema>;

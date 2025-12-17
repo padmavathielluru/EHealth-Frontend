@@ -255,8 +255,14 @@ const BasicDetailsTab = () => {
                                     <input
                                         type="text"
                                         defaultValue={details.languages}
+                                        {...register("languages")}
+                                        placeholder="Enter Language"
                                         className="w-[320px] px-4 py-3 border border-gray-300 rounded-xl bg-white text-sm 
                            focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+
+                           {errors.languages && (
+                            <p className="text-red-500 text-sm mt-1">{errors.languages.message}</p>
+                           )}
                                 </div>
                             </div>
 

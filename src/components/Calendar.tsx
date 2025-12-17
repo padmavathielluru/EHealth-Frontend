@@ -6,6 +6,12 @@ interface CalendarProps {
   onDateChange: (date: string) => void;
 }
 
+const formatToDDMMYYYY = (date: string) => {
+  if (!date) return "";
+  const [year, month, day] = date.split("-");
+  return `${day}/${month}/${year}`;
+}
+
 const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateChange }) => {
   return (
     <div className="flex items-center border border-gray-300 px-2 py-1 rounded-md w-full max-w-[120px] bg-white shadow-sm focus-within:ring-1 focus-within:ring-blue-400 transition">
@@ -18,21 +24,17 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateChange }) => {
         />
 
         <input
-  type="date"
-  value={selectedDate}
-  onChange={(e) => {
-    const raw = e.target.value; 
-    const formatted = new Date(raw).toLocaleDateString("en-US"); 
-    onDateChange(formatted);
-  }}
-  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-/>
+          type="date"
+          value={selectedDate}
+          onChange={(e) => onDateChange(e.target.value)}
+          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+        />
 
       </label>
 
       {selectedDate && (
         <span className="ml-1 text-xs text-gray-700 truncate">
-          {new Date(selectedDate).toLocaleDateString()}
+          {formatToDDMMYYYY(selectedDate)}
         </span>
       )}
     </div>

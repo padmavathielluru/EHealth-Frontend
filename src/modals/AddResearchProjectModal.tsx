@@ -1,17 +1,14 @@
 import React, { useState } from "react";
 import Title from "../components/Title";
-import YearCalendar from "../components/YearCalendar";
+import YearCalendar from "../components/commonComponents/YearCalendar";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { responsibilitySchema, ResponsibilityFormType } from "../components/commonComponents/schema";
 
 interface AddResearchProjectModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onAdd: (data: {
-    role: string;
-    institution: string;
-    startYear: string;
-    endYear: string;
-    keyResearchProject: string;
-  }) => void;
+   onAdd: (data: ResponsibilityFormType) => void;
 }
 
 const AddResearchProjectModal: React.FC<AddResearchProjectModalProps> = ({
@@ -19,9 +16,19 @@ const AddResearchProjectModal: React.FC<AddResearchProjectModalProps> = ({
   onClose,
 }) => {
   const [role, setRole] = useState("");
-  const [startYear, setStartYear] = useState("");
-  const [endYear, setEndYear] = useState("");
   const [keyResearchProject, setKeyResearchProject] = useState("");
+
+   const {
+            setValue,
+            watch,
+            formState: { errors },
+        } = useForm<ResponsibilityFormType>({
+            resolver: zodResolver(responsibilitySchema),
+            defaultValues: {
+                startYear: "",
+                endYear: "",
+            },
+        });
 
   const [isRoleOpen, setIsRoleOpen] = useState(false);
   const [isFundingOpen, setIsFundingOpen] = useState(false);
@@ -33,21 +40,19 @@ const [selectedFunding, setSelectedFunding] = useState("");
   const roleOptions = ["Principal Investigator", "Co-Investigator","Research Assistant"];
   const fundingOptions = ["WHO","ICMR","DST","SERB","UGC"];
 
+
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white w-[704px] h-[643px] rounded-2xl shadow-xl p-8 relative overflow-y-auto">
-        <button
-          onClick={onClose}
-          className="absolute top-5 right-5 w-8 h-8 flex items-center justify-center"
-        >
-          <img src="/images/x-01.svg" alt="close" className="w-5 h-5" />
-        </button>
-
-        <div className="mb-6">
-          <Title text="Add Research Projects" />
-        </div>
+        <div className="flex items-center justify-between mb-4">
+                    <Title text="Add Research Project" />
+                <button onClick={onClose}
+                    className=" w-8 h-8 flex items-center justify-center">
+                    <img src="/images/x-01.svg" alt="close" className="w-5 h-5" />
+                </button> 
+                </div>
 
         <div className="mb-5">
           <label className="text-sm font-medium text-gray-500">Project Title</label>
@@ -129,12 +134,20 @@ const [selectedFunding, setSelectedFunding] = useState("");
         <div className="flex gap-12 mb-5">
           <div className="flex-1">
             <label className="text-sm font-medium text-gray-500">From (Year)</label>
-            <YearCalendar value={startYear} onChange={setStartYear} />
+             <YearCalendar
+                           value={watch("startYear")}
+                            onChange={(val) => setValue("startYear", val, {shouldValidate: true})}
+                errorMessage={errors.startYear?.message}
+                        />
           </div>
 
           <div className="flex-1">
             <label className="text-sm font-medium text-gray-500">To (Year)</label>
-            <YearCalendar value={endYear} onChange={setEndYear} />
+            <YearCalendar
+                            value={watch("endYear")}
+                            onChange={(val) => setValue("endYear", val, {shouldValidate: true})}
+                errorMessage={errors.endYear?.message}
+                        />
           </div>
         </div>
 
