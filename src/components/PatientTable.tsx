@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -91,10 +91,11 @@ const PatientTable: React.FC = () => {
     );
   });
 
-
+  useEffect(() => {
   if ((currentPage - 1) * rowsPerPage >= finalFilteredList.length) {
     setCurrentPage(1);
   }
+}, [finalFilteredList.length, currentPage, rowsPerPage]);
 
   const totalPages = Math.ceil(finalFilteredList.length / rowsPerPage);
 

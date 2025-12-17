@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import Title from "../components/Title";
-import YearCalendar from "../components/YearCalendar";
+import YearCalendar from "../components/commonComponents/YearCalendar";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { singleYearSchema, SingleYearFormType } from "../components/commonComponents/schema";
 
 interface AddAchievementModalProps {
     isOpen: boolean;
@@ -8,25 +11,28 @@ interface AddAchievementModalProps {
 }
 
 const AddAchievementModal: React.FC<AddAchievementModalProps> = ({ isOpen, onClose }) => {
-    const [year, setYear] = useState<string>("");
+     const {
+            setValue,
+            watch,
+            formState: { errors },
+        } = useForm<SingleYearFormType>({
+            resolver: zodResolver(singleYearSchema),
+            defaultValues: {
+                year: "",
+            },
+        });
 
     if (!isOpen) return null;
 
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
             <div className="bg-white w-[704px] h-[395px] rounded-2xl shadow-xl p-8 relative ">
-
-
-                <button
-                    onClick={onClose}
-                    className="absolute top-5 right-5 w-8 h-8 flex items-center justify-center"
-                >
-                    <img src="/images/x-01.svg" alt="close" className="w-5 h-5" />
-                </button>
-
-
-                <div className="text-xl font-semibold mb-6">
+                <div className="flex items-center justify-between mb-4">
                     <Title text="Add Achievement" />
+                <button onClick={onClose}
+                    className=" w-8 h-8 flex items-center justify-center">
+                    <img src="/images/x-01.svg" alt="close" className="w-5 h-5" />
+                </button> 
                 </div>
                 <div className="flex gap-10 mb-4">
 
@@ -40,10 +46,11 @@ const AddAchievementModal: React.FC<AddAchievementModalProps> = ({ isOpen, onClo
                     </div>
 
                     <div className="w-[40%]">
-                        <YearCalendar
+                       <YearCalendar
                             label="Year/Period"
-                            value={year}
-                            onChange={setYear}
+                            value={watch("year")}
+                            onChange={(val) => setValue("year", val, {shouldValidate: true})}
+                errorMessage={errors.year?.message}
                         />
                     </div>
                 </div>

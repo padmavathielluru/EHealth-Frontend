@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import Title from "../components/Title";
-import YearCalendar from "../components/YearCalendar";
+import YearCalendar from "../components/commonComponents/YearCalendar";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { singleYearSchema, SingleYearFormType } from "../components/commonComponents/schema";
 
 interface AddNewAwardModalProps {
     isOpen: boolean;
@@ -8,19 +11,29 @@ interface AddNewAwardModalProps {
 }
 
 const AddNewAwardModal: React.FC<AddNewAwardModalProps> = ({ isOpen, onClose }) => {
-    const [selectedDate, setSelectedDate] = useState<string>("");
+
+    const {
+        setValue,
+        watch,
+        formState: { errors },
+    } = useForm<SingleYearFormType>({
+        resolver: zodResolver(singleYearSchema),
+        defaultValues: {
+            year: "",
+        },
+    });
 
     if (!isOpen) return null;
 
     return (
         <div className="fixed inset-0 bg-black/50  flex items-center justify-center z-50">
             <div className="bg-white w-[700px] h-[487px] rounded-2xl shadow-xl p-8 relative">
+                <div className="flex items-center justify-between mb-4">
+                    <Title text="Add New Award" />
                 <button onClick={onClose}
-                    className="absolute top-5 right-5 w-8 h-8 flex items-center justify-center">
+                    className=" w-8 h-8 flex items-center justify-center">
                     <img src="/images/x-01.svg" alt="close" className="w-5 h-5" />
-                </button>
-                <div className="text-xl font-semibold mb-6">
-                    <Title text="Awards" />
+                </button> 
                 </div>
 
                 <div className="mb-4">
@@ -36,10 +49,11 @@ const AddNewAwardModal: React.FC<AddNewAwardModalProps> = ({ isOpen, onClose }) 
                     <div className="w-[30%]">
                         <YearCalendar
                             label="Year"
-                            value={selectedDate}
-                            onChange={setSelectedDate}
+                            value={watch("year")}
+                            onChange={(val) => setValue("year", val, {shouldValidate: true})}
+                errorMessage={errors.year?.message}
                         />
-
+                    
                     </div>
 
                     <div className="w-[70%]">

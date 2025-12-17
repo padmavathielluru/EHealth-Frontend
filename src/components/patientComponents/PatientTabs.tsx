@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import NotesTab from "./tabs/NotesTab";
+import NotesTab from "./tabs/ConsultationNotesTab";
 import SymptomsTab from "./tabs/SymptomsTab";
 import DiagnosisTab from "./tabs/DiagnosisTab";
 import MedicationTab from "./tabs/MedicationTab";
@@ -7,7 +7,7 @@ import LabReportsTab from "./tabs/LabReportsTab";
 import ReferralsTab from "./tabs/ReferralsTab";
 
 const tabs = [
-  "Notes",
+  "Consultation Notes",
   "Symptoms",
   "Diagnosis",
   "Medication",
@@ -20,7 +20,7 @@ const PatientTab = () => {
 
   const renderTab = () => {
     switch (activeTab) {
-      case "Notes":
+      case "Consultation Notes":
         return <NotesTab />;
       case "Symptoms":
         return <SymptomsTab />;
@@ -33,7 +33,7 @@ const PatientTab = () => {
       case "Referrals":
         return <ReferralsTab />;
       default:
-        return null;
+        return <NotesTab />;
     }
   };
 

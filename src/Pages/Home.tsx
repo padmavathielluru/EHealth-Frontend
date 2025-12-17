@@ -10,6 +10,7 @@ import Tooltip from "../components/Tooltip";
 import Login from "../components/Login";
 import InputField from "../components/InputField";
 import FormComponent from "../components/commonComponents/FormComponent";
+// import YearCalendar from "../components/YearCalendar";
 
 const Home: React.FC = () => {
 
@@ -19,6 +20,7 @@ const Home: React.FC = () => {
 
   const [searchValue, setSearchValue] = useState("");
   const [name, setName] = useState("");
+  const [year, setYear] = useState<string>("");
 
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [credentials, setCredentials] = useState({ email: "", password: "" });
@@ -56,6 +58,14 @@ const Home: React.FC = () => {
      <div className="mt-8 w-1/3">
         <FormComponent />
      </div>
+
+      {/* <div className="w-[40%] mt-8">
+                        <YearCalendar
+                            label="Year/Period"
+                            value={year}
+                            onChange={setYear}
+                        />
+                    </div> */}
 
       <div className="mt-8 w-1/5 max-w-xs">
         <Searchbar

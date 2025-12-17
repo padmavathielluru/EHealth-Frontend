@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import Title from "../components/Title";
-import YearCalendar from "../components/YearCalendar";
+import YearCalendar from "../components/commonComponents/YearCalendar";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { singleYearSchema, SingleYearFormType } from "../components/commonComponents/schema";
+
 
 interface AddMembershipModalProps {
     isOpen: boolean;
@@ -10,8 +14,16 @@ interface AddMembershipModalProps {
 const AddMembershipModal: React.FC<AddMembershipModalProps> = ({ isOpen, onClose }) => {
     const [title, setTitle] = useState("");
     const [institution, setInstitution] = useState("");
-    const [specialization, setSpecialization] = useState("");
-    const [year, setYear] = useState<string>("");
+      const {
+            setValue,
+            watch,
+            formState: { errors },
+        } = useForm<SingleYearFormType>({
+            resolver: zodResolver(singleYearSchema),
+            defaultValues: {
+                year: "",
+            },
+        });
 
     if (!isOpen) return null;
 
@@ -19,14 +31,12 @@ const AddMembershipModal: React.FC<AddMembershipModalProps> = ({ isOpen, onClose
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
             <div className="bg-white w-[704px] h-[349px] rounded-2xl shadow-xl p-8 relative overflow-y-auto">
 
-                <button
-                    onClick={onClose}
-                    className="absolute top-5 right-5 w-8 h-8 flex items-center justify-center">
-                    <img src="/images/x-01.svg" alt="close" className="w-5 h-5" />
-                </button>
-
-                <div className="mb-6">
+               <div className="flex items-center justify-between mb-4">
                     <Title text="Add Membership" />
+                <button onClick={onClose}
+                    className=" w-8 h-8 flex items-center justify-center">
+                    <img src="/images/x-01.svg" alt="close" className="w-5 h-5" />
+                </button> 
                 </div>
 
                 <div className="mb-5">
@@ -60,8 +70,9 @@ const AddMembershipModal: React.FC<AddMembershipModalProps> = ({ isOpen, onClose
                     <div className="w-[30%]">
                         <YearCalendar
                             label="Year"
-                            value={year}
-                            onChange={setYear}
+                            value={watch("year")}
+                            onChange={(val) => setValue("year", val, {shouldValidate: true})}
+                errorMessage={errors.year?.message}
                         />
                     </div>
                 </div>
