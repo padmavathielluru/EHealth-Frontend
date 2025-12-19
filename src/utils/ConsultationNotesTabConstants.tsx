@@ -1,17 +1,10 @@
 import { HistoryItem } from "../interfaces/consultationNotesTabInterface";
 
 export const SEVERITY_CONFIG: Record<string, { dot:string; badge: string }> = {
-  SEVERE: { dot: "bg-red-500", badge: "bg-red-100 text-red-600",},
-  MEDIUM: { dot: "bg-orange-500", badge: "bg-orange-100 text-orange-600",},
-  MILD: { dot: "bg-yellow-500", badge:"bg-yellow-100 text-yellow-600",},
+  SEVERE: { dot: "bg-red-400", badge: "bg-red-100 text-red-400",},
+  MEDIUM: { dot: "bg-orange-400", badge: "bg-orange-100 text-orange-400",},
+  MILD: { dot: "bg-yellow-400", badge:"bg-yellow-100 text-yellow-400",},
 };
-
-// export const SEVERITY_CONFIG = {
-//   SEVERE: { bg: "red", text: "white", dot: "red", badge: "red" },
-//   MEDIUM: { bg: "orange", text: "black", dot: "orange", badge: "orange" },
-//   MILD: { bg: "green", text: "white", dot: "green", badge: "green" },
-// };
-
 
 export const SOAP_SECTIONS = [
   { key: "subjective", label: "SUBJECTIVE" },
