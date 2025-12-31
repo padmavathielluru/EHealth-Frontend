@@ -1,10 +1,5 @@
 import { z } from "zod";
 
-const MeridiemEnum = {
-  AM: "AM",
-  PM: "PM",
-} as const;
-
 const currentYear = new Date().getFullYear();
 const futureYears = 5;
 
@@ -46,10 +41,33 @@ export const responsibilitySchema = z.object({
 
 export type ResponsibilityFormType = z.infer<typeof responsibilitySchema>;
 
-export const symptomsSchema = z.string()
-      .min(1, "*Symptoms is required")
-      .regex(/^[A-Za-z ,\s]+$/, "*Only alphabets, commas and spaces are allowed");
+export const symptomsSchema = z
+  .string()
+  .min(1, "*Symptoms is required")
+  .regex(
+    /^[A-Za-z][A-Za-z ,\s]*$/,
+    "*Symptoms must start with a letter and contain only alphabets, commas and spaces"
+  );
+
 export type SymptomsFieldType = z.infer<typeof symptomsSchema>;
+
+export const resetPasswordSchema = z.object({
+  currentPassword: z.string()
+              .min(6, "Current password is required"),
+
+  newPassword: z.string()
+              .min(6, "New Password must be at least 6 characters"),
+
+  confirmPassword: z.string()
+                  .min(6, "Confirm password is required"),
+})
+.refine((data) => data.newPassword === data.confirmPassword, {
+  path:["confirmPassword"],
+  message: "Passwords do not match",
+});
+
+export type ResetPasswordFormType =
+    z.infer<typeof resetPasswordSchema>;
 
 export const formSchema = z.object({
   firstName: z
@@ -83,13 +101,13 @@ export const formSchema = z.object({
     .min(2, "*Languages field is required")
     .regex(/^[A-Za-z ,\s]+$/, "*Only alphabets and commas allowed"),
 
-  fromTime: z.string().min(4, "Select From Time"),
-  fromMeridiem: z.nativeEnum(MeridiemEnum),
+  // year: z.string().optional(),
+   year: yearSchema,
 
-  toTime: z.string().min(4, "Select To Time"),
-  toMeridiem: z.nativeEnum(MeridiemEnum),
-
-  year: yearSchema,
+  fromTime: z.string().optional(),
+  fromMeridiem:z.string().optional(),
+  toTime:z. string().optional(),
+  toMeridiem:z.string().optional(),
 
 });
 

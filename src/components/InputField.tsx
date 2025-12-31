@@ -26,9 +26,9 @@ const InputField: React.FC<InputFieldProps> = ({
   return (
     <div className={`flex flex-col mb-4 ${className}`}>
       {label && (
-        <label className="mb-1 text-sm font-medium text-gray-700">
+        <label className="mb-2 mt-2 text-sm text-gray-400">
           {label}
-          {required && <span className="text-red-500">*</span>}
+          {/* {required && <span className="text-red-500">*</span>} */}
         </label>
       )}
 
@@ -39,9 +39,9 @@ const InputField: React.FC<InputFieldProps> = ({
         onChange={onChange}
         placeholder={placeholder}
         disabled={disabled}
-        className={`border rounded-lg px-3 py-2 text-sm outline-none 
-          focus:ring-2 focus:ring-blue-500 
-          focus:border-blue-500 
+        className={`border w-[320px] h-[40px] rounded-lg px-3 py-2 text-sm outline-none 
+          focus:ring-2 focus:ring-blue-300 
+          focus:border-blue-300 
           disabled:bg-gray-100 disabled:cursor-not-allowed`}
       />
     </div>

@@ -4,7 +4,8 @@ import EnterSymptoms from "../components/patientComponents/addNotes.tsx/EnterSym
 import AddDiagnosis from "../components/patientComponents/addNotes.tsx/AddDiagnosis";
 import AddPrescriptions from "../components/patientComponents/addNotes.tsx/AddPrescriptions";
 import ClinicalNotes from "../components/patientComponents/addNotes.tsx/ClinicalNotes";
-import { Add } from "@mui/icons-material";
+import LabTests from "../components/patientComponents/addNotes.tsx/LabTests";
+import AddReferrals from "../components/patientComponents/addNotes.tsx/AddReferrals";
 
 interface AddNoteModalProps {
   open: boolean;
@@ -12,19 +13,24 @@ interface AddNoteModalProps {
 }
 
 const AddNoteModal: React.FC<AddNoteModalProps> = ({ open, onClose }) => {
+  const [formError, setFormError] = React.useState("");
 
   const symptomsRef = useRef<any>(null);
+  const diagnosisRef= useRef<any>(null);
+  const prescriptionsRef= useRef<any>(null);
 
   const handleSave = () => {
-    const isSymptomsValid = symptomsRef.current?.validate();
+    setFormError("");
 
-    if (!isSymptomsValid) {
-        alert("Please fill all required fields in Symptoms");
+    const isSymptomsValid = symptomsRef.current?.validate();
+    const isDiagnosisValid = diagnosisRef.current?.validate();
+    const isPrescriptionValid = prescriptionsRef.current?.validate();
+
+    if (!isSymptomsValid || !isDiagnosisValid || !isPrescriptionValid) {
+        setFormError("Please fill all mandatory fields marked with *");
         return;
     }
-
-    // Similarly validate other sections
-    console.log("All good, SAVE!");
+    console.log("All validations passed, SAVE!");
 };
 
 
@@ -33,6 +39,7 @@ const AddNoteModal: React.FC<AddNoteModalProps> = ({ open, onClose }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
       <div className="bg-white rounded-xl w-[90vw] max-w-[1440px] max-h-[90vh] shadow-lg flex flex-col">
+        <div className="flex flex-col gap-1 px-2 py-1">
         <div className="flex items-center justify-between px-6 py-4">
           <Title text="Add Note" />
           <button
@@ -41,11 +48,21 @@ const AddNoteModal: React.FC<AddNoteModalProps> = ({ open, onClose }) => {
             <img src="/images/x-01.svg" alt="close" className="w-5 h-5" />
           </button>
         </div>
-        <div className="flex-1  overflow-y-auto px-6 py-4">
-           <div className="h-[1000px] ">
-            <EnterSymptoms />
-            <AddDiagnosis />
-            <AddPrescriptions />
+        {formError && (
+          <p className="text-sm ml-4 text-red-500 font-medium">
+            {formError}
+          </p>
+        )}
+        </div>
+        <div className="flex-1 overflow-y-auto px-6 py-4">
+           <div className="h-[1000px]">
+            <EnterSymptoms ref={symptomsRef}/>
+            <AddDiagnosis ref={diagnosisRef}/>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+              <LabTests />
+              <AddReferrals />
+            </div>
+            <AddPrescriptions ref={prescriptionsRef}/>
             <ClinicalNotes />
             </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -80,6 +80,12 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
   const [toHours, setToHours] = useState("");
   const [toMinutes, setToMinutes] = useState("");
   const [toAmpm, setToAmpm] = useState("AM");
+
+  const [fromAmpmOpen, setFromAmpmOpen] = useState(false);
+  const [toAmpmOpen, setToAmpmOpen] = useState(false);
+
+  const fromAmpmRef = useRef<HTMLDivElement | null>(null);
+  const toAmpmRef = useRef<HTMLDivElement | null>(null);
 
   const [alertData, setAlertData] = useState<{ open: boolean; message: string; type: AlertColor; }>({
     open: false, message: "", type: "warning",
@@ -178,8 +184,6 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
     return (parts[0].charAt(0) + parts[1].charAt(0)).toUpperCase();
   };
 
-
-
   const handleAddToList = (name: string) => {
     if (!name.trim()) return;
     const newPatient = {
@@ -192,8 +196,6 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
     setShowPatientDropdown(false);
     setSearchPatient("");
   };
-
-
 
   const visitTypeColors: Record<string, { border: string; bg: string }> = {
     "Follow-up Appointment": { border: "#a254f0ff", bg: "#c19ee6ff" },
@@ -233,42 +235,42 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
     }
 
     const [fromH, fromM] = computedFromTime.split(":").map(Number);
-  const [toH, toM] = computedToTime.split(":").map(Number);
+    const [toH, toM] = computedToTime.split(":").map(Number);
 
-  const fromMinutesTotal = fromH * 60 + fromM;
-  const toMinutesTotal = toH * 60 + toM;
+    const fromMinutesTotal = fromH * 60 + fromM;
+    const toMinutesTotal = toH * 60 + toM;
 
-  if (toMinutesTotal <= fromMinutesTotal) {
-    setAlertData({
-      open: true,
-      message: "To Time must be greater than From Time",
-      type: "warning",
-    });
-    return;
-  }
+    if (toMinutesTotal <= fromMinutesTotal) {
+      setAlertData({
+        open: true,
+        message: "To Time must be greater than From Time",
+        type: "warning",
+      });
+      return;
+    }
 
     const dateCheck = checkPastDate(localDate);
-  if (!dateCheck.valid) {
-    setAlertData({
-      open: true,
-      message: dateCheck.message,
-      type: dateCheck.type,
-    });
-    return;
-  }
+    if (!dateCheck.valid) {
+      setAlertData({
+        open: true,
+        message: dateCheck.message,
+        type: dateCheck.type,
+      });
+      return;
+    }
 
     const hours = parseInt(fromHours);
     const mins = parseInt(fromMinutes);
 
     const timeCheck = checkPastTime(localDate, fromH, fromM);
-  if (!timeCheck.valid) {
-    setAlertData({
-      open: true,
-      message: timeCheck.message,
-      type: timeCheck.type,
-    });
-    return;
-  }
+    if (!timeCheck.valid) {
+      setAlertData({
+        open: true,
+        message: timeCheck.message,
+        type: timeCheck.type,
+      });
+      return;
+    }
 
     const now = new Date();
 
@@ -294,10 +296,37 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
     onClose();
   };
 
+  useEffect(() => {
+  const handleClickOutside = (event: MouseEvent) => {
+    const target = event.target as Node;
+
+    if (
+      fromAmpmRef.current &&
+      !fromAmpmRef.current.contains(target)
+    ) {
+      setFromAmpmOpen(false);
+    }
+
+    if (
+      toAmpmRef.current &&
+      !toAmpmRef.current.contains(target)
+    ) {
+      setToAmpmOpen(false);
+    }
+  };
+
+  document.addEventListener("mousedown", handleClickOutside);
+
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, []);
+
+
   return (
     <div className="fixed inset-0 bg-opacity-00 flex items-center justify-center z-50">
       <div className="bg-white w-full max-w-lg rounded-xl shadow-lg p-6 relative">
-        {/* Title Row */}
+
         <div className="flex justify-between items-center mb-5">
           <h2 className="text-lg font-semibold text-gray-800">
             Add Appointment
@@ -314,7 +343,6 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
           </button>
         </div>
 
-        {/* Enter Patient ID */}
         <div className="mb-4">
           <label className="block text-gray-400 text-sm font-medium mb-1">
             Enter Patient ID
@@ -405,7 +433,6 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
           )}
         </div>
 
-        {/* Visit Type */}
         <div className="mb-4">
           <label className="block text-gray-400 font-medium text-sm mb-1">
             Visit Type
@@ -454,10 +481,8 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
           </div>
         </div>
 
-        {/* Visit Mode & Date (Same Row) */}
         <div className="grid grid-cols-2 gap-4 mb-4">
 
-          {/* Visit Mode */}
           <div>
             <label className="block text-sm font-medium text-gray-400 mb-2">
               Visit Mode <span className="text-gray-400">*</span>
@@ -486,7 +511,6 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
             </div>
           </div>
 
-          {/* Date */}
           <div>
             <label className="block text-sm font-medium text-gray-400 mb-1">
               Date
@@ -529,12 +553,11 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
 
         <div className="grid grid-cols-2 gap-4 mb-4">
 
-          {/* From Time */}
           <div>
             <label className="block text-sm font-medium text-gray-400 mb-1">
               From Time
             </label>
-            <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-blue-300 focus-within:border-blue-300">
+            <div className="relative flex items-center border border-gray-300 rounded-lg overflow-visible focus-within:ring-2 focus-within:ring-blue-300 focus-within:border-blue-300">
               <div className="flex items-center w-full px-2 py-0.5 text-sm">
                 <input
                   type="text"
@@ -562,15 +585,45 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
                   maxLength={2}
                 />
               </div>
-              <select
-                value={fromAmpm}
-                onChange={(e) => setFromAmpm(e.target.value)}
-                className="px-2 py-2 text-sm border-l border-gray-300 outline-none focus:ring-0"
-              >
-                <option>AM</option>
-                <option>PM</option>
-              </select>
-              <div className="px-3 py-0.5 border-gray-300 flex items-center justify-center bg-white border-l">
+              <div ref={fromAmpmRef} className="relative border-l border-gray-300 focus-within:ring-2 focus-within:ring-blue-300 focus-within:border-blue-300">
+                <button
+                  type="button"
+                  onClick={(e) => { 
+                    e.stopPropagation(); 
+                    setFromAmpmOpen((prev) => {
+                      setToAmpmOpen(false);
+                      return !prev
+                    });}}
+                  className="flex items-center gap-1 px-2 py-2 text-sm text-gray-700"
+                >
+                  {fromAmpm}
+                  <FaChevronDown
+                    className={`transition-transform text-gray-400 mt-0.5 duration-200 ${fromAmpmOpen ? "rotate-180" : ""
+                      }`}
+                    size={13}
+                  />
+                </button>
+
+                {fromAmpmOpen && (
+                  <div className="absolute right-0 top-full mt-1 w-14 bg-white border border-gray-200 rounded-md shadow-md z-50"
+                  onClick={(e) => e.stopPropagation()}>
+                    {["AM", "PM"].map((val) => (
+                      <div
+                        key={val}
+                        onClick={() => {
+                          setFromAmpm(val);
+                          setFromAmpmOpen(false);
+                        }}
+                        className="px-3 py-1.5 text-sm hover:bg-gray-100 cursor-pointer text-center"
+                      >
+                        {val}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="px-3 py-0.5 border-gray-300 rounded-r-xl flex items-center justify-center bg-white border-l">
                 <img
                   src="/images/Icon.svg"
                   alt="Clock Icon"
@@ -580,12 +633,11 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
             </div>
           </div>
 
-          {/* To Time */}
           <div>
             <label className="block text-sm font-medium text-gray-400 mb-1">
               To Time
             </label>
-            <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-blue-300 focus-within:border-blue-300">
+            <div className="relative flex items-center border border-gray-300 rounded-lg overflow-visible focus-within:ring-2 focus-within:ring-blue-300 focus-within:border-blue-300">
               <div className="flex items-center w-full px-2 py-0.5 text-sm">
                 <input
                   type="text"
@@ -613,26 +665,54 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
                   maxLength={2}
                 />
               </div>
-              <select
-                value={toAmpm}
-                onChange={(e) => setToAmpm(e.target.value)}
-                className="px-2 py-2 text-sm border-l border-gray-300 outline-none focus:ring-0"
-              >
-                <option>AM</option>
-                <option>PM</option>
-              </select>
-              <div className="px-3 py-0.5 border-gray-300 flex items-center justify-center bg-white border-l">
+              <div ref={toAmpmRef} className="relative border-l border-gray-300 focus-within:ring-2 focus-within:ring-blue-300 focus-within:border-blue-300">
+                <button
+                  type="button"
+                  onClick={(e) => { 
+                    e.stopPropagation(); 
+                    setToAmpmOpen((prev) => {
+                      setFromAmpmOpen(false);
+                      return !prev;
+                    });}}
+                  className="flex items-center gap-1 px-2 py-2 text-sm text-gray-700"
+                >
+                  {toAmpm}
+                  <FaChevronDown
+                    className={`transition-transform text-gray-400 mt-0.5 duration-200 ${toAmpmOpen ? "rotate-180" : ""
+                      }`}
+                    size={13}
+                  />
+                </button>
+
+                {toAmpmOpen && (
+                  <div className="absolute right-0 top-full mt-1 w-14 bg-white border border-gray-200 rounded-md shadow-md z-50"
+                  onClick={(e) => e.stopPropagation()}>
+                    {["AM", "PM"].map((val) => (
+                      <div
+                        key={val}
+                        onClick={() => {
+                          setToAmpm(val);
+                          setToAmpmOpen(false);
+                        }}
+                        className="px-3 py-1.5 text-sm hover:bg-gray-100 cursor-pointer text-center "
+                      >
+                        {val}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="px-3 py-0.5 border-gray-300 rounded-r-xl flex items-center justify-center bg-white border-l">
                 <img
                   src="/images/Icon.svg"
                   alt="Clock Icon"
-                  className="w-8 h-8 text-gray-400"
+                  className="w-8 h-8 text-gray-400 "
                 />
               </div>
             </div>
           </div>
         </div>
-
-        {/* Reason Field */}
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-400 mb-1">
             Reason
@@ -646,7 +726,6 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
           />
         </div>
 
-        {/* Buttons */}
         <div className="flex justify-end gap-3">
           <button
             onClick={onClose}
@@ -661,19 +740,19 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
             Add Appointment
           </button>
         </div>
-      
 
-      <AlertPopup
-        open={alertData.open}
-        message={alertData.message}
-        type={alertData.type}
-        onClose={() =>
-          setAlertData({ open: false, message: "", type: "warning" })
-        }
-      />
+
+        <AlertPopup
+          open={alertData.open}
+          message={alertData.message}
+          type={alertData.type}
+          onClose={() =>
+            setAlertData({ open: false, message: "", type: "warning" })
+          }
+        />
 
       </div>
-  </div>
+    </div>
   );
 };
 

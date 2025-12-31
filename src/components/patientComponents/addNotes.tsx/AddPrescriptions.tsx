@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useImperativeHandle } from "react";
 import DateYearCalendar from "../../commonComponents/DateYearCalendar";
 import { dateDDMMYYYYSchema } from "../../commonComponents/schema";
 
@@ -29,8 +29,8 @@ const emptyRow: PrescriptionRow = {
   remarks: "",
 };
 
-const AddPrescriptions = () => {
-  const [sectionOpen, setSectionOpen] = useState(true);
+const AddPrescriptions = React.forwardRef<any>((_, ref) => {
+  const [sectionOpen, setSectionOpen] = useState(false);
   const [rows, setRows] = useState<PrescriptionRow[]>([{ ...emptyRow }]);
 
   const [openDiagnosis, setOpenDiagnosis] = useState<number | null>(null);
@@ -49,15 +49,6 @@ const AddPrescriptions = () => {
 
   const routeOptions = ["Oral", "Injection", "IV"];
   const pharmacyOptions = ["Apollo Pharmacy", "MedPlus", "Local Pharmacy"];
-
-  const addPharmacy = () => {
-    setPharmacies([...pharmacies, ""]);
-  };
-
-  const deletePharmacy = (index: number) => {
-    if (pharmacies.length === 1) return;
-    setPharmacies(pharmacies.filter((_, i) => i !== index));
-  };
 
   const handleChange = (
     index: number,
@@ -100,6 +91,20 @@ const AddPrescriptions = () => {
     });
   };
 
+  const closeAllDropdowns = () => {
+    setOpenDiagnosis(null);
+    setOpenRoute(null);
+    setOpenDosageTime(null);
+    setOpenPharmacy(null);
+  };
+  useImperativeHandle(ref, () => ({
+    validate() {
+      return rows.every((r) =>
+      r.diagnosis && r.medication && r.dosage &&
+    r.frequency && r.route && r.startDate && r.dosageTime );
+    },
+    }));
+
   return (
     <div className="border rounded-xl bg-white mt-4">
       <div className="flex items-center justify-between px-4 py-3 bg-gray-100 border-b rounded-t-xl cursor-pointer"
@@ -112,12 +117,22 @@ const AddPrescriptions = () => {
       {sectionOpen && (
         <div className="px-4 pb-4 overflow-y-auto">
           <div className="max-h-[290px]">
+              <div className="mt-3">
+              <label className="text-xs text-gray-500">Remarks</label>
+              <input
+                className="mt-1 w-full h-[65px] px-3 pb-7 border rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Enter Remarks"
+                onFocus={closeAllDropdowns}
+                value={rows[0].remarks}
+                onChange={(e) =>
+                  handleChange(0, "remarks", e.target.value)} />
+            </div>
             {rows.map((row, index) => (
               <div key={index} className="mt-4 p-3 space-y-3">
                 <div className="grid grid-cols-1 md:grid-cols-9 gap-3 items-end">
                   <div className="relative ">
                     <label className="text-xs text-gray-500">Diagnosis<span className="text-red-500">*</span></label>
-                    <div ref={diagnosisRef} onClick={() => setOpenDiagnosis(openDiagnosis === index ? null : index)}
+                    <div ref={diagnosisRef} onClick={() => {closeAllDropdowns(); setOpenDiagnosis(openDiagnosis === index ? null : index);}}
                       className="mt-1 h-9 px-3 border rounded-lg flex items-center justify-between curcor-pointer focus:ontline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
                       <span className={row.diagnosis ? "" : "text-gray-400"}>{row.diagnosis || "Select"}</span>
                       <img src="/images/fi_chevron-down.svg" alt="downicon" className={`w-4 h-4 ${openDiagnosis === index ? "rotate-180" : ""}`} />
@@ -145,6 +160,7 @@ const AddPrescriptions = () => {
                     <input
                       className="mt-1 w-full h-9 px-3 border rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                       placeholder="Medication"
+                      onFocus={closeAllDropdowns}
                       value={row.medication}
                       onChange={(e) =>
                         handleChange(index, "medication", e.target.value)} />
@@ -156,6 +172,7 @@ const AddPrescriptions = () => {
                     <input
                       className="mt-1 w-full h-9 px-3 border rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                       placeholder="Dosage"
+                      onFocus={closeAllDropdowns}
                       value={row.dosage}
                       onChange={(e) =>
                         handleChange(index, "dosage", e.target.value)} />
@@ -167,6 +184,7 @@ const AddPrescriptions = () => {
                     <input
                       className="mt-1 w-full h-9 px-3 border rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                       placeholder="Frequency"
+                      onFocus={closeAllDropdowns}
                       value={row.frequency}
                       onChange={(e) =>
                         handleChange(index, "frequency", e.target.value)} />
@@ -178,7 +196,7 @@ const AddPrescriptions = () => {
                     </label>
                     <div
                       ref={routeRef}
-                      onClick={() => setOpenRoute(openRoute === index ? null : index)}
+                      onClick={() => {closeAllDropdowns(); setOpenRoute(openRoute === index ? null : index);}}
                       className="mt-1 h-9 px-3 border border-gray-300 rounded-lg flex items-center justify-between cursor-pointer bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
                       <span className={row.route ? "text-gray-900" : "text-gray-400"}>
                         {row.route || "Select"}
@@ -213,13 +231,13 @@ const AddPrescriptions = () => {
 
                     <DateYearCalendar
                       value={row.startDate}
+                      onOpen={closeAllDropdowns}
                       onChange={(formatted, raw) => {
                         handleChange(index, "startDate", formatted);
                         validateStartDate(index, raw, formatted);
                       }}
                       placeholder="DD/MM/YYYY"
-                      className=" h-9"
-                    />
+                      className=" h-9"/>
                     {errors[index] && (
                       <p className="text-xs text-red-500 mt-1">{errors[index]}</p>
                     )}
@@ -230,6 +248,7 @@ const AddPrescriptions = () => {
                     <input
                       className="mt-1 w-full h-9 px-3 border rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                       placeholder="Duration"
+                      onFocus={closeAllDropdowns}
                       value={row.duration}
                       onChange={(e) =>
                         handleChange(index, "duration", e.target.value)
@@ -239,11 +258,11 @@ const AddPrescriptions = () => {
                     <label className="text-xs text-gray-500">Dosage Time<span className="text-red-400">*</span></label>
                     <div
                       ref={dosageTimeRef}
-                      onClick={() =>
+                      onClick={() => { closeAllDropdowns();
                         setOpenDosageTime(
                           openDosageTime === index ? null : index
-                        )
-                      }
+                        );
+                      }}
                       className="mt-1 h-9 px-3 border rounded-lg flex items-center justify-between cursor-pointer focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
                       <span className={row.dosageTime ? "" : "text-gray-400"}>
                         {row.dosageTime || "AF"}
@@ -278,26 +297,18 @@ const AddPrescriptions = () => {
                         <img src="/images/u_plus(1).svg" alt="plus" className="w-4 h-4" />
                       </button>
                     )}
-
+                    { index > 0 && (
                     <button
                       onClick={() => deleteRow(index)}
                       className="w-9 h-9 border border-gray-400 rounded-lg flex items-center justify-center hover:bg-gray-100">
                       <img src="/images/u_trash.svg" alt="trash" className="w-4 h-4" />
                     </button>
+                    )}
                   </div>
                 </div>
               </div>
             ))}
-            <div className="mt-6">
-              <label className="text-xs text-gray-500">Remarks</label>
-              <input
-                className="mt-1 w-full h-[65px] px-3 pb-7 border rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Enter Remarks"
-                value={rows[0].remarks}
-                onChange={(e) =>
-                  handleChange(0, "remarks", e.target.value)} />
-            </div>
-
+          
             <div className="pb-4 border-b border-gray-200"></div>
 
             <div className="flex">
@@ -311,9 +322,9 @@ const AddPrescriptions = () => {
                     <div className=" relative w-[471px]">
                       <div
                         ref={pharmacyRef}
-                        onClick={() =>
-                          setOpenPharmacy(openPharmacy === i ? null : i)
-                        }
+                        onClick={() => { closeAllDropdowns();
+                          setOpenPharmacy(openPharmacy === i ? null : i);
+                        }}
                         className="h-9 px-3 border border-gray-300 rounded-lg flex items-center justify-between cursor-pointer bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
                         <span className={p ? "text-gray-900" : "text-gray-400"}>
                           {p || "Select"}
@@ -343,7 +354,7 @@ const AddPrescriptions = () => {
                       )}
                     </div>
 
-                    <div className="flex gap-2">
+                    {/* <div className="flex gap-2">
                       {i === 0 && (
                         <button
                           onClick={addPharmacy}
@@ -363,7 +374,7 @@ const AddPrescriptions = () => {
                           className="w-4 h-4"
                         />
                       </button>
-                    </div>
+                    </div> */}
 
                   </div>
                 ))}
@@ -373,6 +384,6 @@ const AddPrescriptions = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+});
 export default AddPrescriptions;

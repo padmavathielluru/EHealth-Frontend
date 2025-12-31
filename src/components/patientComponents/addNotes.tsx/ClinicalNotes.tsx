@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const ClinicalNotes = () => {
-  const [sectionOpen, setSectionOpen] = useState(true);
+  const [sectionOpen, setSectionOpen] = useState(false);
 
   return (
     <div className="border rounded-xl bg-white mt-4">

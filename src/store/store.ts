@@ -1,10 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import patientReducer from "./patientSlice"; // ← important
+import patientReducer from "./patientSlice"; 
 import counterReducer from "./counterSlice";
 import dateReducer from "./dateSlice";
 import calendarReducer from "./calendarSlice";
 import cardsReducer from "./cardsSlice";
-import inboxReducer from "./inboxSlice"
+import inboxReducer from "./inboxSlice";
+import settingsReducer from "./settingsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     calendar: calendarReducer,
     patients: patientReducer, 
     inbox: inboxReducer,
+    settings: settingsReducer,
   },
 });
 
