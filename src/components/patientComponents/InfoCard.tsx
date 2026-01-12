@@ -31,9 +31,10 @@ const InfoCard: React.FC<InfoCardProps> = ({
         return "bg-pink-200 text-pink-500";
     }
     return (
-        <div className="bg-white p-5 rounded-xl shadow-sm flex items-center gap-5 ">
+        <div className="bg-white p-5 rounded-xl shadow-sm flex items-center gap-5 
+        w-full max-w-[360px] md:max-w-full mx-auto md:mx-0">
 
-            <div className={`w-24 h-24 mb-5 rounded-full flex items-center justify-center text-5xl font-semibold 
+            <div className={`w-20 h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center text-4xl md:text-5xl font-semibold 
             ${getAvatarColors(initials[0] || "A")}`}>
                 {initials || "?"}
             </div>

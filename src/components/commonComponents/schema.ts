@@ -69,6 +69,23 @@ export const resetPasswordSchema = z.object({
 export type ResetPasswordFormType =
     z.infer<typeof resetPasswordSchema>;
 
+export const amountSchema = z.string()
+        .min(1, "*Amount is required")
+        .refine((val) => /^\d/.test(val), {
+          message: "*Amount must start with a number",
+        })
+        .refine((val) => /^\d+(\.\d+)?$/.test(val),{
+          message: "*Only numbers and one dot (.) are allowed"
+        });
+
+export const costSchema = z.object({
+  consultationFee: amountSchema,
+  followUpFee: amountSchema,
+  telemedicineFee: amountSchema,
+  emergencyFee: amountSchema,
+});
+export type CostFormType = z.infer<typeof costSchema>;
+
 export const formSchema = z.object({
   firstName: z
     .string()
@@ -106,7 +123,7 @@ export const formSchema = z.object({
 
   fromTime: z.string().optional(),
   fromMeridiem:z.string().optional(),
-  toTime:z. string().optional(),
+  toTime:z.string().optional(),
   toMeridiem:z.string().optional(),
 
 });

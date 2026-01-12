@@ -7,10 +7,23 @@ import {
   yearlySummary,
   todayAppointments,
 } from "../utils/DashboardCardsConstants";
+import AppointmentRequestModal from "../modals/AppointmentRequestModal";
+import YearlySummaryModal from "../modals/YearlySummaryModal";
+import { useSelector } from "react-redux";
+import { selectPatientCounts } from "../store/selectors/patientSelectors";
 
 const DashboardCards: React.FC = () => {
   const [accepted, setAccepted] = useState<{ [key: number]: boolean }>({});
   const [rejected, setRejected] = useState<{ [key: number]: boolean }>({});
+ 
+  const [isAppointmentModalOpen, setIsAppointmentModalOpen] = useState(false);
+  const [isYearlyModalOpen, setIsYearlyModalOpen] = useState(false);
+
+  const openAppointmentModal = () => setIsAppointmentModalOpen(true);
+  const closeAppointmentModal = () => setIsAppointmentModalOpen(false);
+
+  const openYearlyModal = () => setIsYearlyModalOpen(true);
+const closeYearlyModal = () => setIsYearlyModalOpen(false);
 
   const handleAcceptToggle = (index: number) => {
     setAccepted((prev) => ({ ...prev, [index]: !prev[index] }));
@@ -35,14 +48,24 @@ const DashboardCards: React.FC = () => {
     return colors[index];
   };
 
+  const { total, newPatients, activePatients } = 
+    useSelector(selectPatientCounts);
+
+  const yearlyCountMap: Record<string, number> = {
+    "Total Patients": total,
+    "New Patients": newPatients,
+    "Consultations": activePatients,
+  };
+
   return (
     <div className="flex flex-col lg:flex-row justify-between gap-4 w-full">
       {/* Appointment Requests */}
       <div className="flex flex-col flex-1 gap-[4px]">
-        <div className=" flex items-center justify-between px-[6px] opacity-100 mb-0.5">
+        <div className="flex items-center justify-between px-[6px] opacity-100 mb-0.5">
           <Title text="Appointment Requests" />
           <Button
             disableRipple
+            onClick={openAppointmentModal}
             className="!w-[40px] !h-[40px] !min-w-0 !p-0 !mb-2 !bg-white !rounded-full flex items-center justify-center shadow hover:!bg-gray-200"
           >
             <img
@@ -51,12 +74,15 @@ const DashboardCards: React.FC = () => {
               className="w-[22px] h-[22px]"
             />
           </Button>
-        </div>
 
-         
+          <AppointmentRequestModal 
+          isOpen={isAppointmentModalOpen}
+          onClose={closeAppointmentModal}
+          appointmentRequests={appointmentRequests}/>
+        </div>     
 
         <CardContent className="flex flex-col mb-4 gap-[9px] p-0 rounded-[10px] bg-white shadow-sm flex-1">
-          {appointmentRequests.map((p: any, i: number) => (
+          {appointmentRequests.slice(0, 6).map((p: any, i: number) => (
             <div
               key={i}
               className=" rounded-[16px] flex items-center justify-between gap-[16px] p-[10px_12px] bg-gray-50 hover:shadow transition"
@@ -114,9 +140,24 @@ const DashboardCards: React.FC = () => {
       </div>
 
       {/* Yearly Summary */}
-      <div className="flex flex-col flex-1 ">
-        <div className=" flex items-center px-[4px] py-[4px] pt-4 mb-4 h-[40px]">
+      <div className="flex flex-col flex-1 gap-[4px]">
+        <div className="flex items-center justify-between px-[6px] opacity-100 mb-0.5">
           <Title text="Yearly Summary" />
+          <Button
+            disableRipple
+            onClick={openYearlyModal}
+            className="!w-[40px] !h-[40px] !min-w-0 !p-0 !mb-2 !bg-white !rounded-full flex items-center justify-center shadow hover:!bg-gray-200"
+          >
+            <img
+              src="/images/fi_arrow-up-right.svg"
+              alt="arrow icon"
+              className="w-[22px] h-[22px]"
+            />
+          </Button>
+          <YearlySummaryModal
+          isOpen={isYearlyModalOpen}
+          onClose={closeYearlyModal}
+          />
         </div>
 
         <CardContent className="flex flex-col gap-[8px] mb-4 bg-white rounded-[10px] shadow-sm flex-1">
@@ -130,7 +171,7 @@ const DashboardCards: React.FC = () => {
               </div>
 
               <div className="flex flex-col">
-                <h3 className="text-2xl font-bold">{item.count}</h3>
+                <h3 className="text-2xl font-bold">{yearlyCountMap[item.title] ?? 0}</h3>
                 <p className="text-lg text-gray-400 font-medium">{item.title}</p>
                 <div className="flex flex-row gap-3">
                   <p className="text-xs text-green-400 font-bold">{item.change}</p>

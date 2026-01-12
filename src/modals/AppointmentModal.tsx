@@ -45,20 +45,20 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
     "bg-rose-200",
   ];
 
-  const [fromTime, setFromTime] = useState(selectedTime ? selectedTime : "");
-  const [toTime, setToTime] = useState(() => {
-    if (selectedTime) {
-      const [hour, minute] = selectedTime.split(":").map(Number);
-      const to = new Date();
-      to.setHours(hour, minute + 30, 0, 0);
-      return `${to.getHours().toString().padStart(2, "0")}:${to
-        .getMinutes()
-        .toString()
-        .padStart(2, "0")}`;
-    }
-    return "";
-  });
-  const [date, setDate] = useState<Date | null>(selectedDate ? selectedDate : null);
+  // const [fromTime, setFromTime] = useState(selectedTime ? selectedTime : "");
+  // const [toTime, setToTime] = useState(() => {
+  //   if (selectedTime) {
+  //     const [hour, minute] = selectedTime.split(":").map(Number);
+  //     const to = new Date();
+  //     to.setHours(hour, minute + 30, 0, 0);
+  //     return `${to.getHours().toString().padStart(2, "0")}:${to
+  //       .getMinutes()
+  //       .toString()
+  //       .padStart(2, "0")}`;
+  //   }
+  //   return "";
+  // });
+  // const [date, setDate] = useState<Date | null>(selectedDate ? selectedDate : null);
   const [localDate, setLocalDate] = useState<Date | null>(selectedDate);
 
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
@@ -136,13 +136,13 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTi
     }
   }, [selectedTime]);
 
-  useEffect(() => {
-    if (selectedDate) {
-      setDate(selectedDate);
-    } else {
-      setDate(null);
-    }
-  }, [selectedDate]);
+  // useEffect(() => {
+  //   if (selectedDate) {
+  //     setDate(selectedDate);
+  //   } else {
+  //     setDate(null);
+  //   }
+  // }, [selectedDate]);
 
   useEffect(() => {
     if (selectedDate) {

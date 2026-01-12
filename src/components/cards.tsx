@@ -4,7 +4,7 @@ import { cardStats } from "../utils/CardsConstants";
 
 const Cards = () => {
   return (
-    <div className="flex flex-wrap gap-4 w-full px-4">
+    <div className="flex flex-wrap gap-4 w-full">
       {cardStats.map((stat, index) => (
         <Card
           key={index}
