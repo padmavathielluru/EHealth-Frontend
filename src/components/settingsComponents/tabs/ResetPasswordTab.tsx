@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Title from "../../Title";
 import PasswordInputField from "../../commonComponents/PasswordInputField";
-import { resetPasswordSchema, ResetPasswordFormType,} from "../../commonComponents/schema";
+import { resetPasswordSchema, ResetPasswordFormType,} from "../../../schemas/schema";
 
 const ResetPasswordTab: React.FC = () => {
   const {

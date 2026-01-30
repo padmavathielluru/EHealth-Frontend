@@ -1,10 +1,11 @@
-import { CostFormType } from "../components/commonComponents/schema"
+import { CostFormType } from "../schemas/schema";
 
-export const fees: {key: keyof CostFormType; label: string; }[]= [
-  {key: "consultationFee", label:"Initial Consultation"},
-  {key: "followUpFee", label:"Follow-up Consultation"},
-  {key: "telemedicineFee", label: "Telemedicine Consultation"},
-  {key: "emergencyFee", label: "Emergency Consultation"},
+export type FeeKey = keyof CostFormType["inClinic"];
+
+export const fees: { key: FeeKey; label: string }[] = [
+  { key: "consultationFee", label: "Initial Consultation" },
+  { key: "followUpFee", label: "Follow-up Consultation" },
+  { key: "emergencyFee", label: "Emergency Consultation" },
 ];
 
 export const currencies = ["₹", "$", "€", "£"];

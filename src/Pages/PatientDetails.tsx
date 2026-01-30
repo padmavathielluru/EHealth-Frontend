@@ -38,7 +38,7 @@ const PatientDetails: React.FC = () => {
     .toUpperCase();
 
   return (
-    <div className="p-2">
+    <div className="p-2 select-none">
       <div className="grid grid-cols-[2fr,1fr,1fr] gap-4 items-stretch">
 
         <InfoCard

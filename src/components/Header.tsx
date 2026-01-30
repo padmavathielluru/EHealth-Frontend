@@ -62,7 +62,7 @@ const Header: React.FC<HeaderProps> = ({ sidebarExpanded, toggleSidebar }) => {
         ${sidebarExpanded && !isMobile ? "ml-[256px]" : "ml-[80px]"
         }`}  
     >
-      <div className="flex items-center space-x-3">
+      <div className="flex items-center space-x-3 select-none">
         <img
           src="/images/fi_sidebar.svg"
           alt="Sidebar Icon"

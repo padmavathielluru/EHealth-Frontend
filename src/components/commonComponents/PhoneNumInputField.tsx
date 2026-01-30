@@ -1,16 +1,18 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
+  UseFormSetValue,
+  UseFormWatch,
   FieldError,
   FieldErrorsImpl,
   Merge,
-  UseFormRegister,
 } from "react-hook-form";
 
 interface Props {
   label: string;
   codeName: string;
   numberName: string;
-  register: UseFormRegister<any>;
+  setValue: UseFormSetValue<any>;
+  watch: UseFormWatch<any>;
   errors?: {
     code?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
     number?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
@@ -22,79 +24,87 @@ const PhoneNumInputField: React.FC<Props> = ({
   label,
   codeName,
   numberName,
-  register,
+  setValue,
+  watch,
   errors,
   countryCodes,
 }) => {
-  const selectRef = useRef<HTMLSelectElement | null>(null);
-  const [isOpen, setIsOpen] = useState(false);
-  const { ref: rhfRef, ...restCodeRegister } = register(codeName);
-  const { ref: numberRef, onChange, ...restNumberRegister } = register(numberName);
+  const ref = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
+  const [hasValue, setHasValue] = useState(false);
+
+  const selectedCode = watch(codeName);
+  const phoneNumber = watch(numberName);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const value = e.target.value;
-  onChange(e);
-  
-  if (!/^[0-9]*$/.test(value)) {
-    const cleanedValue = value.replace(/[^0-9]/g, "");
-    onChange({
-      ...e,
-      target: { ...e.target, value: cleanedValue }
-    });
-  }
-};
-
-  const openDropdown = () => {
-    if (selectRef.current) {
-      selectRef.current.focus();
-      selectRef.current.dispatchEvent(
-        new MouseEvent("mousedown", { bubbles: true })
-      );
-      setIsOpen(true);
+    const value = e.target.value;
+    if (!/^[0-9]*$/.test(value)) {
+      const cleanedValue = value.replace(/[^0-9]/g, "");
+      setValue(numberName, cleanedValue, { shouldValidate: true });
+    } else {
+      setValue(numberName, value, { shouldValidate: true });
     }
   };
 
   return (
     <div className="flex flex-col gap-1">
-      <label className="font-semibold block text-gray-400 mb-1">{label}</label>
+      <label className="text-sm block text-gray-400">{label}</label>
 
-      <div className="flex items-center border border-gray-300 rounded-xl bg-white px-1 h-[44px] text-sm
-                focus-within:ring-2 focus-within:ring-blue-500 relative">
-
-        <div className="relative flex items-center">
-          <select
-            ref={(el) => {
-              selectRef.current = el;
-              rhfRef(el);
-            }}
-            {...restCodeRegister}
-            onClick={() => setIsOpen(!isOpen)}
-            onBlur={() => setIsOpen(false)}
-            className="appearance-none bg-transparent outline-none pr-6 pl-2 cursor-pointer"
+      <div className="flex items-center border border-gray-300 rounded-xl bg-white h-[44px] px-1 focus-within:ring-2 focus-within:ring-blue-500 relative">
+        
+        {/* Country Code Dropdown */}
+        <div ref={ref} className="relative w-15">
+          <div
+            onClick={() => setOpen(!open)}
+            className={`flex items-center justify-between h-[35px] px-3  cursor-pointer bg-white
+              ${selectedCode ? "text-gray-900" : "text-gray-400"} focus:outline-none`}
           >
-            {countryCodes.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
-          <img
-            src="/images/fi_chevron-down.svg"
-            className={`w-5 h-5 absolute right-2 pt-0.5 cursor-pointer transition-transform
-              ${isOpen ? "rotate-180" : "rotate-0"}`}
-            onClick={openDropdown}
-          />
+            <span>{selectedCode || "Code"}</span>
+            <img
+              src="/images/fi_chevron-down.svg"
+              className={`w-5 h-5 transition-transform ${open ? "rotate-180" : ""}`}
+            />
+          </div>
+
+          {open && (
+            <div className="absolute z-20 mt-1 w-full bg-white border rounded-xl shadow-md">
+              {countryCodes.map((c) => (
+                <div
+                  key={c}
+                  onClick={() => {
+                    setValue(codeName, c, { shouldValidate: true });
+                    setOpen(false);
+                  }}
+                  className="h-[36px] px-4 flex items-center text-sm cursor-pointer hover:bg-blue-100 rounded-lg mx-1"
+                >
+                  {c}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
+        {/* Separator */}
         <div className="w-[0.2px] bg-gray-300 h-10.5 mx-2 self-stretch"></div>
 
+        {/* Phone Number Input */}
         <input
           type="text"
           placeholder="Enter phone"
-          {...restNumberRegister}
-          ref={numberRef}
+          value={phoneNumber || ""}
           onChange={handleNumberChange}
-          className="flex-1 bg-transparent outline-none"
+          className="flex-1 bg-transparent outline-none px-2"
         />
       </div>
 

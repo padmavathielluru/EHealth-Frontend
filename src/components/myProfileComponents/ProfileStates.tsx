@@ -16,7 +16,7 @@ const ProfileStates = ({ onCardClick, activeCard }: Props) => {
 
     return (
         
-        <div className="space-y-4 mt-3 ">
+        <div className="space-y-4 mt-3 select-none">
             {states.map((item) => (
                 <div
                 key={item.id}

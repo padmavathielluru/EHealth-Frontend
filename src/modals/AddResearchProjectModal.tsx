@@ -3,7 +3,7 @@ import Title from "../components/Title";
 import YearCalendar from "../components/commonComponents/YearCalendar";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { responsibilitySchema, ResponsibilityFormType } from "../components/commonComponents/schema";
+import { responsibilitySchema, ResponsibilityFormType } from "../schemas/schema";
 
 interface AddResearchProjectModalProps {
   isOpen: boolean;
@@ -74,7 +74,7 @@ const [selectedFunding, setSelectedFunding] = useState("");
           onClick={() => setIsRoleOpen(!isRoleOpen)}>
             <span className="text-gray-400">{selectedRole || "Select Role"}</span>
             <img
-              src="/images/fi_chevron-down.svg"
+              src="/images/fi_chevron-down.svg" alt="down"
               className={`w-5 h-5 transition-transform ${isRoleOpen ? "rotate-180" : ""}`}
             />
           </div>
@@ -109,7 +109,7 @@ const [selectedFunding, setSelectedFunding] = useState("");
             </span>
 
             <img
-              src="/images/fi_chevron-down.svg"
+              src="/images/fi_chevron-down.svg" alt="down"
               className={`w-5 h-5 transition-transform ${isFundingOpen ? "rotate-180" : ""}`}
             />
           </div>

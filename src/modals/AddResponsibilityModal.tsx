@@ -3,7 +3,7 @@ import Title from "../components/Title";
 import YearCalendar from "../components/commonComponents/YearCalendar";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { responsibilitySchema, ResponsibilityFormType } from "../components/commonComponents/schema";
+import { responsibilitySchema, ResponsibilityFormType } from "../schemas/schema";
 
 interface AddResponsibilityModalProps {
   isOpen: boolean;

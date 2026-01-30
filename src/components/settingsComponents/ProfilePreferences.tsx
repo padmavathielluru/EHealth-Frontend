@@ -54,6 +54,7 @@ const ProfilePreferences: React.FC = () => {
           <CustomDropdown
             label="Preferred Language"
             options={LANGUAGE_OPTIONS}
+              value={formData.preferredLanguage}
             onChange={(val) =>
               setFormData({ ...formData, preferredLanguage: val })
             }
@@ -62,6 +63,7 @@ const ProfilePreferences: React.FC = () => {
           <CustomDropdown
             label="Time Zone"
             options={TIMEZONE_OPTIONS}
+            value={formData.timeZone}
             onChange={(val) =>
               setFormData({ ...formData, timeZone: val })
             }
@@ -70,6 +72,7 @@ const ProfilePreferences: React.FC = () => {
           <CustomDropdown
             label="Default Dashboard View"
             options={DASHBOARD_VIEW_OPTIONS}
+              value={formData.dashboardView}
             onChange={(val) =>
               setFormData({ ...formData, dashboardView: val })
             }

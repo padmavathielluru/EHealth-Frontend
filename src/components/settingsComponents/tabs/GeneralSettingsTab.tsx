@@ -2,8 +2,9 @@ import React from "react";
 import ProfilePreferences from "../ProfilePreferences";
 import Cost from "../Cost";
 import Notifications from "../Notifications";
-import Availability from "../Availability";
+import AvailabilityTable from "../../loginComponents/AvailabilitySetUp/AvailabilityTable";
 import Title from "../../Title";
+import ConsultationTimeSlot from "../../loginComponents/AvailabilitySetUp/ConsultationTimeSlot";
 
 const GeneralSettingsTab: React.FC = () => {
     return (
@@ -11,9 +12,15 @@ const GeneralSettingsTab: React.FC = () => {
             <div className="flex-1 overflow-y-auto p-6 space-y-8">
             <ProfilePreferences />
              <Notifications />  
-            <Availability />
+             <div className="mt-6">
+                 <AvailabilityTable />
+             </div>
+            <div className="mt-6">
+            <Title text="Consultation Time Slot"/>
+            <ConsultationTimeSlot/>
+            </div>
             <div>
-            <Title text="Cost"/>
+            <Title text="Consultation Fees"/>
             <Cost />
             </div>
             </div>

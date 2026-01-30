@@ -1,6 +1,6 @@
 import React, { useState, useRef, useImperativeHandle } from "react";
 import DateYearCalendar from "../../commonComponents/DateYearCalendar";
-import { dateDDMMYYYYSchema } from "../../commonComponents/schema";
+import { dateDDMMYYYYSchema } from "../../../schemas/schema";
 
 interface PrescriptionRow {
   diagnosis: string;

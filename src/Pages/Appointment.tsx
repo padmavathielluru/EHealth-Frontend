@@ -8,7 +8,7 @@ const Appointment: React.FC = () => {
   }, []);
 
   return (
-    <div className="appointment-page min-h-screen bg-gray-100 overflow-hidden">
+    <div className="appointment-page min-h-screen bg-gray-100 overflow-hidden select-none">
       <CalendarM />
       {/* <div className="mt-4">
         <h1 className="text-xl font-bold">Appointments</h1>

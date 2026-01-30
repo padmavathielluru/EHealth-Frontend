@@ -1,12 +1,12 @@
 import React from "react";
-import { UseFormRegister, FieldError } from "react-hook-form";
+import { UseFormRegister, FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
 
 interface Props {
     label: string;
     name: string;
     placeholder?: string;
     register: UseFormRegister<any>;
-    error?: FieldError;
+    error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
 }
 
 const EmailInputField: React.FC<Props> =({
@@ -17,19 +17,29 @@ const EmailInputField: React.FC<Props> =({
     error,
 }) => {
     return (
-        <div className="flex flex-col gap-1">
-            <label>{label}</label>
+        <div className="flex flex-col">
+            <label className="text-sm text-gray-400 mb-1">
+                {label.replace("*", "")}
+                {label.includes("*") && (
+                    <span className="text-red-500 ml-1">*</span>
+                )}
+                </label>
 
             <input
             type="email"
             placeholder={placeholder}
-            {...register(name)}
-            className={`border px-3 py-2 rounded ${
-                error ? "border-red-500" : "border-gray-300"
+            {...register(name, {setValueAs: (value) => value.trim(),
+                
+            })}
+            className={`w-full px-3 h-[44px] border border-gray-300 rounded-xl bg-white text-sm
+                focus:outline-none focus:ring-2 focus:ring-blue-500
+                 ${error ? "border-red-500 focus:ring-red-400" : "border-gray-300 focus:ring-blue-500"
             }`}
             />
 
-            {error && <p className="text-red-500 text-sm">{error.message}</p>}
+            {error && (
+            <p className="text-red-600 text-sm">{(error as any).message}</p>
+            )}
         </div>
     );
 };

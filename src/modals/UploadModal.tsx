@@ -31,7 +31,7 @@ const UploadModal: React.FC<UploadModalProps> = ({ open, onClose }) => {
         <div className="border border-dashed border-gray-300 rounded-xl py-14 
                         flex flex-col items-center gap-3 bg-gray-50">
           <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
-            <img src="/images/excel-svgrepo-com 1.svg" className="w-8 h-8" />
+            <img src="/images/excel-svgrepo-com 1.svg" alt="excel" className="w-8 h-8" />
           </div>
 
           <p className="text-gray-600">
@@ -45,7 +45,7 @@ const UploadModal: React.FC<UploadModalProps> = ({ open, onClose }) => {
         {/* SAMPLE DOWNLOAD */}
         <div className="mt-6 text-center">
           <button className="text-gray-600 text-sm flex items-center justify-center mx-auto gap-2 hover:text-black">
-            <img src="/images/download-02.svg" className="w-4" />
+            <img src="/images/download-02.svg" alt="download" className="w-4" />
             Download Sample file
           </button>
         </div>

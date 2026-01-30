@@ -7,7 +7,7 @@ interface ProfileIdCardProps {
 
 const ProfileIdCard: React.FC<ProfileIdCardProps> = ({ data }) => {
     return (
-        <div className="bg-white rounded-2xl p-3 w-full h-[420px] border">
+        <div className="bg-white rounded-2xl p-3 w-full h-[420px] border select-none">
             <div className="inline-block bg-gray-100 text-gray-500 text-xs px-3 py-1 rounded-md mb-6">
                 {data.id}
             </div>

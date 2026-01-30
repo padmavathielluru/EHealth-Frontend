@@ -71,7 +71,7 @@ const DateYearCalendar: React.FC<Props> = ({
         onFocus={() => onOpen?.()}
         placeholder={placeholder}
         maxLength={10}
-        className={`w-full h-9 px-3 pr-8 border rounded-lg text-sm
+        className={`w-full h-[44px] px-3 pr-8 border rounded-xl text-sm
         focus:outline-none focus:ring-1
         ${hasError
             ? "border-red-500 focus:ring-red-500"
@@ -91,7 +91,7 @@ const DateYearCalendar: React.FC<Props> = ({
             <div className="relative w-full">
               <div
                 onClick={() => setMonthOpen((p) => !p)}
-                className={`w-full h-8 px-2 pr-2 border rounded-md text-sm
+                className={`w-full h-[44px] px-2 pr-2 border rounded-md text-sm
     flex items-center justify-between cursor-pointer 
       ${monthOpen ? "border-blue-500 ring-1 ring-blue-500" : "border-gray-300"}`}
               >

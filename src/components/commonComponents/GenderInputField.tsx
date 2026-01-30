@@ -1,6 +1,7 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
-  UseFormRegister,
+  UseFormSetValue,
+  UseFormWatch,
   FieldError,
   FieldErrorsImpl,
   Merge,
@@ -9,65 +10,72 @@ import {
 interface GenderInputFieldProps {
   label: string;
   name: string;
-  register: UseFormRegister<any>;
-  error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
   options: string[];
+  setValue: UseFormSetValue<any>;
+  watch: UseFormWatch<any>;
+  error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
 }
 
 const GenderInputField: React.FC<GenderInputFieldProps> = ({
   label,
   name,
-  register,
-  error,
   options,
+  setValue,
+  watch,
+  error,
 }) => {
-  const selectRef = useRef<HTMLSelectElement | null>(null);
-  const [isOpen, setIsOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
-  const { ref, ...restRegister } = register(name);
+  const value = watch(name);
 
-  const openDropdown = () => {
-    if (selectRef.current) {
-      selectRef.current.focus();
-      selectRef.current.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
-    }
-  };
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
-    <div className="relative">
-      <label className="font-semibold block text-gray-400 mb-2">{label}</label>
+    <div ref={ref} className="relative">
+      <label className="block text-sm text-gray-400 mb-2">
+        {label.replace("*", "")}
+        {label.includes("*") && <span className="text-red-500 ml-1">*</span>}
+      </label>
+      <div
+        onClick={() => setOpen(!open)}
+        className={`flex items-center justify-between h-[44px] px-4 rounded-xl border cursor-pointer bg-white
+          focus:outline-none focus:ring-1 focus:ring-blue-500
+          ${value ? "text-gray-900" : "text-gray-400"}`}>
+        <span>{value || "Select"}</span>
 
-      <select
-        ref={(el) => {
-          selectRef.current = el;
-          ref(el);
-        }}
-        {...restRegister}
-        onClick={() => setIsOpen(!isOpen)}
-        onBlur={() => setIsOpen(false)}
-        defaultValue=""
-        className="w-full appearance-none px-4 py-3 border border-gray-300 rounded-xl bg-white text-sm
-        focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer
-        text-gray-900
-        [color:var(--placeholder-color)]"
-      >
-        <option value="" disabled className="text-gray-400">
-          Select Gender
-        </option>
-
-        {options.map((g) => (
-          <option key={g} value={g} className="text-black">
-            {g}
-          </option>
-        ))}
-      </select>
-
-      <img
-        src="/images/fi_chevron-down.svg"
-        className={`w-5 h-5 absolute right-4 top-[45px] cursor-pointer transition-transform
-          ${isOpen ? "rotate-180" : "rotate-0"}`}
-        onClick={openDropdown}
-      />
+        <img
+          src="/images/fi_chevron-down.svg"
+          className={`w-5 h-5 transition-transform duration-200
+            ${open ? "rotate-180" : ""}
+            ${value ? "opacity-100" : "opacity-50"}
+          `}/>
+      </div>
+      {open && (
+        <div className="absolute z-20 mt-1 w-full bg-white border rounded-xl shadow-md">
+          {options.map((g) => (
+            <div
+              key={g}
+              onClick={() => {
+                setValue(name, g, { shouldValidate: true });
+                setOpen(false);
+              }}
+              className="h-[36px] px-4 flex items-center text-sm cursor-pointer
+                hover:bg-blue-100 rounded-lg mx-1">
+              {g}
+            </div>
+          ))}
+        </div>
+      )}
 
       {error && (
         <p className="text-red-500 text-xs mt-1">{(error as any).message}</p>

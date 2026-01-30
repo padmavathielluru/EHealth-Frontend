@@ -26,7 +26,7 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
       <label className="block text-sm text-gray-500 mb-1">{label}</label>
       <div
         ref={ref}
-        className={`relative flex w-[320px] h-[40px] border rounded-lg overflow-visible
+        className={`relative flex w-full max-w-[320px] h-[40px] border rounded-lg overflow-visible
         ${error ? "border-red-400" : "border-gray-300"}
         focus-within:ring-1 focus-within:ring-blue-500`}>
         <div
@@ -36,7 +36,7 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
         </div>
 
         {open && (
-          <div className="absolute top-full left-0 mt-1 bg-white border rounded-lg shadow-md z-20">
+          <div className="absolute top-full left-0 mt-1 bg-white border rounded-lg shadow-md z-20 w-full">
             {currencies.map((c: string) => (
               <div
                 key={c}

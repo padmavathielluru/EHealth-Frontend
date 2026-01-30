@@ -5,12 +5,25 @@ interface Props {
     label: string;
     name: string;
     placeholder?: string;
+    type?: string;
     register: UseFormRegister<any>;
     error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
     onlyAlphabets?: boolean;
+    min?:number;
+    step?:number;
 }
 
-const PlainInputField = ({ label, name, placeholder, register, error, onlyAlphabets, }: Props) => {
+const PlainInputField = ({ 
+    label, 
+    name, 
+    type = "text",
+    placeholder,
+    register, 
+    error, 
+    min,
+    step,
+    onlyAlphabets, 
+}: Props) => {
     const { onChange, ...rest} = register(name);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,13 +32,20 @@ const PlainInputField = ({ label, name, placeholder, register, error, onlyAlphab
 
     return (
         <div className="flex flex-col">
-            <label className="font-semibold block text-gray-400 mb-2">{label}</label>
+            <label className="text-sm text-gray-400 mb-1">
+                {label.replace("*", "")}
+                {label.includes("*") && (
+                    <span className="text-red-500 ml-1">*</span>
+                )}
+                </label>
             <input
-                type="text"
+                type={type}
                 placeholder={placeholder}
-                onChange={handleChange}
-                {...rest}
-                className={`w-full px-4 py-3 border border-gray-300 rounded-xl bg-white text-sm 
+                // onChange={handleChange}
+                {...register(name)}
+                min={min}
+                step={step}
+                className={`px-3 h-[44px] w-full border border-gray-300 rounded-xl bg-white text-sm 
                             focus:outline-none focus:ring-2 focus:ring-blue-500
                             ${error ? "border-red-500 focus:ring-red-400" : "border-gray-300 focus:ring-blue-500"}`}
             />

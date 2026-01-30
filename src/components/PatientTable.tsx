@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { setTab } from "../store/patientSlice";
 import { RootState } from "../store/store";
 import UploadModal from "../modals/UploadModal";
-import { Link } from "react-router-dom";
 import useIsMobile from "../hooks/UseIsMobile";
 import InfoCard from "./patientComponents/InfoCard";
 import PatientTableContainer from "./patientComponents/PatientTabContainer";
@@ -92,7 +91,7 @@ const PatientTable: React.FC = () => {
   ];
 
   return (
-    <div className="-mt-3">
+    <div className="-mt-3 select-none">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full mb-2 gap-3">
 
         <div className={isMobile ? "inline-block" : "block"}>

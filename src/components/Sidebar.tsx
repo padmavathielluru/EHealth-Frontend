@@ -13,12 +13,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onExpandChange }) => {
   const location = useLocation();
   const isMobile = useIsMobile();
 
-  const permanentlyHiddenItems = ["Home","Inbox","Referrals"];
+  const permanentlyHiddenItems = ["Inbox","Referrals"];
 
   const expanded = isMobile ? isOpen : isOpen || isHovered;
 
   const menuItems = [
-    { name: "Home", icon: "/images/fi_sidebar.svg", path: "/home" },
+    // { name: "Home", icon: "/images/fi_sidebar.svg", path: "/home" },
     { name: "Dashboard", icon: "/images/fi_grid.svg", path: "/dashboard" },
     { name: "Appointments", icon: "/images/fi_calendar.svg", path: "/appointment" },
     { name: "Patients", icon: "/images/fi_user.svg", path: "/patients" },
@@ -77,7 +77,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onExpandChange }) => {
 
   return (
     <div
-      className={`fixed top-0 left-0 h-full bg-white text-black shadow-md transition-all duration-300 flex flex-col justify-between ${
+      className={`fixed top-0 left-0 h-full bg-white text-black shadow-md transition-all duration-300 flex flex-col justify-between select-none ${
         expanded ? "w-55" : "w-18"
       }`}
       onMouseEnter={() => {

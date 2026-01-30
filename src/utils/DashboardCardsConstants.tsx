@@ -7,6 +7,9 @@ export const appointmentRequests = [
   { name: "Isabella", age: 23, gender: "Female", date: "12 Sep 7:32 AM", img: "" },
   { name: "Zara", age: 21, gender: "Female", date: "12 Sep 7:32 AM", img: "/images/Ellipse 1 (4).svg" },
   { name: "Isabella", age: 23, gender: "Female", date: "12 Sep 7:32 AM", img: "" },
+  { name: "Soren", age: 24, gender: "Male", date: "12 Sep 7:32 AM", img: "/images/Ellipse 1 (2).svg" },
+   { name: "Emma", age: 21, gender: "Female", date: "12 Sep 7:32 AM", img: "/images/Ellipse 1 (3).svg" },
+  { name: "James Doe", age: 23, gender: "Male", date: "12 Sep 7:32 AM", img: "" },
 ];
 
 export const yearlySummary = [

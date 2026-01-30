@@ -57,7 +57,7 @@ const MyProfile = () => {
             }}/>
             </div>
 
-            <div className="flex-1 ">
+            <div className="flex-1 select-none">
                 {/* {renderContent()} */}
                 <ProfileTabs 
                  activeTab={activeContent}

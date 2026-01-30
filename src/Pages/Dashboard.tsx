@@ -11,7 +11,7 @@ const Dashboard: React.FC = () => {
     }, []);
 
     return (
-        <div className="p-2">
+        <div className="p-2 select-none">
             <WelcomeHeader />
 
             <div className="mt-4">
