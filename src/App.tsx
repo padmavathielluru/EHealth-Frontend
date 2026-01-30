@@ -13,6 +13,7 @@ import Patients from "./Pages/Patients";
 import PatientDetails from "./Pages/PatientDetails";
 import MyProfile from "./Pages/MyProfile";
 import { Inbox } from "@mui/icons-material";
+import Settings from "./Pages/Settings";
 
 const App: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -55,6 +56,7 @@ const App: React.FC = () => {
 
               <Route path="/referrals" element={<Referrals />} />
               <Route path="/inbox" element={<InboxComponent />} />
+              <Route path="/settings" element={<Settings />} />
               <Route path="/home" element={<Home />} />
 
               <Route path="my-profile" element={<MyProfile />} />

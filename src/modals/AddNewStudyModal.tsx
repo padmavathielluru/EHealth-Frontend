@@ -72,7 +72,7 @@ const AddNewStudyModal: React.FC<AddNewStudyModalProps> = ({ isOpen, onClose }) 
                     <div className="w-[40%]">
                          <YearCalendar
                             label="Year"
-                            value={watch("year")}
+                            value={watch("year") ?? ""}
                             onChange={(val) => setValue("year", val, {shouldValidate: true})}
                 errorMessage={errors.year?.message}
                         />

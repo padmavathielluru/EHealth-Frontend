@@ -10,6 +10,7 @@ import TimeInputField from "./TimeInputField";
 import { COUNTRY_CODES, GENDER_OPTIONS } from "../../utils/BasicDetailsConstants";
 import GenderInputField from "./GenderInputField";
 import YearCalendar from "./YearCalendar";
+import WorkingHours from "../settingsComponents/WorkingHours";
 
 const FormComponent = () => {
     const {
@@ -17,18 +18,29 @@ const FormComponent = () => {
         handleSubmit,
         setValue,
         watch,
+        trigger,
         formState: { errors }
     } = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
+        mode: "onChange",
         defaultValues: {
             year: "",
         }
     });
-    const yearValue = watch("year")
+    const yearValue = watch("year") ?? "";
 
     const onSubmit = (data: FormSchemaType) => {
         console.log("Form Submitted:", data);
     };
+
+    const { } = useForm({
+    defaultValues: {
+      startTime: "08:00",
+      startMeridiem: "AM",
+      endTime: "05:00",
+      endMeridiem: "PM",
+    },
+  });
 
     return (
         <form
@@ -42,7 +54,7 @@ const FormComponent = () => {
                 register={register}
                 error={errors.firstName}
                 onlyAlphabets={true}
-                />
+            />
 
 
             <PhoneNumInputField
@@ -80,39 +92,21 @@ const FormComponent = () => {
                 error={errors.password}
             />
 
-            <h2 className="text-gray-600 text-sm font-semibold mt-4">Working hours</h2>
-            <div className="flex items-center gap-5">
-                <TimeInputField
-                    label="From"
-                    name="fromTime"
-                    meridiemName="fromMeridiem"
-                    register={register}
-                    setValue={setValue}
-                    value={watch("fromTime") || ""}
-                    meridiem={watch("fromMeridiem") || "AM"}
-                    error={errors.fromTime}
-                />
-
-                <img src="/images/Vector.svg" alt="arrow" className="w-10 h-10 text-gray-900 pt-5 opacity-60" />
-
-                <TimeInputField
-                    label="To"
-                    name="toTime"
-                    meridiemName="toMeridiem"
-                    register={register}
-                    setValue={setValue}
-                    value={watch("toTime") || ""}
-                    meridiem={watch("toMeridiem") || "PM"}
-                    error={errors.toTime}
-                />
-            </div>
+           <div className="mt-6">
+                <WorkingHours 
+                register={register}
+                setValue={setValue}
+                watch={watch}
+                errors={errors}
+                trigger={trigger}/>
+           </div>
 
             <div className="mt-8">
                 <YearCalendar
-                label="YearCalender"
-                value={yearValue}
-                onChange={(val: string) => setValue("year", val, {shouldValidate: true})}
-                errorMessage={errors.year?.message}
+                    label="YearCalender"
+                    value={yearValue}
+                    onChange={(val: string) => setValue("year", val, { shouldValidate: true })}
+                    errorMessage={errors.year?.message}
                 />
             </div>
 

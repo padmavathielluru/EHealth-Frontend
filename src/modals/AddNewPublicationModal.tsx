@@ -58,7 +58,7 @@ const AddNewPublicationModal: React.FC<AddNewPublicationModalProps> = ({ isOpen,
                     <div className="w-[40%]">
                         <YearCalendar
                             label="Year of Publication"
-                            value={watch("year")}
+                            value={watch("year") ?? ""}
                             onChange={(val) => setValue("year", val, {shouldValidate: true})}
                 errorMessage={errors.year?.message}/>
                     </div>

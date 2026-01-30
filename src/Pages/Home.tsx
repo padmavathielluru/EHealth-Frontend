@@ -11,8 +11,11 @@ import Login from "../components/Login";
 import InputField from "../components/InputField";
 import FormComponent from "../components/commonComponents/FormComponent";
 // import YearCalendar from "../components/YearCalendar";
-
+import AccessCard from "../components/patientComponents/AccessCard";
 import {cardsService} from "../services/cardsService";
+import RestrictedAccess from "../components/patientComponents/symptomsTab/RestrictedAccess";
+import RecentRecords from "../components/patientComponents/symptomsTab/RecentRecords";
+
 const Home: React.FC = () => {
 
   useEffect(() => {
@@ -44,9 +47,7 @@ const Home: React.FC = () => {
 
       <h1 className="text-2xl font-bold mb-4">Analytics</h1>
 
-
       <Bargraph />
-
 
       <div className="mt-8">
         <MultilevelDropdown />
@@ -82,6 +83,17 @@ const Home: React.FC = () => {
         />
       </div>
 
+        <div className="mt-8">
+            <AccessCard title="Diseases"/>
+        </div>
+
+        <div className="mt-8">
+          <RestrictedAccess />
+        </div>
+
+        <div className="mt-8">
+          <RecentRecords />
+        </div>
 
       <div className="mt-8">
         <Login

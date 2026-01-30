@@ -3,19 +3,18 @@ import { DEFAULT_STUDIES } from "../utils/StudiesTabConstants";
 
 export const studiesTabService = {
     getStudies: async (): Promise<Study[]> => {
-        // Replace API later
         return DEFAULT_STUDIES;
     },
 
     addStudy: async (study: Study): Promise<Study> => {
-        return study; // replace with real API
+        return study; 
     },
 
     updateStudy: async (id: number, study: Study): Promise<Study> => {
-        return study; // replace with real API
+        return study;
     },
 
     deleteStudy: async (id: number): Promise<boolean> => {
-        return true; // replace with real API
+        return true; 
     },
 };
