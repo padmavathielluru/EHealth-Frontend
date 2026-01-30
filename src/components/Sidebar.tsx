@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import useIsMobile from "../hooks/UseIsMobile";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -10,17 +11,20 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onExpandChange }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const location = useLocation();
+  const isMobile = useIsMobile();
 
-  const expanded = isOpen || isHovered;
+  const permanentlyHiddenItems = ["Inbox","Referrals"];
+
+  const expanded = isMobile ? isOpen : isOpen || isHovered;
 
   const menuItems = [
-    { name: "Home", icon: "/images/fi_sidebar.svg", path: "/home" },
+    // { name: "Home", icon: "/images/fi_sidebar.svg", path: "/home" },
     { name: "Dashboard", icon: "/images/fi_grid.svg", path: "/dashboard" },
     { name: "Appointments", icon: "/images/fi_calendar.svg", path: "/appointment" },
     { name: "Patients", icon: "/images/fi_user.svg", path: "/patients" },
     { name: "Referrals", icon: "/images/Frame.svg", path: "/referrals" },
     { name: "Inbox", icon: "/images/fi_inbox.svg", path: "/inbox" },
-  ];
+  ].filter(item => !permanentlyHiddenItems.includes(item.name));
 
   const bottomItems = [
     { name: "Help", icon: "/images/fi_help-circle.svg", path: "/help" },
@@ -35,6 +39,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onExpandChange }) => {
 
   const renderMenuItem = (item: typeof menuItems[0], index: number) => {
     const isActive = activeIndex === index;
+    
 
     return (
       <li key={index}>
@@ -72,31 +77,29 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onExpandChange }) => {
 
   return (
     <div
-      className={`fixed top-0 left-0 h-full bg-white text-black shadow-md transition-all duration-300 flex flex-col justify-between ${
+      className={`fixed top-0 left-0 h-full bg-white text-black shadow-md transition-all duration-300 flex flex-col justify-between select-none ${
         expanded ? "w-55" : "w-18"
       }`}
       onMouseEnter={() => {
+        if (!isMobile) {
         setIsHovered(true);
         onExpandChange?.(true);
+        }
       }}
       onMouseLeave={() => {
+        if (!isMobile) {
         setIsHovered(false);
         onExpandChange?.(false);
-      }}
-    >
-      {/* ABC Title */}
+        }
+      }}>
       <div className="flex items-center justify-center h-[64px]">
         <h1 className="text-xl font-semibold hover:text-[#016BFF]">
-          {expanded ? "ABC" : "A"}
+          {expanded ? "MEDVEDA" : "M"}
         </h1>
       </div>
-
-      {/* Top Menu */}
       <nav className="flex-1 mt-2">
         <ul>{menuItems.map((item, index) => renderMenuItem(item, index))}</ul>
       </nav>
-
-      {/* Bottom Menu */}
       <nav className="mb-6">
         <ul>
           {bottomItems.map((item, index) =>

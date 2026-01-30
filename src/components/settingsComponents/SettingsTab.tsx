@@ -2,7 +2,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { selectSettingsTab,SettingsTabType,} from "../../store/settingsSlice";
-
 import GeneralSettingsTab from "./tabs/GeneralSettingsTab";
 import ResetPasswordTab from "./tabs/ResetPasswordTab";
 import BillingPaymentSettingsTab from "./tabs/BillingPaymentSettingsTab";
@@ -21,6 +20,7 @@ const SettingsTab: React.FC = () => {
 
   return (
     <>
+    <div className="h-full flex flex-col">
       <div className="flex bg-gray-200 p-1 rounded-full w-fit shadow-sm">
         {tabs.map((tab) => (
           <button
@@ -33,10 +33,11 @@ const SettingsTab: React.FC = () => {
         ))}
       </div>
 
-      <div className="mt-6">
+      <div className="mt-6 flex-1 overflow-hidden">
         {activeTab === "general" && <GeneralSettingsTab />}
         {activeTab === "reset" && <ResetPasswordTab />}
         {activeTab === "billing" && <BillingPaymentSettingsTab />}
+      </div>
       </div>
     </>
   );

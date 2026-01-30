@@ -6,6 +6,7 @@ import calendarReducer from "./calendarSlice";
 import cardsReducer from "./cardsSlice";
 import inboxReducer from "./inboxSlice";
 import settingsReducer from "./settingsSlice";
+import dashboardTabsReducer from "./dashboardTabsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     patients: patientReducer, 
     inbox: inboxReducer,
     settings: settingsReducer,
+    dashboardTabs: dashboardTabsReducer,
   },
 });
 

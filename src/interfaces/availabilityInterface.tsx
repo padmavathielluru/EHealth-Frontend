@@ -1,15 +1,16 @@
-export interface AvailabilityFormValues {
-  year: string;
-  fromTime: string;
-  fromMeridiem: "AM" | "PM";
-  toTime: string;
-  toMeridiem: "AM" | "PM";
+export type Meridiem = "AM" | "PM";
+
+export interface TimeRange {
+  startTime: string;
+  startMeridiem: Meridiem;
+  endTime: string;
+  endMeridiem: Meridiem;
 }
 
-export interface ToggleDayService {
-  toggleDay: (
-    index: number,
-    selectedDays: boolean[],
-    setSelectedDays: React.Dispatch<React.SetStateAction<boolean[]>>
-  ) => void;
+export interface AvailabilitySchemaType {
+  location: string;
+  day: string;
+  consultationMode: string;
+  slots: TimeRange[];
+  breaks: TimeRange[];
 }

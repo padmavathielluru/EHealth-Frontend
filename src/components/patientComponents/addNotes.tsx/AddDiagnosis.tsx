@@ -6,41 +6,41 @@ interface DiagnosisRow {
   conclusion: string;
 }
 
-interface LabRow {
-  testName: string;
-  suggestLab: string;
-}
+// interface LabRow {
+//   testName: string;
+//   suggestLab: string;
+// }
 
-interface ReferralRow {
-  referralName: string;
-  note: string;
-}
+// interface ReferralRow {
+//   referralName: string;
+//   note: string;
+// }
 
 const statusOptions = ["Pending", "Confirmed", "Resolved"];
-const labOptions = ["Lab A", "Lab B", "Lab C"];
-const referralOptions = ["Specialist A", "Specialist B"];
+// const labOptions = ["Lab A", "Lab B", "Lab C"];
+// const referralOptions = ["Specialist A", "Specialist B"];
 
 const emptyDiagnosis: DiagnosisRow = { diagnosis: "", status: "", conclusion: "" };
-const emptyLab: LabRow = { testName: "", suggestLab: "" };
-const emptyReferral: ReferralRow = { referralName: "", note: "" };
+// const emptyLab: LabRow = { testName: "", suggestLab: "" };
+// const emptyReferral: ReferralRow = { referralName: "", note: "" };
 
 const AddDiagnosis = React.forwardRef<any>((_, ref) => {
   const [sectionOpen, setSectionOpen] = useState(false);
 
   const [diagnosisRows, setDiagnosisRows] = useState([emptyDiagnosis]);
-  const [labRows, setLabRows] = useState([emptyLab]);
-  const [referralRows, setReferralRows] = useState([emptyReferral]);
+  // const [labRows, setLabRows] = useState([emptyLab]);
+  // const [referralRows, setReferralRows] = useState([emptyReferral]);
 
-  const [showLabs, setShowLabs] = useState(false);
-  const [showReferrals, setShowReferrals] = useState(false);
+  // const [showLabs, setShowLabs] = useState(false);
+  // const [showReferrals, setShowReferrals] = useState(false);
 
   const [openStatus, setOpenStatus] = useState<number | null>(null);
-  const [openLab, setOpenLab] = useState<number | null>(null);
-  const [openReferral, setOpenReferral] = useState<number | null>(null);
+  // const [openLab, setOpenLab] = useState<number | null>(null);
+  // const [openReferral, setOpenReferral] = useState<number | null>(null);
 
   const statusRef = useRef<HTMLDivElement | null>(null);
-  const labRef = useRef<HTMLDivElement | null>(null);
-  const referralRef = useRef<HTMLDivElement | null>(null);
+  // const labRef = useRef<HTMLDivElement | null>(null);
+  // const referralRef = useRef<HTMLDivElement | null>(null);
 
   const updateDiagnosis = (i: number, key: keyof DiagnosisRow, val: string) => {
     const data = [...diagnosisRows];
@@ -48,17 +48,17 @@ const AddDiagnosis = React.forwardRef<any>((_, ref) => {
     setDiagnosisRows(data);
   };
 
-  const updateLab = (i: number, key: keyof LabRow, val: string) => {
-    const data = [...labRows];
-    data[i][key] = val;
-    setLabRows(data);
-  };
+  // const updateLab = (i: number, key: keyof LabRow, val: string) => {
+  //   const data = [...labRows];
+  //   data[i][key] = val;
+  //   setLabRows(data);
+  // };
 
-  const updateReferral = (i: number, key: keyof ReferralRow, val: string) => {
-    const data = [...referralRows];
-    data[i][key] = val;
-    setReferralRows(data);
-  };
+  // const updateReferral = (i: number, key: keyof ReferralRow, val: string) => {
+  //   const data = [...referralRows];
+  //   data[i][key] = val;
+  //   setReferralRows(data);
+  // };
 
   useEffect(() => {
   const handleClickOutside = (e: MouseEvent) => {

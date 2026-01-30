@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import Title from "../components/Title";
 import YearCalendar from "../components/commonComponents/YearCalendar";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { singleYearSchema, SingleYearFormType } from "../components/commonComponents/schema";
+import { singleYearSchema, SingleYearFormType } from "../schemas/schema";
 
 interface AddAchievementModalProps {
     isOpen: boolean;

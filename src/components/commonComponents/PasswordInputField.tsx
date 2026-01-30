@@ -1,8 +1,6 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState } from "react";
 import { UseFormRegister, FieldError } from "react-hook-form";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { resetPasswordSchema } from "./schema";
 
 interface Props {
   label: string;
@@ -14,18 +12,16 @@ interface Props {
 }
 
 const getPasswordStrength = (value: string) => {
-  if (value.length < 6) return "Weak";
+  let score = 0;;
 
-  const hasUpper = /[A-Z]/.test(value);
-  const hasLower = /[a-z]/.test(value);
-  const hasNumber = /\d/.test(value);
-  const hasSpecial = /[^A-Za-z0-9]/.test(value); // ✅ fixed
+  if (value.length >= 8) score++;
+  if (/[A-Z]/.test(value)) score++;
+  if (/[a-z]/.test(value)) score++;
+  if (/\d/.test(value)) score++;
+  if (/[@$!%*?&#]/.test(value)) score++;
 
-  const score = [hasUpper, hasLower, hasNumber, hasSpecial].filter(Boolean).length;
-
-  if (score >= 3 && value.length >= 8) return "Strong";
-  if (score >= 2) return "Medium";
-
+  if (score >= 4) return "Strong";
+  if (score >= 3) return "Medium";
   return "Weak";
 };
 
@@ -74,13 +70,21 @@ const PasswordInputField: React.FC<Props> = ({
       </div>
 
       {showStrength && value && !error && (
+        <div className="mt-2">
+          <div className="flex gap-1">
+            <div className={`h-1 flex-1 rounded ${strength === "Weak" ? "bg-red-400" : "bg-gray-200"}`}/>
+            <div className={`h-1 flex-1 rounded ${ strength === "Medium" ? "bg-yellow-400" : "bg-gray-200"}`}/>
+            <div className={`h-1 flex-1 rounded ${ strength === "Strong" ? "bg-green-500" : "bg-gray-200"}`}/>
+            </div>
         <p className={`text-xs mt-1 ${strengthColor}`}>
-          Password strength: <span className="font-medium">{strength}</span>
+          Password strength:{" "}
+          <span className="font-medium">{strength}</span>
         </p>
+        </div>
       )}
 
       {error && (
-        <p className="text-xs text-red-500 mt-1">{error.message}</p>
+        <p className="text-sm text-red-600">{error.message}</p>
       )}
     </div>
   );

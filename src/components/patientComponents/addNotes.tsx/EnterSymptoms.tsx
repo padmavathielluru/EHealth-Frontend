@@ -1,5 +1,5 @@
-import React, { useState, useRef, forwardRef, useImperativeHandle } from "react";
-import { symptomsSchema } from "../../commonComponents/schema";
+import React, { useState, useRef, useImperativeHandle } from "react";
+import { symptomsSchema } from "../../../schemas/schema";
 
 interface SymptomRow {
     symptoms: string;

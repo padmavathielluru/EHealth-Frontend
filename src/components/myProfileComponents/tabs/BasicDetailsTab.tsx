@@ -13,8 +13,7 @@ import { useForm } from "react-hook-form"
 import PhoneNumInputField from "../../commonComponents/PhoneNumInputField";
 import GenderInputField from "../../commonComponents/GenderInputField";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormSchemaType, formSchema } from "../../commonComponents/schema";
-import * as z from "zod";
+import { FormSchemaType, formSchema } from "../../../schemas/schema";
 
 const BasicDetailsTab = () => {
     const {
@@ -22,9 +21,14 @@ const BasicDetailsTab = () => {
   handleSubmit,
   formState: { errors },
   setValue,
+  watch,
 } = useForm<FormSchemaType>({
   resolver: zodResolver(formSchema),
   mode: "onChange",
+  defaultValues: {
+    countryCode: "+91",
+    phone: "",
+  }
 });
 
     const [details, setDetails] = useState<BasicDetails | null>(null);
@@ -100,12 +104,14 @@ const BasicDetailsTab = () => {
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-2  gap-4">
                                     <div>
                                         <GenderInputField
                                             label="Gender*"
                                             name="gender"
-                                            register={register}
+                                            // register={register}
+                                            setValue={setValue}
+                                            watch={watch}
                                             error={errors.gender as any}
                                             options={GENDER_OPTIONS}
                                         />
@@ -117,7 +123,9 @@ const BasicDetailsTab = () => {
                                             label="Phone*"
                                             codeName="countryCode"
                                             numberName="phone"
-                                            register={register}
+                                            setValue={setValue}
+                                            watch={watch}
+                                            // register={register}
                                             errors={{
                                                 code: errors.countryCode,
                                                 number: errors.phone,
@@ -155,7 +163,7 @@ const BasicDetailsTab = () => {
                                         </div>
 
                                         <img
-                                            src="/images/fi_chevron-down.svg"
+                                            src="/images/fi_chevron-down.svg" alt="down"
                                             className={`w-5 h-5 absolute right-3 top-11 cursor-pointer transition-transform
                                                         ${isQualificationOpen ? "rotate-180" : "rotate-0"}`}
                                             onClick={(e) => {
@@ -170,7 +178,7 @@ const BasicDetailsTab = () => {
                                                 {QUALIFICATION_OPTIONS.map((q) => (
                                                     <div
                                                         key={q}
-                                                        className="px-4 py-2 hover:bg-blue-300 cursor-pointer"
+                                                        className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
                                                         onClick={() => {
                                                             setSelectedQualificationOpen(q);
                                                             setValue("qualifications", q);
@@ -200,7 +208,7 @@ const BasicDetailsTab = () => {
                                             {SelectedSpecializationOpen}
                                         </div>
                                         <img
-                                            src="/images/fi_chevron-down.svg"
+                                            src="/images/fi_chevron-down.svg" alt="down"
                                             className={`w-5 h-5 absolute right-3 top-11 cursor-pointer transition-transform
                                                ${isSpecializationOpen ? "rotate-180" : "rotate-0"}`}
                                             onClick={(e) => {e.stopPropagation();
@@ -213,7 +221,7 @@ const BasicDetailsTab = () => {
                                                 {SPECIALIZATION_OPTIONS.map((s) => (
                                                     <div
                                                         key={s}
-                                                        className="px-4 py-2 hover:bg-blue-300 cursor-pointer"
+                                                        className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
                                                         onClick={() => {
                                                             setSelectedSpecializationOpen(s);
                                                             setValue("specialization", s);
@@ -234,7 +242,9 @@ const BasicDetailsTab = () => {
                                         <label className="font-semibold block text-gray-400 mb-2">Years of Experience*</label>
                                         <input
                                             type="number"
-                                            defaultValue={details.yearsOfExperience}
+                                            defaultValue={details.yearsOfExperience || 0}
+                                            min={0}
+                                            step={1}
                                             className="w-full px-4 py-3 border border-gray-300 rounded-xl bg-white text-sm 
                              focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         />
@@ -277,11 +287,11 @@ const BasicDetailsTab = () => {
 
                                     <div className="absolute left-1/2 -bottom-4 -translate-x-1/2 flex gap-3">
                                         <button className="w-10 h-10 bg-white rounded-xl shadow-lg flex items-center justify-center hover:bg-gray-100">
-                                            <img src="/images/fi_edit-2.svg" className="w-5" />
+                                            <img src="/images/fi_edit-2.svg" alt="edit" className="w-5" />
                                         </button>
 
                                         <button className="w-10 h-10 bg-white rounded-xl shadow-lg flex items-center justify-center hover:bg-gray-100">
-                                            <img src="/images/u_trash.svg" className="w-5" />
+                                            <img src="/images/u_trash.svg" alt="trash" className="w-5" />
                                         </button>
                                     </div>
                                 </div>

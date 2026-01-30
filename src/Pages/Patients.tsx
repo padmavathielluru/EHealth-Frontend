@@ -8,7 +8,7 @@ const Patients: React.FC = () => {
   }, []);
 
   return (
-    <div className='mt-8'>
+    <div className='mt-8 select-none'>
       <PatientTable />
     </div>
   );

@@ -7,7 +7,7 @@ import InboxComponent from '../Pages/Inbox';
 
 // ✅ Lazy-loaded pages
 const CalendarM = lazy(() => import('../components/cards'));
-const Login = lazy(() => import('../components/Login'));
+const Login = lazy(() => import('../components/Login1'));
 const Appointment = lazy(() => import('../Pages/Appointment'));
 const NotFound = lazy(() => import('../components/NotFound'));
 const dashboard = lazy(()=>import('../Pages/Layout'));

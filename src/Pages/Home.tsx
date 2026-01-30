@@ -7,7 +7,7 @@ import Piegraph from "../components/Piegraph";
 import MultilevelDropdown from "../components/MultilevelDropdown";
 import Searchbar from "../components/Searchbar";
 import Tooltip from "../components/Tooltip";
-import Login from "../components/Login";
+import Login1 from "../components/Login1";
 import InputField from "../components/InputField";
 import FormComponent from "../components/commonComponents/FormComponent";
 // import YearCalendar from "../components/YearCalendar";
@@ -96,7 +96,7 @@ const Home: React.FC = () => {
         </div>
 
       <div className="mt-8">
-        <Login
+        <Login1
           credentials={credentials}
           setCredentials={(k, v) =>
             setCredentials((prev) => ({ ...prev, [k]: v }))
@@ -110,7 +110,7 @@ const Home: React.FC = () => {
 
       {/* Admin Login */}
        <div className="mt-8">
-        <Login
+        <Login1
           credentials={adminCredentials}
           setCredentials={(k, v) =>
             setAdminCredentials((prev) => ({ ...prev, [k]: v }))

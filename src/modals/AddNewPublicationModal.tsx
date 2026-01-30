@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import Title from "../components/Title";
 import YearCalendar from "../components/commonComponents/YearCalendar";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormSchemaType, formSchema } from "../components/commonComponents/schema";
+import { FormSchemaType, formSchema } from "..//schemas/schema";
 
 
 interface AddNewPublicationModalProps {

@@ -3,7 +3,7 @@ import SettingsTab from "../components/settingsComponents/SettingsTab";
 
 const Settings: React.FC = () => {
     return (
-        <div className="mt-8">
+        <div className="mt-8 select-none">
             <SettingsTab />
         </div>
     );

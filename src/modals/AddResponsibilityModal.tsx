@@ -3,7 +3,7 @@ import Title from "../components/Title";
 import YearCalendar from "../components/commonComponents/YearCalendar";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { responsibilitySchema, ResponsibilityFormType } from "../components/commonComponents/schema";
+import { responsibilitySchema, ResponsibilityFormType } from "../schemas/schema";
 
 interface AddResponsibilityModalProps {
   isOpen: boolean;
@@ -18,8 +18,8 @@ const AddResponsibilityModal: React.FC<AddResponsibilityModalProps> = ({
 }) => {
   const [role, setRole] = useState("");
   const [institution, setInstitution] = useState("");
-  const [startYear, setStartYear] = useState("");
-  const [endYear, setEndYear] = useState("");
+  // const [startYear, setStartYear] = useState("");
+  // const [endYear, setEndYear] = useState("");
   const [keyResponsibilities, setKeyResponsibilities] = useState("");
 
   const {
@@ -27,7 +27,7 @@ const AddResponsibilityModal: React.FC<AddResponsibilityModalProps> = ({
           watch,
           register,
           formState: { errors },
-          handleSubmit,
+          // handleSubmit,
       } = useForm<ResponsibilityFormType>({
           resolver: zodResolver(responsibilitySchema),
           defaultValues: {
@@ -38,15 +38,15 @@ const AddResponsibilityModal: React.FC<AddResponsibilityModalProps> = ({
 
   if (!isOpen) return null;
 
-  const onSubmit = (data: ResponsibilityFormType) => {
-    onAdd(data);
-    onClose();
-  };
+  // const onSubmit = (data: ResponsibilityFormType) => {
+  //   onAdd(data);
+  //   onClose();
+  // };
 
-  const handleAdd = () => {
-    onAdd({  startYear, endYear,});
-    onClose();
-  };
+  // const handleAdd = () => {
+  //   onAdd({ endYear });
+  //   onClose();
+  // };
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
@@ -125,7 +125,7 @@ const AddResponsibilityModal: React.FC<AddResponsibilityModalProps> = ({
             Cancel
           </button>
           <button
-            onClick={handleAdd}
+            // onClick={handleAdd}
             className="px-4 py-2 h-[40px] rounded-xl bg-blue-500 text-white hover:bg-blue-700 transition"
           >
             Add

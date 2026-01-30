@@ -10,7 +10,7 @@ interface TimeInputFieldProps {
   setValue: UseFormSetValue<any>;
   meridiem: "AM" | "PM";
   error?: string;
-   trigger: UseFormTrigger<any>;
+  trigger?: UseFormTrigger<any>;
 }
 
 const TimeInputField: React.FC<TimeInputFieldProps> = ({
@@ -41,7 +41,6 @@ const TimeInputField: React.FC<TimeInputFieldProps> = ({
     if (value) {
       let [h, m] = value.split(":");
       setHour(h.padStart(2, "0"));
-
       setMinute(m.padStart(2, "0"));
     }
   }, [value]);
@@ -62,29 +61,40 @@ const TimeInputField: React.FC<TimeInputFieldProps> = ({
       document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-const updateTime = (h = hour, m = minute, p = period) => {
-  setValue(name, `${h}:${m}`, {
-    shouldDirty: true,
-    shouldTouch: true,
-    shouldValidate: true,
-  });
+  const updateTime = (h = hour, m = minute, p = period) => {
+    setValue(name, `${h}:${m}`, {
+      shouldDirty: true,
+      shouldTouch: true,
+      shouldValidate: true,
+    });
 
-  setValue(meridiemName, p, {
-    shouldDirty: true,
-    shouldTouch: true,
-    shouldValidate: true,
-  });
+    setValue(meridiemName, p, {
+      shouldDirty: true,
+      shouldTouch: true,
+      shouldValidate: true,
+    });
 
-  setTimeout(() => {
-  }, 0);
-};
+    setTimeout(() => {
+    }, 0);
+  };
+
+  useEffect(() => {
+    if (!value) {
+      setHour("");
+      setMinute("");
+      setPeriod(meridiem || "AM");
+      return;
+    }
+    const [h, m] = value.split(":");
+    setHour(h.padStart(2, "0"));
+    setMinute(m.padStart(2, "0"));
+  }, [value, meridiem]);
 
 
   return (
     <div ref={wrapperRef} className="w-[180px]">
       <p className="text-sm text-gray-400 mt-2 mb-1">{label}</p>
-      <div className={`relative w-[180px] h-[42px] bg-white border rounded-2xl flex items-center px-4
-        `}>
+      <div className={`relative w-[180px] h-[42px] bg-white border rounded-2xl flex items-center px-4`}>
 
         <img
           src="/images/Icon.svg" alt="clock"
@@ -96,7 +106,7 @@ const updateTime = (h = hour, m = minute, p = period) => {
             required: `${label} is required`,
           })}
           readOnly
-          value={`${hour}:${minute}`}
+          value={hour && minute ? `${hour}:${minute}` : ""}
           className="ml-3 w-[60px] text-base font-semibold bg-transparent outline-none" />
 
         <div className="absolute right-[72px] top-0 bottom-0 w-px bg-gray-200" />
@@ -116,7 +126,7 @@ const updateTime = (h = hour, m = minute, p = period) => {
         </button>
 
         {periodOpen && (
-          <div className="absolute right-2 top-[45px] w-[64px] bg-white border rounded-xl shadow-lg z-30">
+          <div className="absolute right-3 top-[35px] w-[64px] bg-white border rounded-xl shadow-lg z-20">
             {["AM", "PM"].map((p) => (
               <div
                 key={p}
@@ -133,7 +143,7 @@ const updateTime = (h = hour, m = minute, p = period) => {
         )}
 
         {timeOpen && (
-          <div className="absolute left-0 top-[45px] flex gap-3 bg-white border rounded-2xl shadow-xl p-2 z-20">
+          <div className="absolute left-0 top-[35px] flex gap-3 bg-white border rounded-2xl shadow-xl p-2 z-50">
             <div className="h-40 w-10 overflow-y-auto text-center">
               {Array.from({ length: 12 }).map((_, i) => {
                 const h = String(i + 1).padStart(2, "0");
@@ -146,8 +156,8 @@ const updateTime = (h = hour, m = minute, p = period) => {
                       // setTimeOpen(false);
                     }}
                     className={`py-1 rounded cursor-pointer ${hour === h
-                        ? "bg-gray-200 font-medium"
-                        : "hover:bg-blue-100"
+                      ? "bg-gray-200 font-medium"
+                      : "hover:bg-blue-100"
                       }`}>
                     {h}
                   </div>
@@ -169,8 +179,8 @@ const updateTime = (h = hour, m = minute, p = period) => {
                       setTimeOpen(false);
                     }}
                     className={`py-1 rounded cursor-pointer ${isActive
-                        ? "bg-gray-200 font-medium"
-                        : "hover:bg-blue-100"
+                      ? "bg-gray-200 font-medium"
+                      : "hover:bg-blue-100"
                       }`}>
                     {m}
                   </div>
