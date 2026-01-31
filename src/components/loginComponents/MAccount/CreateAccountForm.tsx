@@ -27,12 +27,17 @@ const CreateAccountForm = () => {
 
     const navigate = useNavigate();
 
+    const [captchaToken, setCaptchaToken] = React.useState<string | null>(null);
+
     const onSubmit = (data: CreateAccountFormValues) => {
-        console.log("login data:", data);
+        if (!captchaToken) return;
+
+        const payload = { ...data, captchaToken, };
+
+        console.log("signup data:", payload);
+
         navigate("/verify-mobile");
     };
-
-    const [robotChecked, setRobotChecked] = React.useState(false);
 
     return (
         <div className="w-full bg-white flex items-center justify-center">
@@ -73,14 +78,13 @@ const CreateAccountForm = () => {
                         </div>
                     </div>
 
-                    <TermsAndCaptcha 
-                            checked={robotChecked}
-                            onChange={setRobotChecked}/>
+                    <TermsAndCaptcha onVerify={setCaptchaToken} />
 
                     <div className="">
-                        <button disabled={!robotChecked} className={`w-full py-2 rounded-xl transition ${
-                            robotChecked ? "bg-[#168BD9] text-white"
-                            : "bg-gray-300 text-gray-500 curcor-not-allowed"}`}>
+                        <button
+                            disabled={!captchaToken}
+                            className={`w-full py-2 rounded-xl transition ${captchaToken ? "bg-[#168BD9] text-white"
+                                    : "bg-gray-300 text-gray-500 curcor-not-allowed"}`}>
                             Create an account
                         </button>
                         <p className="text-rigth text-sm text-gray-500">
