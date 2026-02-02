@@ -12,9 +12,19 @@ export interface AvailabilityRow {
   breaks: any[];
 }
 
-const AvailabilityTable: React.FC = () => {
+interface Props {
+  value: AvailabilityRow[];
+  onChange: (rows: AvailabilityRow[]) => void;
+  error?: string;
+}
+
+const AvailabilityTable: React.FC<Props> = ({
+  value,
+  onChange,
+  error,
+}) => {
   const [open, setOpen] = useState(false);
-  const [rows, setRows] = useState<AvailabilityRow[]>([]);
+  const [rows, setRows] = useState<AvailabilityRow[]>(value || []);
   const [deleteIndex, setDeleteIndex] = useState<number | null>(null);
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [editData, setEditData] = useState<AvailabilityRow | null>(null);
@@ -28,19 +38,32 @@ const AvailabilityTable: React.FC = () => {
   const ACTION_WIDTH = 120;
   const SLOT_COL_WIDTH = 110;
 
+  // const handleAdd = (data: AvailabilityRow) => {
+  //   if (editIndex !== null) {
+  //     setRows(prev => prev.map((row, i) => (i === editIndex ? data : row)));
+  //     setEditIndex(null);
+  //     setEditData(null);
+  //   } else {
+  //     setRows(prev => [...prev, data]);
+  //   }
+  //   setOpen(false);
+  // };
+
   const handleAdd = (data: AvailabilityRow) => {
-    if (editIndex !== null) {
-      setRows(prev => prev.map((row, i) => (i === editIndex ? data : row)));
-      setEditIndex(null);
-      setEditData(null);
-    } else {
-      setRows(prev => [...prev, data]);
-    }
+    const updated =
+      editIndex !== null
+        ? rows.map((row, i) => (i === editIndex ? data : row))
+        : [...rows, data];
+
+    setRows(updated);
+    onChange(updated);
     setOpen(false);
   };
 
   const handleDelete = (index: number) => {
-    setRows(prev => prev.filter((_, i) => i !== index));
+    const updated = rows.filter((_, i) => i !== index);
+    setRows(updated);
+    onChange(updated);
   };
 
   const maxSlots =
@@ -55,21 +78,28 @@ const AvailabilityTable: React.FC = () => {
 
   return (
     <>
-      <div className="flex items-center gap-2 mb-3 select-none">
-        <Title text={rows.length > 0 ? "Schedule Availability" : "Availability"} />
+      <div className=" mb-3 select-none">
+        <div className="flex items-center gap-2">
+          <Title text={rows.length > 0 ? "Schedule Availability" : "Availability"} />
 
-        {rows.length > 0 && (
-          <button
-            onClick={() => setOpen(true)}
-            className="w-8 h-8 border rounded-lg flex items-center justify-center
+          {rows.length > 0 && (
+            <button
+              onClick={() => setOpen(true)}
+              className="w-8 h-8 border rounded-lg flex items-center justify-center
       border-blue-500 hover:bg-blue-100 transition select-none"
-          >
-            <img
-              src="/images/u_plus(1).svg"
-              alt="add"
-              className="w-4 h-4 pointer-events-none"
-            />
-          </button>
+            >
+              <img
+                src="/images/u_plus(1).svg"
+                alt="add"
+                className="w-4 h-4 pointer-events-none"
+              />
+            </button>
+          )}
+        </div>
+        {error && (
+          <p className="text-xs text-red-500 mt-1">
+            {error}
+          </p>
         )}
       </div>
 
@@ -77,7 +107,7 @@ const AvailabilityTable: React.FC = () => {
         <table className="min-w-full border-separate border-spacing-0 text-sm">
           <thead>
             {/* MAIN HEADER */}
-            <tr className="bg-gray-210 text-gray-400 text-xs">   
+            <tr className="bg-gray-210 text-gray-400 text-xs">
               <th
                 rowSpan={2}
                 className="sticky left-0 z-40 bg-gray-100 border border-gray-200 px-4 py-5"
@@ -105,7 +135,7 @@ const AvailabilityTable: React.FC = () => {
               </th>
 
 
-             
+
               {Array.from({ length: maxSlots }).map((_, i) => (
                 <th
                   key={i}
@@ -214,7 +244,7 @@ const AvailabilityTable: React.FC = () => {
 
                 {Array.from({ length: maxSlots }).map((_, i) => (
                   <React.Fragment key={i}>
-  
+
 
                     <td className="border-r border-b border-gray-200 text-center" style={{ minWidth: SLOT_COL_WIDTH }}>
                       <TimePartCell
@@ -249,7 +279,7 @@ const AvailabilityTable: React.FC = () => {
                 ))}
 
                 <td className="border border-gray-200 text-center sticky right-0 z-30 bg-white shadow-left"
-                style={{ minWidth: ACTION_WIDTH }}>
+                  style={{ minWidth: ACTION_WIDTH }}>
                   <div className="flex justify-center gap-3 select-none">
                     <img
                       src="/images/fi_edit-2.svg" alt="edit"

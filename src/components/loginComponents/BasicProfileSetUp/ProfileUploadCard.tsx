@@ -3,7 +3,7 @@ import React, { useRef, useState }from "react";
 const ProfileUploadCard: React.FC = () => {
 
     const fileInputRef = useRef<HTMLInputElement | null>(null);
-
+    const savedImage = localStorage.getItem("profileImage");
     const [file, setFile] = useState<File | null>(null);
     const [error, setError] = useState("");
 
@@ -23,6 +23,7 @@ const ProfileUploadCard: React.FC = () => {
 
         setError("");
         setFile(selectedFile);
+        localStorage.setItem("profileImage", URL.createObjectURL(selectedFile));
     };
     
     return (
@@ -32,7 +33,7 @@ const ProfileUploadCard: React.FC = () => {
                   {file ? (
                     <img src={URL.createObjectURL(file)} alt="Preview" className="w-full h-full object-cover" />
                   ) : (
-                    <img src="images/user-avatar-outline.svg"
+                    <img src={savedImage || "images/user-avatar-outline.svg"}
                         alt="User Avatar" className="w-7 h-7 opacity-70"/>
                   )}
                 </div>

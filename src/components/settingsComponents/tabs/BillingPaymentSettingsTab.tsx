@@ -36,7 +36,15 @@ const BillingPaymentSettingsTab: React.FC = () => {
   return (
     <div className="bg-white rounded-xl h-[460px] overflow-y-auto p-6 shadow-sm space-y-8">
       <Title text="Consultation Fees" />
-      <Cost />
+      {/* {errors.consultationFee && (
+                        <p className="text-xs text-red-500 mt-2">
+                            {errors.consultationFee}
+                        </p>
+                    )}
+                    <Cost
+                        value={consultationFee}
+                        onChange={onConsultationFeeChange}
+                    /> */}
 
       <div>
         <Title text="Payment Methods" />

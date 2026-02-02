@@ -42,13 +42,13 @@ const GenderInputField: React.FC<GenderInputFieldProps> = ({
 
   return (
     <div ref={ref} className="relative">
-      <label className="block text-sm text-gray-400 mb-2">
+      <label className="block text-sm text-gray-400 mb-1">
         {label.replace("*", "")}
         {label.includes("*") && <span className="text-red-500 ml-1">*</span>}
       </label>
       <div
         onClick={() => setOpen(!open)}
-        className={`flex items-center justify-between h-[44px] px-4 rounded-xl border cursor-pointer bg-white
+        className={`flex items-center justify-between h-[44px] px-4 rounded-xl border border-gray-300 cursor-pointer bg-white
           focus:outline-none focus:ring-1 focus:ring-blue-500
           ${value ? "text-gray-900" : "text-gray-400"}`}>
         <span>{value || "Select"}</span>

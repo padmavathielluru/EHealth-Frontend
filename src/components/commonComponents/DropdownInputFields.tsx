@@ -35,6 +35,10 @@ const DropdownInputField: React.FC<DropdownInputFieldProps> = ({
   const value = watch(name);
 
   useEffect(() => {
+    setValue(name, value ?? "", { shouldValidate: false});
+  }, []);
+
+  useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
         setOpen(false);
@@ -53,7 +57,7 @@ const DropdownInputField: React.FC<DropdownInputFieldProps> = ({
 
       <div
         onClick={() => setOpen(!open)}
-        className={`flex items-center justify-between h-[44px] px-4 rounded-xl border cursor-pointer bg-white
+        className={`flex items-center justify-between h-[44px] px-4 rounded-xl border border-gray-300 cursor-pointer bg-white
           focus:outline-none focus:ring-1 focus:ring-blue-500
           ${value ? "text-gray-900" : "text-gray-400"}
         `}>
