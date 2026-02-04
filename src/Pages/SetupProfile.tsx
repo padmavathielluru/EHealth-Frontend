@@ -11,6 +11,8 @@ import ProfileUploadCard from "../components/loginComponents/BasicProfileSetUp/P
 import ProfileStepper from "../components/loginComponents/ProfileStepper";
 
 const SetUpProfile: React.FC = () => {
+  const saveData = localStorage.getItem("basicProfileData");
+  const [profileImage, setProfileImage] = React.useState<File | null>(null);
   const navigate = useNavigate();
 
   const {
@@ -21,15 +23,24 @@ const SetUpProfile: React.FC = () => {
     formState: { errors },
   } = useForm<BasicSetUpFormValues>({
     resolver: zodResolver(basicSetUpSchema),
-    defaultValues: {
+    defaultValues: saveData ? JSON.parse(saveData) : {
       startDate: "",
     },
   });
 
-  const startDateValue = watch("startDate") ?? "";
-
+  const startDateValue = watch("startDate") ||
+    JSON.parse(localStorage.getItem("basicProfileData") || "{}")?.startDate ||
+    "";
   const onSubmit: SubmitHandler<BasicSetUpFormValues> = (data) => {
-    console.log("SETUP FORM DATA:", data);
+    const payload = {
+      ...data,
+      hasProfileImage: !!profileImage,
+    };
+
+    localStorage.setItem(
+      "basicProfileData",
+      JSON.stringify(payload)
+    );
 
     navigate("/Professional-details");
   };
@@ -52,7 +63,7 @@ const SetUpProfile: React.FC = () => {
             <div className="space-y-2">
               <PersonalInfo<BasicSetUpFormValues>
                 register={register}
-                 setValue={setValue}
+                setValue={setValue}
                 watch={watch}
                 errors={errors}
                 dateOfBirth={startDateValue}
@@ -60,13 +71,13 @@ const SetUpProfile: React.FC = () => {
                 onDateChange={(val) =>
                   setValue("startDate", val, { shouldValidate: true })
                 }
-                />
+              />
 
               <AddressInfo<BasicSetUpFormValues>
-                  register={register}
-                  setValue={setValue}
-                  watch={watch} 
-                  errors={errors} />
+                register={register}
+                setValue={setValue}
+                watch={watch}
+                errors={errors} />
 
               <div className="flex justify-center pt-4">
                 <button

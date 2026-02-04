@@ -32,7 +32,7 @@ const PlainInputField = ({
 
     return (
         <div className="flex flex-col">
-            <label className="text-sm text-gray-400 mb-1">
+            <label className="text-sm text-gray-400 mb-2">
                 {label.replace("*", "")}
                 {label.includes("*") && (
                     <span className="text-red-500 ml-1">*</span>

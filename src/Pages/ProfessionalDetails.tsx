@@ -8,11 +8,6 @@ import { ProfessionalDetailsFormValues } from "../interfaces/professionalDetails
 const ProfessionalDetails: React.FC = () => {
     const navigate = useNavigate();
 
-    const onSubmit = (data: ProfessionalDetailsFormValues) => {
-      console.log(data);
-      navigate("/document-verification");
-    };
-
   return (
     <div className="min-h-screen bg-gray-50 flex justify-center px-4 py-10 select-none">
       <div className="w-full max-w-5xl p-6 md:p-10">

@@ -1,13 +1,13 @@
 
 export const COUNTRY_OPTIONS = [
-  { label: "India", value: "IN" },
-  { label: "United States", value: "US" },
+  { label: "India", value: "India" },
+  { label: "United States", value: "United States" },
 ];
 
 export const STATE_OPTIONS = [
-  { label: "Telangana", value: "TG" },
-  { label: "Andhra Pradesh", value: "AP" },
-  { label: "Karnataka", value: "KA" },
+  { label: "Telangana", value: "Telangana" },
+  { label: "Andhra Pradesh", value: "Andhra Pradesh" },
+  { label: "Karnataka", value: "Karnataka" },
 ];
 
 export const DEGREE_OPTIONS = [

@@ -3,13 +3,13 @@ import { BsFiletypePdf } from "react-icons/bs";
 
 interface Props {
     label: string;
+    file?: File;
     onFileSelect: (file: File) => void;
     error?: string;
 }
 
-const DocumentUploadBox: React.FC<Props> = ({ label, onFileSelect, error }) => {
+const DocumentUploadBox: React.FC<Props> = ({ label, file, onFileSelect, error }) => {
     const inputRef = useRef<HTMLInputElement | null>(null);
-    const [file, setFile] = useState<File | null>(null);
 
     const handleClick = () => {
         inputRef.current?.click();
@@ -17,9 +17,7 @@ const DocumentUploadBox: React.FC<Props> = ({ label, onFileSelect, error }) => {
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
-            const selectedFile = e.target.files[0];
-            setFile(selectedFile);
-            onFileSelect(selectedFile);
+            onFileSelect(e.target.files[0]);
         }
     };
 
@@ -30,8 +28,8 @@ const DocumentUploadBox: React.FC<Props> = ({ label, onFileSelect, error }) => {
             <p className="text-sm text-gray-600 mb-2">
                 {label.includes("*") ? (
                     <>
-                    {label.replace("*", "")}
-                    <span className="text-red-500 ml-1">*</span>
+                        {label.replace("*", "")}
+                        <span className="text-red-500 ml-1">*</span>
                     </>
                 ) : (
                     label
@@ -49,7 +47,7 @@ const DocumentUploadBox: React.FC<Props> = ({ label, onFileSelect, error }) => {
                                 alt="preview"
                                 className="h-24 mx-auto object-contain rounded-md mb-2" />
                         ) : (
-                            <div className="text-gray-500 mb-2"><BsFiletypePdf className="w-8 h-8"/></div>
+                            <div className="text-gray-500 mb-2"><BsFiletypePdf className="w-8 h-8" /></div>
                         )}
                         <p className="text-xs text-gray-600 truncate max-w-[140px]">{file.name}</p>
                     </div>
@@ -61,11 +59,11 @@ const DocumentUploadBox: React.FC<Props> = ({ label, onFileSelect, error }) => {
                 className="hidden"
                 accept="image/*,.pdf"
                 onChange={handleFileChange} />
-                {error && (
-            <p className="text-xs text-red-500 mt-1">{error}</p>
-        )}
+            {error && (
+                <p className="text-xs text-red-500 mt-1">{error}</p>
+            )}
         </div>
-        
+
     );
 };
 

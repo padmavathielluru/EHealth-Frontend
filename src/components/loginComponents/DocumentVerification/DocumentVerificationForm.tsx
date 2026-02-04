@@ -14,7 +14,7 @@ const DocumentVerificationForm: React.FC<Props> = ({
 
     const handleFile = (key: string, file: File) => {
         setDocuments((prev) => ({
-            ...prev,[key]: file,
+            ...prev, [key]: file,
         }));
     };
 
@@ -26,18 +26,21 @@ const DocumentVerificationForm: React.FC<Props> = ({
                 Upload Documents
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <DocumentUploadBox 
-                        label="Medical License / Registration Certificate*"
-                        onFileSelect={(file) => handleFile("medicalLicense", file)}
-                        error={errors.medicalLicense}/>
+                <DocumentUploadBox
+                    label="Medical License / Registration Certificate*"
+                    file={documents.medicalLicense}
+                    onFileSelect={(file) => handleFile("medicalLicense", file)}
+                    error={errors.medicalLicense} />
 
-                <DocumentUploadBox 
-                        label="Government ID" 
-                        onFileSelect={(file) => handleFile("governmentId", file)}/>
+                <DocumentUploadBox
+                    label="Government ID"
+                    file={documents.governmentId}
+                    onFileSelect={(file) => handleFile("governmentId", file)} />
 
-                <DocumentUploadBox 
-                        label="Clinic proof"
-                        onFileSelect={(file) => handleFile("clinicProof", file)}/>
+                <DocumentUploadBox
+                    label="Clinic proof"
+                    file={documents.clinicProof}
+                    onFileSelect={(file) => handleFile("clinicProof", file)} />
             </div>
         </div>
     );

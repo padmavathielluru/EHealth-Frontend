@@ -54,7 +54,7 @@ const PasswordInputField: React.FC<Props> = ({
           {...register(name, {
             onChange: (e) => setValue(e.target.value),
           })}
-          className={`border text-sm px-3 pr-10 py-2 h-[40px] w-full rounded-xl transition focus:outline-none
+          className={`border text-sm px-3 pr-10 py-2 h-[44px] w-full rounded-xl transition focus:outline-none
       ${error
               ? "border-red-500 focus:border-red-500"
               : "border-gray-300 hover:border-blue-400 focus:border-blue-500"}`} />
