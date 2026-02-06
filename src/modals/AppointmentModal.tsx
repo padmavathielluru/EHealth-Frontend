@@ -17,13 +17,15 @@ email: string;
 }
 
 interface AppointmentModalProps {
-onClose: () => void;
-selectedDate: Date | null;
-selectedTime: string | null;
-onSave: (newEvent: CalendarEvent) => void;
+  onClose: () => void;
+  selectedDate: Date | null;
+  selectedTime: string | null;
+  onSave: (newEvent: CalendarEvent) => void;
+  /** When true, render as inline form (no overlay, no title bar) for mobile add page only. Default false = web modal behavior unchanged. */
+  embedInPage?: boolean;
 }
 
-const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTime, selectedDate, onSave }) => {
+const AppointmentModal: React.FC<AppointmentModalProps> = ({ onClose, selectedTime, selectedDate, onSave, embedInPage = false }) => {
 const dispatch = useDispatch();
 
 const [patientsList, setPatientsList] = useState<Patient[]>([
@@ -323,26 +325,8 @@ useEffect(() => {
 }, []);
 
 
-return (
-    <div className="fixed inset-0 bg-opacity-00 flex items-center justify-center z-50">
-      <div className="bg-white w-full max-w-lg rounded-xl shadow-lg p-6 relative">
-
-        <div className="flex justify-between items-center mb-5">
-          <h2 className="text-lg font-semibold text-gray-800">
-            Add Appointment
-          </h2>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
-          >
-            <img
-              src="/images/x-01.svg"
-              alt="Add"
-              className="w-5 h-5 mr-1"
-            />
-          </button>
-        </div>
-
+const formContent = (
+    <>
         <div className="mb-4">
           <label className="block text-gray-400 text-sm font-medium mb-1">
             Enter Patient ID
@@ -481,10 +465,10 @@ return (
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 mb-4">
-
+        {/* Web view: Visit Mode and Date side by side; Mobile: stacked */}
+        <div className={embedInPage ? "space-y-4 mb-4" : "grid grid-cols-2 gap-4 mb-4"}>
           <div>
-            <label className="block text-sm font-medium text-gray-400 mb-2">
+            <label className="block text-sm font-medium text-gray-500 mb-1">
               Visit Mode <span className="text-gray-400">*</span>
             </label>
             <div className="flex items-center gap-6">
@@ -496,7 +480,7 @@ return (
                   onChange={() => setVisitMode("Offline")}
                   className="text-blue-500 w-3.5 h-3.5 focus:ring-blue-400"
                 />
-                <span>Offline</span>
+                <span className="font-medium text-gray-900">Offline</span>
               </label>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
@@ -506,29 +490,29 @@ return (
                   onChange={() => setVisitMode("Online")}
                   className="text-blue-500 w-3.5 h-3.5 focus:ring-blue-400"
                 />
-                <span>Online</span>
+                <span className="font-medium text-gray-900">Online</span>
               </label>
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-400 mb-1">
+            <label className="block text-sm font-medium text-gray-500 mb-1">
               Date
             </label>
             <div className="relative">
               <input
                 type="text"
-                value={localDate ? localDate.toLocaleDateString("en-GB") : ""}
+                value={localDate ? localDate.toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit", year: "2-digit" }) : ""}
                 onClick={() => setIsOpen(!isOpen)}
                 readOnly
                 placeholder="DD/MM/YY"
-                className="w-full border border-gray-300 text-black placeholder-black rounded-lg px-3 py-2 pr-10 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none cursor-pointer"
+                className="w-full border border-gray-300 text-gray-900 placeholder-gray-400 rounded-lg px-3 py-2 pr-10 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none cursor-pointer"
               />
               <img
                 src="/images/fi_calendar (2).svg"
-                alt="Calendar Icon"
+                alt="Calendar"
                 onClick={() => setIsOpen(!isOpen)}
-                className="absolute right-3 top-3 w-4 h-4 text-gray-400 cursor-pointer"
+                className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 cursor-pointer"
               />
 
               {isOpen && (
@@ -545,16 +529,14 @@ return (
                   />
                 </div>
               )}
-
             </div>
           </div>
         </div>
 
-
         <div className="grid grid-cols-2 gap-4 mb-4">
 
           <div>
-            <label className="block text-sm font-medium text-gray-400 mb-1">
+            <label className="block text-sm font-medium text-gray-500 mb-1">
               From Time
             </label>
             <div className="relative flex items-center border border-gray-300 rounded-lg overflow-visible focus-within:ring-2 focus-within:ring-blue-300 focus-within:border-blue-300">
@@ -634,7 +616,7 @@ return (
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-400 mb-1">
+            <label className="block text-sm font-medium text-gray-500 mb-1">
               To Time
             </label>
             <div className="relative flex items-center border border-gray-300 rounded-lg overflow-visible focus-within:ring-2 focus-within:ring-blue-300 focus-within:border-blue-300">
@@ -750,10 +732,39 @@ return (
             setAlertData({ open: false, message: "", type: "warning" })
           }
         />
+    </>
+  );
 
+  if (embedInPage) {
+    return (
+      <div className="bg-white w-full max-w-full rounded-xl p-6">
+        {formContent}
+      </div>
+    );
+  }
+
+  return (
+    <div className="fixed inset-0 bg-opacity-00 flex items-center justify-center z-50">
+      <div className="bg-white w-full max-w-lg rounded-xl shadow-lg p-6 relative">
+        <div className="flex justify-between items-center mb-5">
+          <h2 className="text-lg font-semibold text-gray-800">
+            Add Appointment
+          </h2>
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700"
+          >
+            <img
+              src="/images/x-01.svg"
+              alt="Add"
+              className="w-5 h-5 mr-1"
+            />
+          </button>
+        </div>
+        {formContent}
       </div>
     </div>
-);
+  );
 };
 
 export default AppointmentModal;

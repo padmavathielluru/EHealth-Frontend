@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./Pages/Dashboard";
 import Appointment from "./Pages/Appointment";
+import AddAppointment from "./Pages/AddAppointment";
 import Home from "./Pages/Home";
 import Referrals from "./Pages/Referrals";
 import InboxComponent from "./Pages/Inbox";
@@ -39,6 +40,7 @@ const App: React.FC = () => {
               <Route path="/" element={<Dashboard />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/appointment" element={<Appointment />} />
+              <Route path="/appointment/add" element={<AddAppointment />} />
               <Route path="/patients" element={<Patients />} />
               <Route path="/patients/:id" element={<PatientDetails />} />
               <Route path="/referrals" element={<Referrals />} />
