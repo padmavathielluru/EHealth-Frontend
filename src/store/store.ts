@@ -7,9 +7,11 @@ import cardsReducer from "./cardsSlice";
 import inboxReducer from "./inboxSlice";
 import settingsReducer from "./settingsSlice";
 import dashboardTabsReducer from "./dashboardTabsSlice";
+import authReducer from "./submitSlice";
 
 export const store = configureStore({
   reducer: {
+    submit: authReducer,
     counter: counterReducer,
     cards:cardsReducer,
     date: dateReducer,

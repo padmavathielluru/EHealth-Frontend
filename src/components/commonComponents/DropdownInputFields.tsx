@@ -72,7 +72,7 @@ const DropdownInputField: React.FC<DropdownInputFieldProps> = ({
       </div>
 
       {open && (
-        <div className="absolute z-20 mt-1 w-full bg-white border rounded-xl shadow-md">
+        <div className="absolute z-20 mt-1 w-full bg-white border rounded-xl shadow-md max-h-[120px] overflow-y-auto">
           {options.map((opt) => (
             <div
               key={opt.value}

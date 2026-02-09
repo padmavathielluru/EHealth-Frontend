@@ -37,7 +37,7 @@ const YearCalendar: React.FC<YearCalendarProps> = ({ label, value, onChange, err
             {label && <label className="text-sm font-semibold text-gray-500">{label}</label>}
 
             <div
-                className={`w-full mt-1 h-[40px] rounded-xl px-3 flex items-center justify-between border 
+                className={`w-full mt-1 h-[44px] rounded-xl px-3 flex items-center justify-between border border-gray-300
                      ${errorMessage ? "border-red-500" : "border-gray-200"}`}>
 
                 <input

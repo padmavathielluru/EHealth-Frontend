@@ -12,12 +12,12 @@ export const professionalDetailsSchema = z.object({
     specialization: z.string().min(1, "Specialization is required"),
 
     experience: z.string()
-                .min(1, "Experience is required")
-                .refine((val) => Number(val) > 0, {
-                    message: "Experience must be greater than 0",
-                }),
+        .min(1, "Experience is required")
+        .refine((val) => Number(val) > 0, {
+            message: "Experience must be greater than 0",
+        }),
     council: z.string().min(1, "Medical council is required"),
-    license: z.string().min(1,"License number is required"),
-    practices:z.array(practiceSchema)
-                .min(1, "At least one practice is required"),
+    license: z.string().min(1, "License number is required"),
+    practices: z.array(practiceSchema)
+        .min(1, "At least one practice is required"),
 });

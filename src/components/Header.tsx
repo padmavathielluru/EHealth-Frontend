@@ -58,7 +58,7 @@ const Header: React.FC<HeaderProps> = ({ sidebarExpanded, toggleSidebar }) => {
 
   return (
     <header
-      className={` bg-gray-100 h-[64px] flex items-center justify-between pl-2 px-[24px] py-[12px] gap-[10px] transition-all duration-300 
+      className={` bg-gray-100 h-[64px] flex items-center justify-between pl-2 px-[24px] py-[12px] gap-[10px] transition-all duration-300 select-none
         ${sidebarExpanded && !isMobile ? "ml-[256px]" : "ml-[80px]"
         }`}  
     >

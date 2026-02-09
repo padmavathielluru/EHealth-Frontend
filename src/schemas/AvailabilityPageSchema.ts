@@ -1,10 +1,12 @@
+import { CostFormType } from "./schema";
+
 export interface AvailabilityPageData {
   availability: any[];
   consultationSlot: {
     slotDuration: number | null;
     buffer: number | null;
   } | null;
-  consultationFee: number | null;
+  consultationFee: CostFormType | null;
 }
 
 export interface AvailabilityErrors {
@@ -21,14 +23,13 @@ export const validateAvailabilityPage = (
   if (!data.availability || data.availability.length === 0) {
     errors.availability = "At least one availability is required";
   }
-
   if (
-    !data.consultationSlot ||
-    !data.consultationSlot.slotDuration ||
-    !data.consultationSlot.buffer
-  ) {
-    errors.consultationSlot = "Setup consultation time slot is required";
-  }
+  !data.consultationSlot ||
+  data.consultationSlot.slotDuration == null ||
+  data.consultationSlot.buffer == null
+) {
+  errors.consultationSlot = "Setup consultation time slot is required";
+}
 
   if (!data.consultationFee) {
     errors.consultationFee = "Consultation fee is required";

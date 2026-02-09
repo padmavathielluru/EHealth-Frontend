@@ -15,12 +15,17 @@ export const DEGREE_OPTIONS = [
   { label: "BDS", value: "BDS" },
   { label: "MD", value: "MD" },
   { label: "MS", value: "MS" },
+  { label: "DM", value: "DM" },
+  { label: "MCh", value: "MCh" },
+  { label: "Other", value: "OTHER" },
 ];
 
 export const SPECIALIZATION_OPTIONS = [
   { label: "Cardiology", value: "Cardiology" },
   { label: "Dermatology", value: "Dermatology" },
   { label: "Orthopedics", value: "Orthopedics" },
+  { label: "Neurology", value: "Neurology" },
+  { label: "Pediatrics", value: "Pediatrics" },
 ];
 
 export const MEDICAL_COUNCIL_OPTIONS = [

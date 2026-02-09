@@ -3,21 +3,25 @@ import Title from "../../Title";
 import AvailabilityTable from "./AvailabilityTable";
 import Cost from "../../settingsComponents/Cost";
 import ConsultationTimeSlot from "./ConsultationTimeSlot";
+import { CostFormType } from "../../../schemas/schema";
 
 interface Props {
     availability: any[];
     onAvailabilitychange: (data: any[]) => void;
     consultationSlot: any;
     onConsultationSlotChange: (data: any) => void;
-
-    consultationFee: number | null;
-    onConsultationFeeChange: (fee: number | null) => void;
+    consultationFee: CostFormType | null;
+    onConsultationFeeChange: (fee: CostFormType | null) => void;
 
     errors: {
         availability?: string;
         consultationSlot?: string;
         consultationFee?: string;
     };
+    availabilityRef: React.RefObject<HTMLDivElement>;
+    availabilityErrorRef: React.RefObject<HTMLParagraphElement>;
+    slotRef: React.RefObject<HTMLDivElement>;
+    feeRef: React.RefObject<HTMLDivElement>;
 }
 
 const AvailabilitySetUpForm: React.FC<Props> = ({
@@ -28,16 +32,21 @@ const AvailabilitySetUpForm: React.FC<Props> = ({
     consultationFee,
     onConsultationFeeChange,
     errors,
+    availabilityRef,
+    availabilityErrorRef,
+    slotRef,
+    feeRef,
 }) => {
     return (
         <>
-            <div className="">
+            <div ref={availabilityRef} className="">
                 <AvailabilityTable
                     value={availability}
                     onChange={onAvailabilitychange}
-                    error={errors.availability} />
+                    error={errors.availability}
+                    errorRef={availabilityErrorRef} />
 
-                <div className="mt-6 select-none">
+                <div ref={slotRef} className="mt-6 select-none">
                     <Title text="Setup Consultation Time Slot" />
                     {errors.consultationSlot && (
                         <p className="text-xs text-red-500 mt-2">
@@ -49,7 +58,7 @@ const AvailabilitySetUpForm: React.FC<Props> = ({
                         onChange={onConsultationSlotChange} />
                 </div>
 
-                <div className="mt-6 select-none">
+                <div ref={feeRef} className="mt-6 select-none">
                     <Title text="Enter Consultation Fees" />
                     {errors.consultationFee && (
                         <p className="text-xs text-red-500 mt-2">

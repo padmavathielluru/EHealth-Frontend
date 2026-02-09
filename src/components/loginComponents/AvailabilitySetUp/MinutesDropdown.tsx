@@ -12,15 +12,16 @@ const MinutesDropdown: React.FC<MinutesDropdownProps> = ({
     const [open, setOpen] = useState(false);
     const ref = useRef<HTMLDivElement | null>(null);
 
-    useEffect(() => {
-        const close = (e: MouseEvent) => {
-            if (ref.current && !ref.current.contains(e.target as Node)) {
-                setOpen(false);
-            }
-        };
-        document.addEventListener("mousedown", close);
-        return () => document.removeEventListener("mousedown", close);
-    }, []);
+   useEffect(() => {
+  const close = (e: MouseEvent) => {
+    if (ref.current && !ref.current.contains(e.target as Node)) {
+      setOpen(false);
+    }
+  };
+
+  document.addEventListener("click", close);
+  return () => document.removeEventListener("click", close);
+}, []);
 
     return (
         <div ref={ref} className="relative w-full sm:w-40">
@@ -47,7 +48,8 @@ const MinutesDropdown: React.FC<MinutesDropdownProps> = ({
                     {Array.from({ length: 61 }, (_, i) => (
                         <div key={i}
                             className="px-4 py-2 text-sm hover:bg-blue-100 cursor-pointer"
-                            onClick={() => {
+                            onClick={(e) => {
+                                e.stopPropagation();
                                 onChange(i);
                                 setOpen(false);
                             }}>

@@ -23,8 +23,7 @@ const StudiesTab = () => {
                 <Title text="Studies" />
 
                 <button onClick={() => setIsModalOpen(true)}
-                    className="w-8 h-8 rounded-xl border shadow-sm bg-blue-500 flex items-center justify-center hover:bg-blue-700 transition"
-                >
+                    className="w-8 h-8 rounded-xl border shadow-sm bg-blue-500 flex items-center justify-center hover:bg-blue-700 transition">
                     <img src="/images/u_plus-2.svg" alt="add" className="w-4 h-4" />
                 </button>
             </div>
@@ -52,8 +51,7 @@ const StudiesTab = () => {
                                     <img
                                         src="/images/Group(1).svg"
                                         alt="book"
-                                        className="w-5 h-5"
-                                    />
+                                        className="w-5 h-5"/>
                                 </div>
 
                                 <div>

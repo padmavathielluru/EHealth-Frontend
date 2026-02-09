@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Title from "../../Title";
 import TimePartCell from "./TimePartCell";
 import AddAvailabilityModal from "../../../modals/AddAvailabilityModal";
@@ -16,12 +16,14 @@ interface Props {
   value: AvailabilityRow[];
   onChange: (rows: AvailabilityRow[]) => void;
   error?: string;
+  errorRef?: React.RefObject<HTMLParagraphElement>;
 }
 
 const AvailabilityTable: React.FC<Props> = ({
   value,
   onChange,
   error,
+  errorRef,
 }) => {
   const [open, setOpen] = useState(false);
   const [rows, setRows] = useState<AvailabilityRow[]>(value || []);
@@ -38,16 +40,9 @@ const AvailabilityTable: React.FC<Props> = ({
   const ACTION_WIDTH = 120;
   const SLOT_COL_WIDTH = 110;
 
-  // const handleAdd = (data: AvailabilityRow) => {
-  //   if (editIndex !== null) {
-  //     setRows(prev => prev.map((row, i) => (i === editIndex ? data : row)));
-  //     setEditIndex(null);
-  //     setEditData(null);
-  //   } else {
-  //     setRows(prev => [...prev, data]);
-  //   }
-  //   setOpen(false);
-  // };
+    useEffect(() => {
+      setRows(value || []);
+    }, [value]);
 
   const handleAdd = (data: AvailabilityRow) => {
     const updated =
@@ -97,7 +92,7 @@ const AvailabilityTable: React.FC<Props> = ({
           )}
         </div>
         {error && (
-          <p className="text-xs text-red-500 mt-1">
+          <p ref={errorRef} className="text-xs text-red-500 mt-1">
             {error}
           </p>
         )}

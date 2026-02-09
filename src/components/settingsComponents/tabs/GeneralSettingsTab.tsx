@@ -7,6 +7,7 @@ import Title from "../../Title";
 import ConsultationTimeSlot from "../../loginComponents/AvailabilitySetUp/ConsultationTimeSlot";
 import { validateAvailabilityPage } from "../../../schemas/AvailabilityPageSchema";
 import { AvailabilityRow } from "../../loginComponents/AvailabilitySetUp/AvailabilityTable";
+import { CostFormType } from "../../../schemas/schema";
 
 const GeneralSettingsTab: React.FC = () => {
     const [availability, setAvailability] = useState<AvailabilityRow[]>([]);
@@ -20,7 +21,7 @@ const GeneralSettingsTab: React.FC = () => {
         consultationFee?: string;
     }>({});
 
-    const [consultationFee, setConsultationFee] = useState<number | null>(null);
+    const [consultationFee, setConsultationFee] = useState<CostFormType | null>(null);
 
     const handleUpdate = () => {
         const validationErrors = validateAvailabilityPage({

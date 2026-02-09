@@ -20,34 +20,35 @@ import SetupProfile from "./Pages/SetupProfile";
 import ProfessionalDetails from "./Pages/ProfessionalDetails";
 import DocumentVerification from "./Pages/DocumentVerification";
 import AvailabilitySetUp from "./Pages/AvailabilitySetUp";
+import ProfileSubmittedSuccess from "./Pages/ProfileSubmittedSuccess";
 
 const App: React.FC = () => {
-
   return (
     <BrowserRouter>
-            <Routes>             
-              <Route path="/login" element={<Login />} />
-              <Route path="/create-account" element={<CreateAccount />} />
-              <Route path="/verify-mobile" element={<VerifyMobileNumber />} />
-              <Route path="/otp" element={<OtpVerification />} />
-              <Route path="/verify-success" element={<VerifySuccess />} />
-              <Route path="/setup-profile" element={<SetupProfile />} />
-              <Route path="/professional-details" element={<ProfessionalDetails />} />
-              <Route path="/document-verification" element={<DocumentVerification />} />
-              <Route path="/availability-setup" element={<AvailabilitySetUp />} />
-              <Route element={<Layout />} >
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/appointment" element={<Appointment />} />
-              <Route path="/patients" element={<Patients />} />
-              <Route path="/patients/:id" element={<PatientDetails />} />
-              <Route path="/referrals" element={<Referrals />} />
-              <Route path="/inbox" element={<InboxComponent />} />
-              <Route path="/settings" element={<Settings />} />
-              <Route path="/home" element={<Home />} />
-              <Route path="my-profile" element={<MyProfile />} />
-           </Route>
-            </Routes>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/create-account" element={<CreateAccount />} />
+        <Route path="/verify-mobile" element={<VerifyMobileNumber />} />
+        <Route path="/otp" element={<OtpVerification />} />
+        <Route path="/verify-success" element={<VerifySuccess />} />
+        <Route path="/setup-profile" element={<SetupProfile />} />
+        <Route path="/professional-details" element={<ProfessionalDetails />} />
+        <Route path="/document-verification" element={<DocumentVerification />} />
+        <Route path="/availability-setup" element={<AvailabilitySetUp />} />
+        <Route path="/profile-submitted-success" element={<ProfileSubmittedSuccess />} />
+        <Route element={<Layout />}>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="appointment" element={<Appointment />} />
+          <Route path="patients" element={<Patients />} />
+          <Route path="patients/:id" element={<PatientDetails />} />
+          <Route path="referrals" element={<Referrals />} />
+          <Route path="inbox" element={<InboxComponent />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="home" element={<Home />} />
+          <Route path="my-profile" element={<MyProfile />} />
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
 };

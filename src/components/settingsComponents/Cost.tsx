@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import CurrencyInput from "./CurrencyInput";
@@ -6,19 +6,37 @@ import { fees, currencies } from "../../utils/CostConstants";
 import { costSchema, CostFormType } from "../../schemas/schema";
 
 interface Props {
-  value: number | null;
-  onChange: (fee: number | null) => void;
+  value: CostFormType | null;
+  onChange: (fee: CostFormType | null) => void;
 }
 
-const Cost: React.FC<Props> = ({ value, onChange}) => {
+const Cost: React.FC<Props> = ({ value, onChange }) => {
   const {
     register,
+    watch,
     formState: { errors },
   } = useForm<CostFormType>({
     resolver: zodResolver(costSchema),
     mode: "onChange",
-    reValidateMode: "onChange",
   });
+
+  const values = watch();
+
+useEffect(() => {
+  const allFees = [
+    ...Object.values(values?.inClinic ?? {}),
+    ...Object.values(values?.video ?? {}),
+    ...Object.values(values?.homeVisit ?? {}),
+  ];
+
+  const hasFee = allFees.some((fee) => {
+    const amount = Number(fee);
+    return !isNaN(amount) && amount > 0;
+  });
+
+  onChange(hasFee ? values : null);
+}, [values, onChange]);
+
 
   return (
     <div className="mt-2">
